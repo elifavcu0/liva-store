@@ -15,12 +15,26 @@ public class ProductController : Controller
     {
         return View();
     }
-    public IActionResult List(string url)
-    {
-        // var products = _context.Products.ToList();
 
-        List<Product> products = _context.Products.Where(i => i.Category.Url == url).ToList(); // SELECT * FROM Products // DataContext.cs dosyasındaki "public DbSet<Product> Products { get; set; }" satırına gider
-        return View(products);
+    //http://localhost:5283/products/phone?q=apple
+    //route params : url => value
+    // query string : q => value
+    public IActionResult List(string url, string q)
+    {
+        var query = _context.Products.Where(i => i.IsActive); // Queryable tipi => Lazım olduğunda çalıştırılabilecek tip
+
+
+        if (!string.IsNullOrEmpty(url))
+        {
+            query = query.Where(i => i.Category.Url == url); // url mevcutken query'i kategoriye göre filtrele
+        }
+        if (!string.IsNullOrEmpty(q))
+        {
+            query = query.Where(i => i.Name.ToLower().Contains(q.ToLower()));
+            ViewData["q"] = q;
+        }
+
+        return View(query.ToList());
     }
 
     public IActionResult Details(int id)
