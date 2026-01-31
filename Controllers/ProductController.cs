@@ -25,10 +25,10 @@ public class ProductController : Controller
 
     public IActionResult Details(int id)
     {
-
         // var product = _context.Products.FirstOrDefault(p => p.Id == id); 
         var product = _context.Products.Find(id);
-        if (product == null) return NotFound();
+        if (product == null) return RedirectToAction("Index", "Home"); // Ürün yoksa Home controller altında bulunan Index sayfasına yönlendirir.
+        ViewData["SimilarProducts"] = _context.Products.Where(i => i.IsActive && i.CategoryId == product.CategoryId && i.Id != id).Take(4).ToList(); // 4 tane benzer ürünü al.
         return View(product);
     }
 }
