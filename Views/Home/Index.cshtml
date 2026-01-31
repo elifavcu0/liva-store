@@ -10,7 +10,7 @@
                 <div class="row p-1 p-lg-2 gx-2">
                     <div class="col-lg-3 d-none d-lg-block">
                         <!-- menu -->
-                       @await Html.PartialAsync("Partials/_Menu",ViewData["Categories"])
+                       @await Html.PartialAsync("Partials/Site/_Menu",ViewData["Categories"])
                     </div>
                     <div class="col-lg-9">
                         <!-- slider -->
@@ -28,7 +28,7 @@
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-2">
                 @foreach(var item in Model){
                         <div class="col">
-                        @await Html.PartialAsync("Partials/_ProductCard",item)
+                        @await Html.PartialAsync("Partials/Site/_ProductCard",item)
                     </div>
                 }
             </div>
