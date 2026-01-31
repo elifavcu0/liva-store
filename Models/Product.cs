@@ -9,4 +9,6 @@ public class Product
     public string? Image { get; set; }
     public bool IsHome { get; set; }
     public string? Description { get; set; }
+    public int CategoryId { get; set; }
+    public Category Category { get; set; } = null!;
 };
