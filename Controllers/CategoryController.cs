@@ -25,6 +25,26 @@ public class CategoryController : Controller
 
         return View(categories);
     }
+
+    //Metodlar varsayılan olarak [HttpGet] metodudur, server tarafından bilgi almak için çağrılır.
+    public IActionResult Create() // GET metodu
+    {
+        return View();
+    }
+    [HttpPost] // Bir altındaki metot "post" metodu olur (server tarafına bilgi gönderir).
+    public IActionResult Create(string categoryName, string categoryUrl)
+    {
+        var entity = new Category
+        {
+            Name = categoryName,
+            Url = categoryUrl
+        };
+
+        _context.Categories.Add(entity);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
 }
 
 /*
