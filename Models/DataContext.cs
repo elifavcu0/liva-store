@@ -8,10 +8,27 @@ public class DataContext : DbContext // Bu dosya C# ile veritabanı arasındaki 
     public DbSet<Product> Products { get; set; } // Product C#'taki sınıf iken Products DB'de bulunan tablodur. Product ile ilgili yapılan işlemler Products tablosuna etki eder.
                                                  // Veriye sahip bir yapı değildir, sadece veriye ulaşma yeteneği vardır.
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Slider> Sliders { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) // Bir migration oluşturulunca burası çalışır
     {
         base.OnModelCreating(modelBuilder);
-
+        modelBuilder.Entity<Slider>().HasData(
+            new List<Slider>
+            {
+                new()
+                {
+                    Id = 1, Title ="Slider 1 Title",Description ="Slider 1 Description",Image = "slider-1.jpeg",Index = 0,IsActive =true
+                },
+                new()
+                {
+                    Id = 2, Title ="Slider 2 Title",Description ="Slider 2 Description",Image = "slider-2.jpeg",Index = 1,IsActive =true
+                },
+                new()
+                {
+                    Id = 3, Title ="Slider 3 Title",Description ="Slider 3 Description",Image = "slider-3.jpeg",Index = 2,IsActive =true
+                },
+            }
+        );
 
         modelBuilder.Entity<Category>().HasData(
             new List<Category>

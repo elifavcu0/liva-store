@@ -15,11 +15,11 @@ public class ProductController : Controller
     {
         return View();
     }
-    public IActionResult List()
+    public IActionResult List(string url)
     {
         // var products = _context.Products.ToList();
 
-        List<Product> products = _context.Products.ToList(); // SELECT * FROM Products // DataContext.cs dosyasındaki "public DbSet<Product> Products { get; set; }" satırına gider
+        List<Product> products = _context.Products.Where(i => i.Category.Url == url).ToList(); // SELECT * FROM Products // DataContext.cs dosyasındaki "public DbSet<Product> Products { get; set; }" satırına gider
         return View(products);
     }
 

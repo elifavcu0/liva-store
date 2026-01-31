@@ -2,7 +2,6 @@
  
  <nav class="nav nav-pills flex-column flex-nowrap overflow-auto slider_nav">
     @foreach(var c in Model){
-         <a href="#" class="nav-link">@c.Name</a>
-    }
-                        
+         <a href="/products/@c.Url" class="nav-link">@c.Name</a>
+    }              
 </nav>
