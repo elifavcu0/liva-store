@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <title>E-Commerce</title>
+</head>
+<body class="bg-light">
+    
+    <header>
+        @await Html.PartialAsync("Partials/_TopBar")
+        @await Html.PartialAsync("Partials/_Navbar")
+
+    </header>
+
+    <main>@RenderBody()</main>
+
+    @await Html.PartialAsync("Partials/_Footer")
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
