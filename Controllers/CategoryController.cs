@@ -1,6 +1,5 @@
 using dotnet_store.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_store.Controllers;
 
@@ -32,15 +31,15 @@ public class CategoryController : Controller
         return View();
     }
     [HttpPost] // Bir altındaki metot "post" metodu olur (server tarafına bilgi gönderir).
-    public IActionResult Create(string categoryName, string categoryUrl)
+    public IActionResult Create(CategoryCreateModel model)
     {
         var entity = new Category
         {
-            Name = categoryName,
-            Url = categoryUrl
+            Name = model.Name,
+            Url = model.Url
         };
 
-        if(categoryName == null || categoryUrl == null) return RedirectToAction("Index");
+        if (model.Name == null || model.Url == null) return RedirectToAction("Index");
 
         _context.Categories.Add(entity);
         _context.SaveChanges();

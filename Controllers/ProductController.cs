@@ -1,5 +1,7 @@
+using System.ComponentModel.Design;
 using dotnet_store.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace dotnet_store.Controllers;
 
 public class ProductController : Controller
@@ -43,7 +45,6 @@ public class ProductController : Controller
             query = query.Where(i => i.Name.ToLower().Contains(q.ToLower()));
             ViewData["q"] = q;
         }
-
         return View(query.ToList());
     }
     public IActionResult Details(int id)
@@ -53,5 +54,31 @@ public class ProductController : Controller
         if (product == null) return RedirectToAction("Index", "Home"); // Ürün yoksa Home controller altında bulunan Index sayfasına yönlendirir.
         ViewData["SimilarProducts"] = _context.Products.Where(i => i.IsActive && i.CategoryId == product.CategoryId && i.Id != id).Take(4).ToList(); // 4 tane benzer ürünü al.
         return View(product);
+    }
+    public IActionResult Create()
+    {
+        //ViewBag.Categories = _context.Categories.ToList();
+        ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(ProductCreateModel model) // Create([Bind("Name","Description")] ProductCreateModel model) şeklinde yazarsak sadece Name ve Description alanları gelir.
+    {
+        var entity = new Product
+        {
+            Name = model.Name,
+            Description = model.Description,
+            Price = model.Price,
+            IsActive = model.IsActive,
+            IsHome = model.IsHome,
+            CategoryId = model.CategoryId,
+            Image = "1.jpeg" // upload
+        };
+        if (model.Name == null) return RedirectToAction("Index");
+        _context.Products.Add(entity);
+        _context.SaveChanges();
+
+        return RedirectToAction("Index");
     }
 }
