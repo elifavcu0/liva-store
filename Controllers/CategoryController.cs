@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using dotnet_store.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,6 +44,39 @@ public class CategoryController : Controller
 
         _context.Categories.Add(entity);
         _context.SaveChanges();
+
+        return RedirectToAction("Index");
+    }
+
+    public IActionResult Edit(int id)
+    {
+        var entity = _context.Categories.Select(i => new CategoryEditModel
+        {
+            Id = i.Id,
+            Name = i.Name,
+            Url = i.Url
+
+        }).FirstOrDefault(i => i.Id == id);
+
+        return View(entity);
+    }
+
+    [HttpPost]
+    public IActionResult Edit(int id, CategoryEditModel model)
+    {
+        if (id != model.Id) return NotFound();
+        if (model.Name == null || model.Url == null) return RedirectToAction("Edit");
+
+        var entity = _context.Categories.Find(id);
+
+        if (entity == null) return NotFound();
+
+        entity.Name = model.Name;
+        entity.Url = model.Url;
+
+        _context.SaveChanges();
+
+        TempData["Message"] = $"{entity.Name} category has been updated.";
 
         return RedirectToAction("Index");
     }
