@@ -13,7 +13,17 @@ public class ProductController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        var products = _context.Products.Select(i => new ProductGetModel()
+        {
+            Id = i.Id,
+            Name = i.Name,
+            Price = i.Price,
+            IsActive = i.IsActive,
+            Image = i.Image,
+            IsHome = i.IsHome,
+            Category = i.Category.Name
+        }).ToList();
+        return View(products);
     }
 
     //http://localhost:5283/products/phone?q=apple
@@ -36,7 +46,6 @@ public class ProductController : Controller
 
         return View(query.ToList());
     }
-
     public IActionResult Details(int id)
     {
         // var product = _context.Products.FirstOrDefault(p => p.Id == id); 

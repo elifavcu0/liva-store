@@ -40,6 +40,8 @@ public class CategoryController : Controller
             Url = categoryUrl
         };
 
+        if(categoryName == null || categoryUrl == null) return RedirectToAction("Index");
+
         _context.Categories.Add(entity);
         _context.SaveChanges();
 
