@@ -119,6 +119,7 @@ namespace dotnet_store.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<double>("Price")
@@ -183,7 +184,7 @@ namespace dotnet_store.Migrations
                             Image = "5.jpeg",
                             IsActive = true,
                             IsHome = true,
-                            Name = "Samsung Galaxy A56 5G 8 GB RAM 256 GB Gri",
+                            Name = "Samsung Galaxy A56 5G 8 GB RAM 256 GB Gray",
                             Price = 22900.0
                         },
                         new
