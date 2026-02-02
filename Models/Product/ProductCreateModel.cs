@@ -13,7 +13,7 @@ public class ProductCreateModel
 
     [Display(Name = "Active")]
     public bool IsActive { get; set; }
-    public string? Image { get; set; }
+    public IFormFile? Image { get; set; }
 
     [Display(Name = "Home")]
     public bool IsHome { get; set; }

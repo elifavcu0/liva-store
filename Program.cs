@@ -29,9 +29,6 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
-// products/phone
-// products/electronics
-
 app.MapControllerRoute(
     name: "products_by_category", // değişken isimlendirmesi gibidir, ona göre isimlendir.
     pattern: "products/{url?}", // controller adıyla aynı olmak zorunda değil.

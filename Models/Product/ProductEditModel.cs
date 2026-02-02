@@ -14,7 +14,8 @@ public class ProductEditModel
 
     [Display(Name = "Active")]
     public bool IsActive { get; set; }
-    public string? Image { get; set; }
+    public IFormFile? ImageFile { get; set; }
+    public string? ImageName { get; set; }
 
     [Display(Name = "Home")]
     public bool IsHome { get; set; }

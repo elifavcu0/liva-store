@@ -69,8 +69,16 @@ public class ProductController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(ProductCreateModel model) // Create([Bind("Name","Description")] ProductCreateModel model) şeklinde yazarsak sadece Name ve Description alanları gelir.
+    public async Task<IActionResult> Create(ProductCreateModel model) // Create([Bind("Name","Description")] ProductCreateModel model) şeklinde yazarsak sadece Name ve Description alanları gelir.
     {
+        var fileName = Path.GetRandomFileName() + ".jpg";
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
+
+        using (var stream = new FileStream(path, FileMode.Create))
+        {
+            await model.Image!.CopyToAsync(stream);
+        }
+
         var entity = new Product
         {
             Name = model.Name,
@@ -79,7 +87,7 @@ public class ProductController : Controller
             IsActive = model.IsActive,
             IsHome = model.IsHome,
             CategoryId = model.CategoryId,
-            Image = "1.jpeg" // upload
+            Image = fileName // upload
         };
         if (model.Name == null)
         {
@@ -103,7 +111,7 @@ public class ProductController : Controller
             IsActive = i.IsActive,
             IsHome = i.IsHome,
             CategoryId = i.CategoryId,
-            Image = "1.jpeg"
+            ImageName = i.Image
 
         }).FirstOrDefault(i => i.Id == id);
 
@@ -114,7 +122,7 @@ public class ProductController : Controller
 
     [HttpPost]
 
-    public IActionResult Edit(int id, ProductEditModel model)
+    public async Task<IActionResult> Edit(int id, ProductEditModel model)
     {
         if (id != model.Id) return NotFound();
 
@@ -128,13 +136,23 @@ public class ProductController : Controller
 
         if (entity == null) return View(model);
 
+        if (model.ImageFile != null) // Eğer yeni bir dosya seçildiyse
+        {
+            var fileName = Path.GetRandomFileName() + ".jpeg";
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await model.ImageFile.CopyToAsync(stream);
+            }
+            entity.Image = fileName;
+        }
+
         entity.Name = model.Name;
         entity.Price = model.Price;
         entity.Description = model.Description;
         entity.CategoryId = model.CategoryId;
         entity.IsActive = model.IsActive;
         entity.IsHome = model.IsHome;
-        //entity.Image = model.Image;
 
         _context.SaveChanges();
 
