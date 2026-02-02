@@ -13,6 +13,12 @@ public class ProductController : Controller
         _context = context;
     }
 
+    private void LoadCategories()
+    {
+        var categories = _context.Categories.ToList();
+        ViewBag.Categories = new SelectList(categories, "Id", "Name");
+    }
+
     public IActionResult Index()
     {
         var products = _context.Products.Select(i => new ProductGetModel()
@@ -58,7 +64,7 @@ public class ProductController : Controller
     public IActionResult Create()
     {
         //ViewBag.Categories = _context.Categories.ToList();
-        ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+        LoadCategories();
         return View();
     }
 
@@ -75,12 +81,65 @@ public class ProductController : Controller
             CategoryId = model.CategoryId,
             Image = "1.jpeg" // upload
         };
-        if (model.Name == null) return RedirectToAction("Index");
+        if (model.Name == null)
+        {
+            TempData["Message"] = "Product name field cannot be empty.";
+            return RedirectToAction("Edit");
+        }
         _context.Products.Add(entity);
         _context.SaveChanges();
 
         return RedirectToAction("Index");
     }
 
+    public IActionResult Edit(int id)
+    {
+        var entity = _context.Products.Select(i => new ProductEditModel
+        {
+            Id = i.Id,
+            Name = i.Name,
+            Description = i.Description,
+            Price = i.Price,
+            IsActive = i.IsActive,
+            IsHome = i.IsHome,
+            CategoryId = i.CategoryId,
+            Image = "1.jpeg"
 
+        }).FirstOrDefault(i => i.Id == id);
+
+        LoadCategories();
+
+        return View(entity);
+    }
+
+    [HttpPost]
+
+    public IActionResult Edit(int id, ProductEditModel model)
+    {
+        if (id != model.Id) return NotFound();
+
+        if (model.Name == null)
+        {
+            TempData["Message"] = "Product name field cannot be empty.";
+            return RedirectToAction("Edit");
+        }
+
+        var entity = _context.Products.Find(id);
+
+        if (entity == null) return View(model);
+
+        entity.Name = model.Name;
+        entity.Price = model.Price;
+        entity.Description = model.Description;
+        entity.CategoryId = model.CategoryId;
+        entity.IsActive = model.IsActive;
+        entity.IsHome = model.IsHome;
+        //entity.Image = model.Image;
+
+        _context.SaveChanges();
+
+        TempData["Message"] = $"{entity.Name} has been updated.";
+
+        return RedirectToAction("Index");
+    }
 }
