@@ -89,6 +89,39 @@ public class CategoryController : Controller
         }
         return View(model);
     }
+
+
+    public IActionResult Delete(int? id)
+    {
+        if (id == null) return RedirectToAction("Index");
+
+        var entity = _context.Categories.Find(id);
+
+        if (entity != null)
+        {
+          return View(entity);
+        }
+
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public IActionResult DeleteConfirm(int? id)
+    {
+        if (id == null) return RedirectToAction("Index");
+
+        var entity = _context.Categories.Find(id);
+
+        if (entity != null)
+        {
+            _context.Categories.Remove(entity);
+            _context.SaveChanges();
+            TempData["Message"] = $"{entity.Name}'s been deleted.";
+        }
+
+        return RedirectToAction("Index");
+    }
+
 }
 
 /*

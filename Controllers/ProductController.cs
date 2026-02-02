@@ -176,4 +176,35 @@ public class ProductController : Controller
         LoadCategories();
         return View(model);
     }
+
+    public IActionResult Delete(int? id)
+    {
+        if (id == null) return RedirectToAction("Index");
+
+        var entity = _context.Products.Find(id);
+
+        if (entity != null)
+        {
+            return View(entity);
+        }
+        return View("Index");
+    }
+
+    [HttpPost]
+
+    public IActionResult DeleteConfirm(int? id)
+    {
+
+        if (id == null) return RedirectToAction("Index");
+
+        var entity = _context.Products.Find(id);
+
+        if (entity != null)
+        {
+            _context.Products.Remove(entity);
+            _context.SaveChanges();
+            TempData["Message"] = $"{entity.Name}'s been deleted.";
+        }
+        return RedirectToAction("Index");
+    }
 }

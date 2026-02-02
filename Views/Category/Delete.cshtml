@@ -1,0 +1,21 @@
+@{
+    Layout = "_AdminLayout";
+}
+@model Category
+
+<div class="row">
+
+    <div class="col">
+        <div class="card">
+            <div class="card-body text-center">
+                <p>Are you sure you want to delete the @Model.Name category? </p>
+                <form asp-controller="Category" asp-action="DeleteConfirm" method="post">
+                    <input type="hidden" asp-for="Id"">
+            <button type=" submit" class="btn btn-danger btn-sm">Delete</button>
+                    <a asp-controller="Category" asp-action="Index" class="btn btn-primary btn-sm">Cancel</a>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
