@@ -13,17 +13,21 @@
                         </a>
                     </div>
                     <div class="card-body">
+                        @* <div asp-validation-summary="All" class="text-danger"></div> *@
                         <form method="post">
                             <div class="row mb-3">
                                 <label asp-for="Name" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
                                     <input asp-for="Name" class="form-control">
+                                    <span asp-validation-for="Name" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <label asp-for="Url" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
                                     <input asp-for="Url" class="form-control">
+                                    <span asp-validation-for="Url" class="text-danger"></span>
+
                                 </div>
                             </div>
                             <div class="row mb-3">

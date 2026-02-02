@@ -20,18 +20,21 @@
                             <label asp-for="Name" class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-10">
                                 <input asp-for="Name" class="form-control">
+                                <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label asp-for="Description" class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-10">
                                 <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label asp-for="Price" class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-10">
                                 <input asp-for="Price" class="form-control">
+                                <span asp-validation-for="Price" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -47,9 +50,10 @@
                             </div> 
                         </div> 
                         <div class="row mb-3">
-                            <label asp-for="Image" class="col-sm-2 col-form-label"></label>
+                            <label asp-for="ImageFile" class="col-sm-2 col-form-label"></label>
                             <div class="col-sm-10">
-                                <input asp-for="Image" class="form-control">
+                                <input asp-for="ImageFile" class="form-control">
+                                <span asp-validation-for="ImageFile" class="text-danger"></span>
                             </div> 
                         </div> 
                          <div class="row mb-3">
@@ -58,6 +62,7 @@
                                 <select class="form-select" asp-for="CategoryId" asp-items="ViewBag.Categories" >
                                     <option value="" selected>Select</option>
                                 </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
                         </div> 
                         <div class="row mb-3">

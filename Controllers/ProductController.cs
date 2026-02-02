@@ -71,33 +71,40 @@ public class ProductController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(ProductCreateModel model) // Create([Bind("Name","Description")] ProductCreateModel model) şeklinde yazarsak sadece Name ve Description alanları gelir.
     {
-        var fileName = Path.GetRandomFileName() + ".jpg";
-        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
-
-        using (var stream = new FileStream(path, FileMode.Create))
+        if (model.ImageFile == null || model.ImageFile.Length == 0)
         {
-            await model.Image!.CopyToAsync(stream);
+            ModelState.AddModelError("Image", "Image must be chosen.");
         }
 
-        var entity = new Product
+        if (ModelState.IsValid)
         {
-            Name = model.Name,
-            Description = model.Description,
-            Price = model.Price,
-            IsActive = model.IsActive,
-            IsHome = model.IsHome,
-            CategoryId = model.CategoryId,
-            Image = fileName // upload
-        };
-        if (model.Name == null)
-        {
-            TempData["Message"] = "Product name field cannot be empty.";
-            return RedirectToAction("Edit");
-        }
-        _context.Products.Add(entity);
-        _context.SaveChanges();
+            var fileName = Path.GetRandomFileName() + ".jpg";
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
 
-        return RedirectToAction("Index");
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await model.ImageFile!.CopyToAsync(stream);
+            }
+
+            var entity = new Product
+            {
+                Name = model.Name,
+                Description = model.Description,
+                Price = model.Price ?? 0,
+                IsActive = model.IsActive,
+                IsHome = model.IsHome,
+                CategoryId = (int)model.CategoryId!,
+                Image = fileName // upload
+            };
+            if (model.Name == null) return RedirectToAction("Edit");
+
+            _context.Products.Add(entity);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        LoadCategories();
+        return View(model);
     }
 
     public IActionResult Edit(int id)
@@ -124,40 +131,49 @@ public class ProductController : Controller
 
     public async Task<IActionResult> Edit(int id, ProductEditModel model)
     {
-        if (id != model.Id) return NotFound();
-
-        if (model.Name == null)
+        // if (model.ImageFile == null || model.ImageFile.Length == 0)
+        // {
+        //     ModelState.AddModelError("ImageName", "Image must be chosen.");
+        // }
+        if (ModelState.IsValid)
         {
-            TempData["Message"] = "Product name field cannot be empty.";
-            return RedirectToAction("Edit");
-        }
+            if (id != model.Id) return NotFound();
 
-        var entity = _context.Products.Find(id);
-
-        if (entity == null) return View(model);
-
-        if (model.ImageFile != null) // Eğer yeni bir dosya seçildiyse
-        {
-            var fileName = Path.GetRandomFileName() + ".jpeg";
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (model.Name == null)
             {
-                await model.ImageFile.CopyToAsync(stream);
+                TempData["Message"] = "Product name field cannot be empty.";
+                return RedirectToAction("Edit");
             }
-            entity.Image = fileName;
+
+            var entity = _context.Products.Find(id);
+
+            if (entity == null) return View(model);
+
+            if (model.ImageFile != null) // Eğer yeni bir dosya seçildiyse
+            {
+                var fileName = Path.GetRandomFileName() + ".jpeg";
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img", fileName);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await model.ImageFile.CopyToAsync(stream);
+                }
+                entity.Image = fileName;
+            }
+
+            entity.Name = model.Name;
+            entity.Price = model.Price ?? 0;
+            entity.Description = model.Description;
+            entity.CategoryId = (int)model.CategoryId!;
+            entity.IsActive = model.IsActive;
+            entity.IsHome = model.IsHome;
+
+            _context.SaveChanges();
+
+            TempData["Message"] = $"{entity.Name} has been updated.";
+
+            return RedirectToAction("Index");
         }
-
-        entity.Name = model.Name;
-        entity.Price = model.Price;
-        entity.Description = model.Description;
-        entity.CategoryId = model.CategoryId;
-        entity.IsActive = model.IsActive;
-        entity.IsHome = model.IsHome;
-
-        _context.SaveChanges();
-
-        TempData["Message"] = $"{entity.Name} has been updated.";
-
-        return RedirectToAction("Index");
+        LoadCategories();
+        return View(model);
     }
 }

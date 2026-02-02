@@ -34,18 +34,23 @@ public class CategoryController : Controller
     [HttpPost] // Bir altındaki metot "post" metodu olur (server tarafına bilgi gönderir).
     public IActionResult Create(CategoryCreateModel model)
     {
-        var entity = new Category
+        if (ModelState.IsValid)
         {
-            Name = model.Name,
-            Url = model.Url
-        };
+            var entity = new Category
+            {
+                Name = model.Name,
+                Url = model.Url
+            };
 
-        if (model.Name == null || model.Url == null) return RedirectToAction("Index");
+            if (model.Name == null || model.Url == null) return RedirectToAction("Index");
 
-        _context.Categories.Add(entity);
-        _context.SaveChanges();
+            _context.Categories.Add(entity);
+            _context.SaveChanges();
 
-        return RedirectToAction("Index");
+            return RedirectToAction("Index");
+        }
+
+        return View(model);
     }
 
     public IActionResult Edit(int id)
@@ -64,21 +69,25 @@ public class CategoryController : Controller
     [HttpPost]
     public IActionResult Edit(int id, CategoryEditModel model)
     {
-        if (id != model.Id) return NotFound();
-        if (model.Name == null || model.Url == null) return RedirectToAction("Edit");
+        if (ModelState.IsValid)
+        {
+            if (id != model.Id) return NotFound();
+            if (model.Name == null || model.Url == null) return RedirectToAction("Edit");
 
-        var entity = _context.Categories.Find(id);
+            var entity = _context.Categories.Find(id);
 
-        if (entity == null) return NotFound();
+            if (entity == null) return NotFound();
 
-        entity.Name = model.Name;
-        entity.Url = model.Url;
+            entity.Name = model.Name;
+            entity.Url = model.Url;
 
-        _context.SaveChanges();
+            _context.SaveChanges();
 
-        TempData["Message"] = $"{entity.Name} category has been updated.";
+            TempData["Message"] = $"{entity.Name} category has been updated.";
 
-        return RedirectToAction("Index");
+            return RedirectToAction("Index");
+        }
+        return View(model);
     }
 }
 
