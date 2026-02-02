@@ -99,7 +99,7 @@ public class CategoryController : Controller
 
         if (entity != null)
         {
-          return View(entity);
+            return View(entity);
         }
 
         return RedirectToAction("Index");
@@ -121,6 +121,7 @@ public class CategoryController : Controller
 
         return RedirectToAction("Index");
     }
+
 
 }
 

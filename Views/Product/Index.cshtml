@@ -13,54 +13,71 @@
                 </a>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped mb-0">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th style="width: 20px;">Id</th>
-                                <th style="width: 80px;">Image</th>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Active</th>
-                                <th>Home</th>
-                                <th>Category</th>
-                                <th style="width: 50px;"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var product in Model)
-                            {
+                <form method="get">
+                    <div class="input-group mb-2 ">
+                        <select name="category" class="form-select" asp-items="ViewBag.Categories">
+                            <option value="" selected>All</option>
+                        </select>
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+                @if (Model.Count == 0)
+                {
+                    <p class="text-danger mb-3"> There is no item. </p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped mb-0">
+                            <thead class="table-secondary">
                                 <tr>
-                                    <td>@product.Id</td>
-                                    <td>
-                                        <img src="~/img/@product.Image" class="img-fluid" alt="">
-                                    </td>
-                                    <td>@product.Name</td>
-                                    <td>@product.Price ₺</td>
-                                    <td>
-                                        <i
-                                            class="fa-solid @(product.IsActive ? "fa-circle-check text-success" : "fa-circle-xmark text-danger")"></i>
-                                    </td>
-                                    <td>
-                                        <i
-                                            class="fa-solid @(product.IsHome ? "fa-circle-check text-success" : "fa-circle-xmark text-danger")"></i>
-                                    </td>
-                                    <td>@product.Category</td>
-                                    <td>
-                                        <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"
-                                            class="btn btn-primary btn-sm mb-1">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
-                                            class="btn btn-danger btn-sm mb-1">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </a>
-                                    </td>
+                                    <th style="width: 20px;">Id</th>
+                                    <th style="width: 80px;">Image</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Active</th>
+                                    <th>Home</th>
+                                    <th>Category</th>
+                                    <th style="width: 50px;"></th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach (var product in Model)
+                                {
+                                    <tr>
+                                        <td>@product.Id</td>
+                                        <td>
+                                            <img src="~/img/@product.Image" class="img-fluid" alt="">
+                                        </td>
+                                        <td>@product.Name</td>
+                                        <td>@product.Price ₺</td>
+                                        <td>
+                                            <i
+                                                class="fa-solid @(product.IsActive ? "fa-circle-check text-success" : "fa-circle-xmark text-danger")"></i>
+                                        </td>
+                                        <td>
+                                            <i
+                                                class="fa-solid @(product.IsHome ? "fa-circle-check text-success" : "fa-circle-xmark text-danger")"></i>
+                                        </td>
+                                        <td>@product.Category</td>
+                                        <td>
+                                            <a asp-controller="Product" asp-action="Edit" asp-route-id="@product.Id"
+                                                class="btn btn-primary btn-sm mb-1">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id"
+                                                class="btn btn-danger btn-sm mb-1">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
         </div>
     </div>

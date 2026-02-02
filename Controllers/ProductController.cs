@@ -19,9 +19,17 @@ public class ProductController : Controller
         ViewBag.Categories = new SelectList(categories, "Id", "Name");
     }
 
-    public IActionResult Index()
+    public IActionResult Index(int? category)
     {
-        var products = _context.Products.Select(i => new ProductGetModel()
+        var query = _context.Products.AsQueryable();
+
+        if (category != null)
+        {
+            query = query.Where(i => i.CategoryId == category);
+        }
+
+        LoadCategories();
+        var products = query.Select(i => new ProductGetModel()
         {
             Id = i.Id,
             Name = i.Name,
@@ -31,6 +39,7 @@ public class ProductController : Controller
             IsHome = i.IsHome,
             Category = i.Category.Name
         }).ToList();
+        ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name", category);
         return View(products);
     }
 
