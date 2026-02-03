@@ -6,8 +6,8 @@ namespace dotnet_store.Controllers;
 
 public class AccountController : Controller
 {
-    private UserManager<IdentityUser> _userManager;
-    public AccountController(UserManager<IdentityUser> userManager)
+    private UserManager<AppUser> _userManager;
+    public AccountController(UserManager<AppUser> userManager)
     {
         _userManager = userManager;
     }
@@ -21,8 +21,11 @@ public class AccountController : Controller
     {
         if (ModelState.IsValid)
         {
-            var user = new IdentityUser { UserName = model.Username, Email = model.Email };
-            var result = await _userManager.CreateAsync(user,model.Password); // Güvenlik nedeniyle şifreyi burada gönderiyoruz, veritabanına özel şekilde kodlanmış (hashlanmış) şekilde kaydediliyor.
+            int randomNumber = new Random().Next(0, 10000);
+            string generatedUserName = $"{model.NameSurname.Replace(" ", "").ToLower()}{randomNumber}";
+
+            var user = new AppUser { UserName = generatedUserName, Email = model.Email, NameSurname = model.NameSurname, PhoneNumber = "+905" + model.PhoneNumber };
+            var result = await _userManager.CreateAsync(user, model.Password); // Güvenlik nedeniyle şifreyi burada gönderiyoruz, veritabanına özel şekilde kodlanmış (hashlanmış) şekilde kaydediliyor.
 
             if (result.Succeeded)
             {

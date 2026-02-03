@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace dotnet_store.Models;
 
-public class DataContext : IdentityDbContext<IdentityUser> // Bu dosya C# ile veritabanı arasındaki iletişimi sağlar.
+public class DataContext : IdentityDbContext<AppUser, AppRole, int> //Primary Key (Birincil Anahtar) tipini int olarak belirledik.
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     { }

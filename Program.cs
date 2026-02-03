@@ -13,7 +13,20 @@ builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlite(connectionString);
 });
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<DataContext>();
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<DataContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+    options.User.RequireUniqueEmail = true;
+    options.User.AllowedUserNameCharacters =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_çğıöşüÇĞİÖŞÜ";
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
