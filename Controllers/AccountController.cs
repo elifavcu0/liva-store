@@ -1,4 +1,5 @@
 using dotnet_store.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,13 +42,13 @@ public class AccountController : Controller
         return View(model);
     }
 
-    public IActionResult Login()
+    public IActionResult SignIn()
     {
         return View();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(AccountLoginModel model)
+    public async Task<IActionResult> SignIn(AccountLoginModel model, string? returnUrl)
     {
         if (ModelState.IsValid)
         {
@@ -62,6 +63,11 @@ public class AccountController : Controller
                 {
                     await _userManager.ResetAccessFailedCountAsync(user);
                     await _userManager.SetLockoutEndDateAsync(user, null);
+
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 else if (result.IsLockedOut)
@@ -79,6 +85,18 @@ public class AccountController : Controller
             }
         }
         return View(model);
+    }
+
+    public async Task<IActionResult> Signout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("SignIn", "Account");
+    }
+
+    [Authorize]
+    public IActionResult Settings()
+    {
+        return View();
     }
 
 }

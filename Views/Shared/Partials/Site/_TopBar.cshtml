@@ -1,32 +1,49 @@
 <section class="top-bar">
-            <div class="container">
-                <div class="row gy-2 align-items-center">
-                    <div class="col-lg-2 col-sm-4 col-4">
-                        <a href="/" class="navbar-brand"><i class="fa-solid fa-truck-fast"></i> E-Commerce</a>
-                    </div>
-                   
-                    <div class="col-lg-5 col-sm-8 col-8 order-lg-last">
-                        <div class="text-end">
-                            <a href="#" class="btn btn-light">
-                                <i class="fa fa-user"></i> <span class="ms-1 d-none d-sm-inline-block">My Account</span>
-                            </a>
-                            <a href="#" class="btn btn-light">
-                                <i class="fa fa-heart"></i> <span class="ms-1 d-none d-sm-inline-block">Wishlist</span>
-                            </a>
-                            <a href="shopping-cart.html" class="btn btn-light">
-                                <i class="fa fa-shopping-cart"></i> <span class="ms-1 d-none d-sm-inline-block">Cart</span>
-                            </a>
-                            <a asp-controller="Admin" asp-action="Index">Admin</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-5">
-                        <form asp-controller="Product" asp-action="List" method="get">
-                            <div class="input-group">
-                                <input name="q" type="text" placeholder="Search" class="form-control" value="@ViewData["q"]">
-                                <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
-                            </div>
-                        </form>
-                    </div>
+    <div class="container">
+        <div class="row gy-2 align-items-center">
+            <div class="col-lg-2 col-sm-4 col-4">
+                <a href="/" class="navbar-brand"><i class="fa-solid fa-truck-fast"></i> E-Commerce</a>
+            </div>
+
+            <div class="col-lg-5 col-sm-8 col-8 order-lg-last">
+                <div class="text-end">
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Account" asp-action="Settings" class="btn btn-light">
+                            <i class="fa fa-user"></i> <span class="ms-1 d-none d-sm-inline-block">My Account</span>
+                        </a>
+                        <a href="#" class="btn btn-light">
+                            <i class="fa fa-heart"></i> <span class="ms-1 d-none d-sm-inline-block">Wishlist</span>
+                        </a>
+                        <a asp-controller="Account" asp-action="Signout" class="btn btn-light">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i><span
+                                class="ms-1 d-none d-sm-inline-block">Sign Out</span>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="SignIn" class="btn btn-light">
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i> <span
+                                class="ms-1 d-none d-sm-inline-block">Sign in</span>
+                        </a>
+                        <a asp-controller="Account" asp-action="Create" class="btn btn-light">
+                            <i class="fa-solid fa-user-plus"></i> <span class="ms-1 d-none d-sm-inline-block">Register</span>
+                        </a>
+                    }
+                    <a href="shopping-cart.html" class="btn btn-light">
+                        <i class="fa fa-shopping-cart"></i> <span class="ms-1 d-none d-sm-inline-block">Cart</span>
+                    </a>
                 </div>
             </div>
-        </section>
+            <div class="col-lg-5">
+                <form asp-controller="Product" asp-action="List" method="get">
+                    <div class="input-group">
+                        <input name="q" type="text" placeholder="Search" class="form-control" value="@ViewData["q"]">
+                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

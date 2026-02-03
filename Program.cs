@@ -33,7 +33,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Account/Login";
+    options.LoginPath = "/Account/SignIn";
     options.AccessDeniedPath = "/Account/AccessDenied";
     options.ExpireTimeSpan = TimeSpan.FromDays(30); // 30 gün boyunca aynı tarayıcıda login işlemi yapmasına gerek kalmaz, cookie tutulur.
     options.SlidingExpiration = true;
