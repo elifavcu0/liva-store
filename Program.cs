@@ -1,6 +1,7 @@
 using dotnet_store.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +26,18 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.RequireUniqueEmail = true;
     options.User.AllowedUserNameCharacters =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_çğıöşüÇĞİÖŞÜ";
+
+    options.Lockout.MaxFailedAccessAttempts = 5; // Kullanıcı 5 kez yanlış şifre girerse 5 dakika boyunca tekrar deneme yapamaz.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
 });
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.ExpireTimeSpan = TimeSpan.FromDays(30); // 30 gün boyunca aynı tarayıcıda login işlemi yapmasına gerek kalmaz, cookie tutulur.
+    options.SlidingExpiration = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,7 +50,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
