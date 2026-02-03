@@ -14,7 +14,7 @@
 
         <header>
             @await Html.PartialAsync("Partials/Site/_TopBar")
-            @await Component.InvokeAsync("Navbar")
+            @RenderSection("Bar", required: false)
         </header>
 
         <main>@RenderBody()</main>

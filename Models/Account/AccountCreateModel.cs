@@ -1,0 +1,27 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace dotnet_store.Models;
+
+public class AccountCreateModel
+{
+    [Required]
+    [Display(Name = "Username")]
+    [RegularExpression("^[a-zA-Z0-9]*$", ErrorMessage = "The username can only contain letters and numbers.")]
+    public string Username { get; set; } = null!;
+
+    [Required]
+    [Display(Name = "Email")]
+    [EmailAddress]
+    public string Email { get; set; } = null!;
+
+    [Required]
+    [Display(Name = "Password")]
+    [DataType(DataType.Password)]
+    public string Password { get; set; } = null!;
+
+    [Required]
+    [Display(Name = "Password Again")]
+    [DataType(DataType.Password)]
+    [Compare("Password", ErrorMessage = "Passwords don't match.")] // Password alanı ile karşılaştır
+    public string ConfirmPassword { get; set; } = null!;
+}
