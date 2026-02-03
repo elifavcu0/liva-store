@@ -1,0 +1,20 @@
+@{
+    Layout = "_AdminLayout";
+}
+@model Slider
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body text-center">
+                <p>Are you sure you want to delete the @Model.Title product? </p>
+                <form asp-controller="Slider" asp-action="DeleteConfirm" method="post">
+                    <input type="hidden" asp-for="Id"">
+            <button type=" submit" class="btn btn-danger btn-sm">Delete</button>
+                    <a asp-controller="Slider" asp-action="Index" class="btn btn-primary btn-sm">Cancel</a>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -196,7 +196,7 @@ public class ProductController : Controller
         {
             return View(entity);
         }
-        return View("Index");
+        return RedirectToAction("Index");
     }
 
     [HttpPost]
