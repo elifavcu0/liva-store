@@ -22,17 +22,4 @@ public class AccountEditUserModel
     [RegularExpression(@"^[0-9]{9}$")]
     [MaxLength(9)]
     public string PhoneNumber { get; set; } = null!;
-
-
-
-
-    // Adres için ayrı bir model oluştur daha sonra.
-    // [Display(Name = "Address")]
-    // [DataType(DataType.MultilineText)]
-    // public string? Address { get; set; }
-    // public string Distinct { get; set; } = null!;
-    // public string City { get; set; } = null!;
-    // public string AddressTitle { get; set; } = null!;
-
-
 }

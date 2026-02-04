@@ -10,6 +10,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int> //Primary Ke
                                                  // Veriye sahip bir yapı değildir, sadece veriye ulaşma yeteneği vardır.
     public DbSet<Category> Categories { get; set; }
     public DbSet<Slider> Sliders { get; set; }
+    public DbSet<Address> Addresses { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) // Bir migration oluşturulunca burası çalışır
     {
         base.OnModelCreating(modelBuilder);
