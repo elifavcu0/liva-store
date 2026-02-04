@@ -1,11 +1,12 @@
 using dotnet_store.models;
 using dotnet_store.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace dotnet_store.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class RoleController : Controller
 {
 

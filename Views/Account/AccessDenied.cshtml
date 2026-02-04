@@ -1,0 +1,27 @@
+@section Bar {
+    <section class="bg-primary p-3">
+        <div class="container">
+            <nav>
+                <ol class="breadcrumb mb-0 ">
+                    <li class="breadcrumb-item ">
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a asp-controller="Account" asp-action="Create" class="text-decoration-none">Sign in</a>
+                    </li>
+
+                </ol>
+            </nav>
+        </div>
+    </section>
+}
+<section class="mt-3">
+    <div class="container">
+        <div class="alert alert-danger">Access Denied.You don't have authorization. Click <a asp-controller="Home"
+                asp-action="Index">here</a> to return to the main page.</div>
+    </div>
+</section>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

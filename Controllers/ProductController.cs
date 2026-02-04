@@ -1,5 +1,6 @@
 using System.ComponentModel.Design;
 using dotnet_store.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 namespace dotnet_store.Controllers;
@@ -46,6 +47,8 @@ public class ProductController : Controller
     //http://localhost:5283/products/phone?q=apple
     //route params : url => value
     // query string : q => value
+
+    [AllowAnonymous] // Yetkilendirmeye gerek yok, herkes görebilir.
     public IActionResult List(string url, string q)
     {
         var query = _context.Products.Where(i => i.IsActive); // Queryable tipi => Lazım olduğunda çalıştırılabilecek tip
@@ -62,6 +65,8 @@ public class ProductController : Controller
         }
         return View(query.ToList());
     }
+
+    [AllowAnonymous]
     public IActionResult Details(int id)
     {
         // var product = _context.Products.FirstOrDefault(p => p.Id == id); 
