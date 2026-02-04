@@ -1,0 +1,6 @@
+wwwroot/**/*.js linguist-vendored
+wwwroot/**/*.css linguist-vendored
+wwwroot/**/*.min.js linguist-vendored
+wwwroot/**/*.min.css linguist-vendored
+
+wwwroot/lib/** linguist-vendored
