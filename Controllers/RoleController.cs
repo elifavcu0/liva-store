@@ -54,7 +54,7 @@ public class RoleController : Controller
         {
             return View(new RoleEditModel { Id = entity.Id, Name = entity.Name! });
         }
-        TempData["Message"] = "The role was not found.";
+        TempData["Error"] = "The role was not found.";
         return RedirectToAction("Index");
     }
 
@@ -65,7 +65,7 @@ public class RoleController : Controller
         {
             if (id != model.Id)
             {
-                TempData["Message"] = "Invalid operation.";
+                TempData["Error"] = "Invalid operation.";
                 return RedirectToAction("Index");
             }
             var entity = await _roleManager.FindByIdAsync(id.ToString());
@@ -77,13 +77,13 @@ public class RoleController : Controller
 
                 if (result.Succeeded)
                 {
-                    TempData["Message"] = $"{entity.Name}'s been updated.";
+                    TempData["Success"] = $"{entity.Name}'s been updated.";
                     return RedirectToAction("Index");
                 }
                 foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
             }
         }
-        TempData["Message"] = "The role was not found.";
+        TempData["Error"] = "The role was not found.";
         return View(model);
     }
 
@@ -91,7 +91,7 @@ public class RoleController : Controller
     {
         if (id == null)
         {
-            TempData["Message"] = "Invalid operation";
+            TempData["Error"] = "Invalid operation";
             return RedirectToAction("Index");
         }
         var entity = await _roleManager.FindByIdAsync(id.ToString()!);
@@ -100,7 +100,7 @@ public class RoleController : Controller
             ViewBag.User = await _userManager.GetUsersInRoleAsync(entity.Name!);
             return View(entity);
         }
-        TempData["Message"] = "The role you are looking for was not found.";
+        TempData["Error"] = "The role you are looking for was not found.";
         return RedirectToAction("Index");
     }
 
@@ -109,7 +109,7 @@ public class RoleController : Controller
     {
         if (id == null)
         {
-            TempData["Message"] = "Invalid operation";
+            TempData["Error"] = "Invalid operation";
             return RedirectToAction("Index");
         }
 
@@ -121,7 +121,7 @@ public class RoleController : Controller
 
             if (result.Succeeded)
             {
-                TempData["Message"] = $"{entity.Name}'s been deleted.";
+                TempData["Success"] = $"{entity.Name}'s been deleted.";
                 return RedirectToAction("Index");
             }
             foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);

@@ -55,7 +55,7 @@ public class UserController : Controller
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, model.SelectedRole);
-                TempData["Message"] = $"User {user.UserName} has been added.";
+                TempData["Success"] = $"User {user.UserName} has been added.";
                 return RedirectToAction("Index");
             }
         }
@@ -87,10 +87,10 @@ public class UserController : Controller
                 return View(model);
             }
 
-            TempData["Message"] = "There's no such an user.";
+            TempData["Error"] = "There's no such an user.";
             return RedirectToAction("Index");
         }
-        TempData["Message"] = "Invalid operation.";
+        TempData["Error"] = "Invalid operation.";
         return RedirectToAction("Index");
     }
 
@@ -131,7 +131,7 @@ public class UserController : Controller
 
             if (result.Succeeded)
             {
-                TempData["Message"] = $"User {user.UserName}'s been updated.";
+                TempData["Success"] = $"User {user.UserName}'s been updated.";
                 return RedirectToAction("Index");
             }
             foreach (var error in result.Errors)
@@ -140,7 +140,7 @@ public class UserController : Controller
             }
         }
         await GetRoles();
-        TempData["Message"] = "Invalid operation.";
+        TempData["Error"] = "Invalid operation.";
         return View(model);
     }
 

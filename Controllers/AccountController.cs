@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using dotnet_store.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -105,4 +107,94 @@ public class AccountController : Controller
         return View();
     }
 
+    public async Task<IActionResult> EditUser()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Uygulamaya giriş yapan user id'sini alır.
+        var user = await _userManager.FindByIdAsync(userId!);
+
+        if (user == null)
+        {
+            return RedirectToAction("SignIn", "Account");
+        }
+        return View(new AccountEditUserModel
+        {
+            NameSurname = user.NameSurname,
+            Email = user.Email!,
+            PhoneNumber = user.PhoneNumber!
+        });
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> EditUser(AccountEditUserModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId!);
+
+            if (user != null)
+            {
+                user.Email = model.Email;
+                user.NameSurname = model.NameSurname;
+                user.PhoneNumber = model.PhoneNumber;
+
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    TempData["Success"] = "Your information's been updated.";
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+
+            }
+            else TempData["Error"] = "Unsuccessful operation, try again.";
+        }
+        return View(model);
+    }
+
+    [Authorize]
+    public async Task<IActionResult> ChangePassword()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var user = await _userManager.FindByIdAsync(userId!);
+
+        if (user == null)
+        {
+            return RedirectToAction("SignIn", "Account");
+        }
+        return View();
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> ChangePassword(AccountChangePasswordModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.GetUserAsync(User); //O anki oturum açmış kullanıcıyı böyle de bulabiliriz.
+
+            if (user == null) return RedirectToAction("SignIn", "Account");
+
+            bool isCurrentPasswordCorrect = await _userManager.CheckPasswordAsync(user, model.CurrentPassword!);
+            if (!isCurrentPasswordCorrect)
+            {
+                ModelState.AddModelError("CurrentPassword", "Your current password is incorrect.");
+            }
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword!, model.NewPassword!);
+
+            if (result.Succeeded)
+            {
+                TempData["Success"] = "Your password's been changed.";
+                return RedirectToAction( "ChangePassword","Account");
+            }
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+        }
+        return View(model);
+    }
 }

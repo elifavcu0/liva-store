@@ -6,13 +6,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
         <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
         <link rel="stylesheet" href="~/css/site.css">
+        <link rel="stylesheet" href="~/css/toaster.css">
         <title>E-Commerce</title>
     </head>
 
     <body class="bg-light">
 
         <header>
+            @* @await Html.PartialAsync("Partials/Admin/_Message") *@
             @await Html.PartialAsync("Partials/Site/_TopBar")
             @RenderSection("Bar", required: false)
         </header>
@@ -23,8 +26,9 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
         <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
         @RenderSection("Scripts", required: false)
-
+        <partial name="_Toaster" />
     </body>
 
 </html>

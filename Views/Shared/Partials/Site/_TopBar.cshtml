@@ -10,28 +10,35 @@
 
                     @if (User.Identity?.IsAuthenticated == true)
                     {
-                        <a asp-controller="Account" asp-action="Settings" class="btn btn-light">
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a asp-controller="Admin" asp-action="Index" class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-lock"></i> <span class="ms-1 d-none d-sm-inline-block">Admin</span>
+                            </a>
+                        }
+                        <a asp-controller="Account" asp-action="EditUser" class="btn btn-light btn-sm">
                             <i class="fa fa-user"></i> <span class="ms-1 d-none d-sm-inline-block">My Account</span>
                         </a>
-                        <a href="#" class="btn btn-light">
+                        <a href="#" class="btn btn-light btn-sm">
                             <i class="fa fa-heart"></i> <span class="ms-1 d-none d-sm-inline-block">Wishlist</span>
                         </a>
-                        <a asp-controller="Account" asp-action="Signout" class="btn btn-light">
+                        <a asp-controller="Account" asp-action="Signout" class="btn btn-light btn-sm">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i><span
                                 class="ms-1 d-none d-sm-inline-block">Sign Out</span>
                         </a>
                     }
                     else
                     {
-                        <a asp-controller="Account" asp-action="SignIn" class="btn btn-light">
+                        <a asp-controller="Account" asp-action="SignIn" class="btn btn-light btn-sm">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i> <span
                                 class="ms-1 d-none d-sm-inline-block">Sign in</span>
                         </a>
-                        <a asp-controller="Account" asp-action="Create" class="btn btn-light">
-                            <i class="fa-solid fa-user-plus"></i> <span class="ms-1 d-none d-sm-inline-block">Register</span>
+                        <a asp-controller="Account" asp-action="Create" class="btn btn-light btn-sm">
+                            <i class="fa-solid fa-user-plus"></i> <span
+                                class="ms-1 d-none d-sm-inline-block">Register</span>
                         </a>
                     }
-                    <a href="shopping-cart.html" class="btn btn-light">
+                    <a href="shopping-cart.html" class="btn btn-light btn-sm">
                         <i class="fa fa-shopping-cart"></i> <span class="ms-1 d-none d-sm-inline-block">Cart</span>
                     </a>
                 </div>

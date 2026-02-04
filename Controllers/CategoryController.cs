@@ -85,7 +85,7 @@ public class CategoryController : Controller
 
             _context.SaveChanges();
 
-            TempData["Message"] = $"{entity.Name} category has been updated.";
+            TempData["Success"] = $"{entity.Name} category has been updated.";
 
             return RedirectToAction("Index");
         }
@@ -118,7 +118,7 @@ public class CategoryController : Controller
         {
             _context.Categories.Remove(entity);
             _context.SaveChanges();
-            TempData["Message"] = $"{entity.Name}'s been deleted.";
+            TempData["Success"] = $"{entity.Name}'s been deleted.";
         }
 
         return RedirectToAction("Index");

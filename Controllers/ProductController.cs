@@ -155,7 +155,6 @@ public class ProductController : Controller
 
             if (model.Name == null)
             {
-                TempData["Message"] = "Product name field cannot be empty.";
                 return RedirectToAction("Edit");
             }
 
@@ -183,7 +182,7 @@ public class ProductController : Controller
 
             _context.SaveChanges();
 
-            TempData["Message"] = $"{entity.Name} has been updated.";
+            TempData["Success"] = $"{entity.Name} has been updated.";
 
             return RedirectToAction("Index");
         }
@@ -217,7 +216,7 @@ public class ProductController : Controller
         {
             _context.Products.Remove(entity);
             _context.SaveChanges();
-            TempData["Message"] = $"{entity.Name}'s been deleted.";
+            TempData["Success"] = $"{entity.Name}'s been deleted.";
         }
         return RedirectToAction("Index");
     }

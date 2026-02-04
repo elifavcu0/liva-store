@@ -67,7 +67,7 @@ public class SliderController : Controller
 
             return RedirectToAction("Index");
         }
-        TempData["Message"] = "Invalid operation, try again.";
+        TempData["Error"] = "Invalid operation, try again.";
         return View(model);
     }
 
@@ -85,7 +85,7 @@ public class SliderController : Controller
 
         if (slider == null)
         {
-            TempData["Message"] = "The entity doesn't exist.";
+            TempData["Error"] = "The entity doesn't exist.";
             return RedirectToAction("Index");
         }
 
@@ -99,7 +99,7 @@ public class SliderController : Controller
         {
             if (model.Id != id)
             {
-                TempData["Message"] = "The slider not found.";
+                TempData["Error"] = "The slider not found.";
                 return NotFound();
             }
 
@@ -107,7 +107,7 @@ public class SliderController : Controller
 
             if (entity == null)
             {
-                TempData["Message"] = "The entity doesn't exist.";
+                TempData["Error"] = "The entity doesn't exist.";
                 return View(model);
             }
             if (model.ImageFile != null)
@@ -127,10 +127,10 @@ public class SliderController : Controller
 
             _context.SaveChanges();
 
-            TempData["Message"] = $"{entity.Title}'s been updated.";
+            TempData["Success"] = $"{entity.Title}'s been updated.";
             return RedirectToAction("Index");
         }
-        TempData["Message"] = "An error occured.";
+        TempData["Error"] = "An error occured.";
 
         return View(model);
     }
@@ -139,14 +139,14 @@ public class SliderController : Controller
     {
         if (id == null)
         {
-            TempData["Message"] = "The id is invalid.";
+            TempData["Error"] = "The id is invalid.";
             return RedirectToAction("Index");
         }
 
         var entity = _context.Sliders.Find(id);
         if (entity == null)
         {
-            TempData["Message"] = "The slider doesn't exist.";
+            TempData["Error"] = "The slider doesn't exist.";
             return RedirectToAction("Index");
         }
         return View(entity);
@@ -157,7 +157,7 @@ public class SliderController : Controller
     {
         if (id == null)
         {
-            TempData["Message"] = "The id is invalid.";
+            TempData["Error"] = "The id is invalid.";
             return RedirectToAction("Index");
         }
         var entity = _context.Sliders.Find(id);
@@ -166,7 +166,7 @@ public class SliderController : Controller
             _context.Sliders.Remove(entity);
             _context.SaveChanges();
 
-            TempData["Message"] = $"{entity.Title}'s been deleted.";
+            TempData["Success"] = $"{entity.Title}'s been deleted.";
         }
         return RedirectToAction("Index");
     }
