@@ -5,5 +5,4 @@ namespace dotnet_store.Models;
 public class AppUser : IdentityUser<int>
 {
     public string NameSurname { get; set; } = null!;
-
 }
