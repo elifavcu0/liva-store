@@ -1,0 +1,36 @@
+@using dotnet_store.models
+@{
+    Layout = "_AdminLayout";
+}
+@model AppRole
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body text-center">
+                @if (ViewBag.Users.Count == 0)
+                {
+                    <p>Are you sure you want to delete the @Model.Name role? </p>
+                    <form asp-controller="Role" asp-action="DeleteConfirm" method="post">
+                        <input type="hidden" asp-for="Id">
+
+                        <button type=" submit" class="btn btn-danger btn-sm">Delete</button>
+                        <a asp-controller="Role" asp-action="Index" class="btn btn-primary btn-sm">Cancel</a>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-danger">@Model.Name has users, you should delete them first.</div>
+                    <ul class="list-group">
+                        <li class="list-group-item text-center fw-bold">@Model.Name Users</li>
+                        @foreach (var user in ViewBag.User)
+                        {
+                            <li class="list-group-item">@user</li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

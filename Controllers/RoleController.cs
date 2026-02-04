@@ -2,6 +2,7 @@ using dotnet_store.models;
 using dotnet_store.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace dotnet_store.Controllers;
 
@@ -9,10 +10,12 @@ public class RoleController : Controller
 {
 
     private RoleManager<AppRole> _roleManager;
+    private UserManager<AppUser> _userManager;
 
-    public RoleController(RoleManager<AppRole> roleManager)
+    public RoleController(RoleManager<AppRole> roleManager, UserManager<AppUser> userManager)
     {
         _roleManager = roleManager;
+        _userManager = userManager;
     }
     public IActionResult Index()
     {
@@ -82,4 +85,48 @@ public class RoleController : Controller
         TempData["Message"] = "The role was not found.";
         return View(model);
     }
+
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id == null)
+        {
+            TempData["Message"] = "Invalid operation";
+            return RedirectToAction("Index");
+        }
+        var entity = await _roleManager.FindByIdAsync(id.ToString()!);
+        if (entity != null)
+        {
+            ViewBag.User = await _userManager.GetUsersInRoleAsync(entity.Name!);
+            return View(entity);
+        }
+        TempData["Message"] = "The role you are looking for was not found.";
+        return RedirectToAction("Index");
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirm(int? id)
+    {
+        if (id == null)
+        {
+            TempData["Message"] = "Invalid operation";
+            return RedirectToAction("Index");
+        }
+
+        var entity = await _roleManager.FindByIdAsync(id.ToString()!);
+
+        if (entity != null)
+        {
+            var result = await _roleManager.DeleteAsync(entity);
+
+            if (result.Succeeded)
+            {
+                TempData["Message"] = $"{entity.Name}'s been deleted.";
+                return RedirectToAction("Index");
+            }
+            foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
+        }
+        ViewBag.User = await _userManager.GetUsersInRoleAsync(entity.Name);
+        return View("Delete", entity);
+    }
+
 }
