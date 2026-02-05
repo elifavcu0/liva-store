@@ -5,11 +5,12 @@ public class Order
     public int Id { get; set; }
     public DateTime OrderTime { get; set; }
     public string Username { get; set; } = null!;
+    public string NameSurname { get; set; } = null!;
     public string City { get; set; } = null!;
     public string OpenAddress { get; set; } = null!;
     public string PostalCode { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
-    public string Email { get; set; } = null!;
+    public string? OrderNote { get; set; }
     public double TotalAmount { get; set; }
     public List<OrderItem> OrderItem { get; set; } = null!;
 }
