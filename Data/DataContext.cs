@@ -13,6 +13,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int> //Primary Ke
     public DbSet<Slider> Sliders { get; set; }
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Cart> Carts { get; set; }
+    public DbSet<Order> Orders { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) // Bir migration oluşturulunca burası çalışır
     {
         base.OnModelCreating(modelBuilder);
