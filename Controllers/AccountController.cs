@@ -12,12 +12,12 @@ public class AccountController : Controller
 {
     private UserManager<AppUser> _userManager;
     private SignInManager<AppUser> _signInManager;
-    private readonly DataContext _context;
-    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, DataContext context)
+    private IEmailService _emailService;
+    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
-        _context = context;
+        _emailService = emailService;
     }
     public IActionResult Create()
     {
@@ -181,17 +181,16 @@ public class AccountController : Controller
 
             if (user == null) return RedirectToAction("SignIn", "Account");
 
-            bool isCurrentPasswordCorrect = await _userManager.CheckPasswordAsync(user, model.CurrentPassword!);
+            bool isCurrentPasswordCorrect = await _userManager.CheckPasswordAsync(user, model.CurrentPassword);
             if (!isCurrentPasswordCorrect)
             {
                 ModelState.AddModelError("CurrentPassword", "Your current password is incorrect.");
             }
-            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword!, model.NewPassword!);
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
 
             if (result.Succeeded)
             {
                 TempData["Success"] = "Your password's been changed.";
-                return RedirectToAction("ChangePassword", "Account");
             }
             foreach (var error in result.Errors)
             {
@@ -233,4 +232,83 @@ public class AccountController : Controller
     //     }
     //     return View(model);
     // }****************************************************************************
+
+    public IActionResult ForgotPassword()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ForgotPassword(string email)
+    {
+        if (string.IsNullOrEmpty(email))
+        {
+            TempData["Info"] = "Enter your email.";
+            return View();
+        }
+
+        var user = await _userManager.FindByEmailAsync(email); // Girilen email ile kayıtlı kullanıcı var mı?
+        if (user == null)
+        {
+            TempData["Error"] = "No user registered with this address was found.";
+            return View();
+        }
+
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        var url = Url.Action("ResetPassword", "Account", new { userId = user.Id, token });
+        var link = $"<a href = 'http://localhost:5283{url}'>Reset Password</a>";
+
+        await _emailService.SendEmailAsync(user.Email!, "Reset your password", link);
+
+        TempData["Info"] = "Reset link has been sent to your email address.";
+        return RedirectToAction("SignIn");
+    }
+
+    public async Task<IActionResult> ResetPassword(string userId, string token)
+    {
+        if (userId == null || token == null)
+        {
+            TempData["Error"] = "Invalid user or token.";
+            return RedirectToAction("SignIn");
+        }
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+        {
+            TempData["Error"] = "No user was found.";
+            return RedirectToAction("SignIn");
+        }
+
+        var model = new AccountResetPasswordModel
+        {
+            Token = token,
+            Email = user.Email!
+        };
+        return View(model);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(AccountResetPasswordModel model)
+    {
+        if (ModelState.IsValid)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                TempData["Error"] = "No user was found.";
+                return RedirectToAction("SignIn");
+            }
+            var result = await _userManager.ResetPasswordAsync(user, model.Token, model.NewPassword);
+            if (result.Succeeded)
+            {
+                TempData["Success"] = "Your password's been reset.";
+                return RedirectToAction("SignIn");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+        }
+        return View(model);
+    }
 }
