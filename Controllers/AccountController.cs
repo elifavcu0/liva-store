@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using dotnet_store.Data;
 using dotnet_store.Models;
+using dotnet_store.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,72 +17,16 @@ public class AccountController : Controller
     private UserManager<AppUser> _userManager;
     private SignInManager<AppUser> _signInManager;
     private IEmailService _emailService;
-    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, DataContext context)
+    private ICartService _cartService;
+    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IEmailService emailService, DataContext context, ICartService cartService)
     {
         _context = context;
         _userManager = userManager;
         _signInManager = signInManager;
         _emailService = emailService;
+        _cartService = cartService;
     }
 
-    private async Task<Cart> GetCart()
-    {
-        var customerId = User.Identity?.Name ?? Request.Cookies["customerId"];
-        var cart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).Where(i => i.CustomerId == customerId).FirstOrDefaultAsync();
-
-        if (cart == null)
-        {
-            customerId = User.Identity?.Name;
-
-            if (string.IsNullOrEmpty(customerId))
-            {
-                customerId = Guid.NewGuid().ToString();
-
-                var cookieOptions = new CookieOptions
-                {
-                    Expires = DateTime.Now.AddMonths(1),
-                    IsEssential = true
-                };
-                Response.Cookies.Append("customerId", customerId, cookieOptions);
-            }
-            cart = new Cart { CustomerId = customerId };
-            await _context.Carts.AddAsync(cart);
-            await _context.SaveChangesAsync();
-        }
-        return cart;
-    }
-    private async Task TransferCartToUser(AppUser user)
-    {
-        var cookieId = Request.Cookies["customerId"];
-        if (string.IsNullOrEmpty(cookieId)) return;
-
-        var cookieCart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).Where(i => i.CustomerId == cookieId).FirstOrDefaultAsync();
-        if (cookieCart == null) return;
-
-        var userCart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).Where(i => i.CustomerId == user.UserName).FirstOrDefaultAsync();
-        if (userCart == null) userCart = await GetCart();
-
-        foreach (var item in cookieCart.CartItems)
-        {
-            var cartItem = userCart!.CartItems.FirstOrDefault(i => i.ProductId == item.ProductId);
-            if (cartItem != null)
-            {
-                cartItem.Quantity += item.Quantity;
-            }
-            else
-            {
-                userCart?.CartItems.Add(new CartItem
-                {
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    CartId = userCart.CartId
-                });
-            }
-        }
-        _context.Carts.Remove(cookieCart);
-        await _context.SaveChangesAsync();
-        Response.Cookies.Delete("customerId");
-    }
     public IActionResult Create()
     {
         return View();
@@ -132,7 +77,7 @@ public class AccountController : Controller
                     await _userManager.ResetAccessFailedCountAsync(user);
                     await _userManager.SetLockoutEndDateAsync(user, null);
 
-                    await TransferCartToUser(user);
+                    await _cartService.TransferCartToUser(user.UserName!);
 
                     if (!string.IsNullOrEmpty(returnUrl))
                     {

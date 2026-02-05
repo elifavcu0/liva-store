@@ -1,4 +1,4 @@
-namespace dotnet_store.Data;
+namespace dotnet_store.Services;
 
 public interface IEmailService
 {

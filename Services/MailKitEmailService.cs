@@ -2,6 +2,7 @@ using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using dotnet_store.Data;
+using dotnet_store.Services;
 
 namespace dotnet_store.Models;
 

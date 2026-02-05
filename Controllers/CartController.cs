@@ -3,63 +3,29 @@ using dotnet_store.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using dotnet_store.Services;
 
 namespace dotnet_store.Controllers;
 
 public class CartController : Controller
 {
-    private readonly DataContext _context;
-    public CartController(DataContext context)
+    private readonly ICartService _cartService;
+    public CartController(ICartService cartService)
     {
-        _context = context;
+        _cartService = cartService;
     }
 
     public async Task<IActionResult> Index()
     {
-        var cart = await GetCart();
+        var customerId = _cartService.GetCustomerId();
+        var cart = await _cartService.GetCart(customerId);
         return View(cart);
-    }
-
-    private async Task<Cart> GetCart()
-    {
-        var customerId = User.Identity?.Name ?? Request.Cookies["customerId"]; // eğer kullanıcı kayıtlı değilse customerId isimli benzersiz bir cookie oluştur.
-
-        var cart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).Where(i => i.CustomerId == customerId).FirstOrDefaultAsync();
-
-        if (cart == null)
-        {
-            customerId = User.Identity?.Name;
-
-            if (string.IsNullOrEmpty(customerId))
-            {
-                customerId = Guid.NewGuid().ToString();
-
-                var cookieOptions = new CookieOptions
-                {
-                    Expires = DateTime.Now.AddMonths(1),
-                    IsEssential = true
-                };
-                Response.Cookies.Append("customerId", customerId, cookieOptions);
-            }
-            cart = new Cart { CustomerId = customerId };
-            await _context.Carts.AddAsync(cart); // change tracking
-            await _context.SaveChangesAsync();
-        }
-        return cart;
     }
 
     [HttpPost]
     public async Task<IActionResult> AddToCart(int productId, int quantity = 1)
     {
-        var cart = await GetCart();
-        var item = cart.CartItems.FirstOrDefault(i => i.ProductId == productId);
-        var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == productId);
-
-        if (product != null)
-        {
-            cart.AddItem(product, quantity);
-            await _context.SaveChangesAsync();
-        }
+        await _cartService.AddToCart(productId, quantity);
 
         return RedirectToAction("Index", "Cart");
     }
@@ -67,18 +33,8 @@ public class CartController : Controller
     [HttpPost]
     public async Task<IActionResult> RemoveFromCart(int productId)
     {
-        var cart = await GetCart();
-        var item = cart.CartItems.FirstOrDefault(i => i.ProductId == productId);
+        await _cartService.RemoveItem(productId);
 
-        if (item != null)
-        {
-            cart.CartItems.Remove(item);
-            await _context.SaveChangesAsync();
-        }
-        else
-        {
-            TempData["Error"] = "There's no such a product.";
-        }
         return RedirectToAction("Index", "Cart");
     }
 }
