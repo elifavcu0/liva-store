@@ -40,7 +40,6 @@ public class CartController : Controller
                 };
                 Response.Cookies.Append("customerId", customerId, cookieOptions);
             }
-
             cart = new Cart { CustomerId = customerId};
             await _context.Carts.AddAsync(cart); // change tracking
         }
