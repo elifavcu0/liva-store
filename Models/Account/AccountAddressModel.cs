@@ -2,18 +2,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dotnet_store.Models;
 
-public class AccountEditAddressModel
+public class AccountAddressModel
 {
-    [Display(Name = "Address")]
+    [Display(Name = "Open Address")]
     [DataType(DataType.MultilineText)]
-    public string? Address { get; set; }
+    public string? OpenAddress { get; set; }
 
-    [Display(Name = "Distinct")]
-    public string Distinct { get; set; } = null!;
+    [Display(Name = "District")]
+    public string District { get; set; } = null!;
 
     [Display(Name = "City")]
     public string City { get; set; } = null!;
 
     [Display(Name = "Address Title")]
     public string AddressTitle { get; set; } = null!;
+    public int AppUserId { get; set; }
+
 }

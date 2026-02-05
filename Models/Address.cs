@@ -15,7 +15,7 @@ public class Address
     public string City { get; set; } = null!;
 
     [Required]
-    [Display(Name = "Distinct")]
+    [Display(Name = "District")]
     public string District { get; set; } = null!;
 
     [Required]

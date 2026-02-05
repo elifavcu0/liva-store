@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace dotnet_store.Controllers;
 
@@ -11,10 +12,12 @@ public class AccountController : Controller
 {
     private UserManager<AppUser> _userManager;
     private SignInManager<AppUser> _signInManager;
-    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+    private readonly DataContext _context;
+    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, DataContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _context = context;
     }
     public IActionResult Create()
     {
@@ -188,7 +191,7 @@ public class AccountController : Controller
             if (result.Succeeded)
             {
                 TempData["Success"] = "Your password's been changed.";
-                return RedirectToAction( "ChangePassword","Account");
+                return RedirectToAction("ChangePassword", "Account");
             }
             foreach (var error in result.Errors)
             {
@@ -197,4 +200,37 @@ public class AccountController : Controller
         }
         return View(model);
     }
+
+    //*******************************SONRA DEVAM ET*************************
+    // public async Task<IActionResult> AddAddress()
+    // {
+    //     var user = await _userManager.GetUserAsync(User);
+    //     if (user == null) return NotFound();
+    //     return View();
+    // }
+
+    // [HttpPost]
+    // [Authorize]
+    // public async Task<IActionResult> AddAddress(AccountAddressModel model)
+    // {
+    //     if (ModelState.IsValid)
+    //     {
+    //         var user = await _userManager.GetUserAsync(User);
+    //         if (user == null) return NotFound();
+
+    //         var address = new Address
+    //         {
+    //             Title = model.AddressTitle,
+    //             City = model.City,
+    //             District = model.District,
+    //             OpenAddress = model.OpenAddress!,
+    //             AppUserId = user.Id
+    //         };
+    //         _context.Addresses.Add(address);
+    //         await _context.SaveChangesAsync();
+    //         TempData["Success"] = "Your address's been saved.";
+    //         //return RedirectToAction("Index");
+    //     }
+    //     return View(model);
+    // }****************************************************************************
 }
