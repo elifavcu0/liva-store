@@ -115,19 +115,24 @@ public class RoleController : Controller
 
         var entity = await _roleManager.FindByIdAsync(id.ToString()!);
 
-        if (entity != null)
+        if (entity == null)
         {
-            var result = await _roleManager.DeleteAsync(entity);
-
-            if (result.Succeeded)
-            {
-                TempData["Success"] = $"{entity.Name}'s been deleted.";
-                return RedirectToAction("Index");
-            }
-            foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
+            TempData["Error"] = "There's no such an user.";
+            return RedirectToAction("Index");
         }
-        ViewBag.User = await _userManager.GetUsersInRoleAsync(entity.Name);
+
+        var result = await _roleManager.DeleteAsync(entity);
+
+        if (result.Succeeded)
+        {
+            TempData["Success"] = $"{entity.Name}'s been deleted.";
+            return RedirectToAction("Index");
+        }
+        foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
+
+        ViewBag.User = await _userManager.GetUsersInRoleAsync(entity.Name!);
         return View("Delete", entity);
     }
+
 
 }

@@ -26,22 +26,24 @@
                     <a href="siparis.html" class="nav-link">Order</a>
                 </li>
             </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Elif Avcu</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="hesabim.html" class="dropdown-item">My Account</a></li>
-                        <li><a href="#" class="dropdown-item">Log out</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link">Website</a>
-                </li>
-                @* <li class="nav-item">
-                    <a href="login.html" class="nav-link">Log in</a>
-                </li> *@
-            </ul>
-        </div>
+            <ul class="navbar-nav mb-2 mb-lg-0 mt-2">
+                <li class="nav-item me-1">
+                    <a asp-controller="Admin" asp-action="Index" class="btn btn-light btn-sm"> <i
+                        class="fa fa-user"></i> <span
+                        class="ms-1 d-none d-sm-inline-block">@User.Identity?.Name</span></a>
+                    </li>
 
-    </div>
-</nav>
+                    <li><a asp-controller="Account" asp-action="SignOut" class="btn btn-light btn-sm me-1">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i><span
+                        class="ms-1 d-none d-sm-inline-block">Sign Out</span>
+                    </a></li>
+
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-light btn-sm"><i
+                            class="fa-solid fa-globe"></i><span>Website</span></a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>

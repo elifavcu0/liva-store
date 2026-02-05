@@ -152,4 +152,42 @@ public class UserController : Controller
         return View(model);
     }
 
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id != null)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString()!);
+            if (user == null)
+            {
+                TempData["Error"] = "There's no such an user.";
+                return RedirectToAction("Index");
+            }
+            return View(user);
+        }
+        TempData["Error"] = "Invalid operation.";
+        return RedirectToAction("Index");
+    }
+
+    public async Task<IActionResult> DeleteConfirm(int? id)
+    {
+        if (id != null)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString()!);
+            if (user != null)
+            {
+                var result = await _userManager.DeleteAsync(user);
+                if (result.Succeeded)
+                {
+                    TempData["Success"] = $"User {user.UserName} deleted.";
+                    return RedirectToAction("Index");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+        }
+        TempData["Error"] = "There's no such an user.";
+        return RedirectToAction("Index");
+    }
 }
