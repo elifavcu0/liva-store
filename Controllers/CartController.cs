@@ -27,9 +27,22 @@ public class CartController : Controller
 
         if (cart == null)
         {
-            cart = new Cart { CustomerId = customerId! };
+            customerId = User.Identity?.Name;
+
+            if (string.IsNullOrEmpty(customerId))
+            {
+                customerId = Guid.NewGuid().ToString();
+
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMonths(1),
+                    IsEssential = true
+                };
+                Response.Cookies.Append("customerId", customerId, cookieOptions);
+            }
+
+            cart = new Cart { CustomerId = customerId};
             await _context.Carts.AddAsync(cart); // change tracking
-            // await _context.SaveChangesAsync(); 
         }
         return cart;
     }
