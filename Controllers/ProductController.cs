@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 namespace dotnet_store.Controllers;
 
+[Authorize(Roles = "Admin")]
 public class ProductController : Controller
 {
     // Dependency Injection => DI

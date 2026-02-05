@@ -13,29 +13,46 @@
                 </a>
             </div>
             <div class="card-body">
-
-
-                <div class="table-responsive">
-                    <table class="table table-bordered table-striped mb-0">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th>Id</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th style="width:50px;"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var user in Model)
-                            {
+                <form method="get">
+                    <div class="input-group mb-2 ">
+                        <select name="role" class="form-select" asp-items="ViewBag.RoleList">
+                            <option value="" selected>All</option>
+                        </select>
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </form>
+                @if (Model.Count() == 0)
+                {
+                    <p class="text-danger mb-3"> There is no user. </p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mb-0">
+                            <thead class="table-secondary">
                                 <tr>
-                                    <td>@user.Id</td>
-                                    <td>@user.UserName</td>
-                                    <td>@user.Email</td>
-                                    <td>
-                                        <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id"
-                                            class="btn btn-primary btn-sm mb-1">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                    <th>Id</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th style="width:50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model)
+                                {
+                                    <tr>
+                                        <td>@user.Id</td>
+                                        <td>@user.UserName</td>
+                                        <td>@user.Email</td>
+                                        <td>
+                                            <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id"
+                                                   class="btn btn-primary btn-sm mb-1">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a> <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id"
+                                                class="btn btn-danger btn-sm mb-1">
+                                            <i class="fa-solid fa-trash"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -43,7 +60,8 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+            }
         </div>
     </div>
+</div>
 </div>

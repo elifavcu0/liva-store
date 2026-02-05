@@ -3,6 +3,7 @@ using dotnet_store.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace dotnet_store.Controllers;
@@ -25,8 +26,15 @@ public class UserController : Controller
         ViewBag.RoleList = await _roleManager.Roles.Select(i => i.Name).ToListAsync();
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index(string role)
     {
+        var roles = _roleManager.Roles;
+        ViewBag.RoleList = new SelectList(roles, "Name", "Name", role);
+
+        if (role != null)
+        {
+            return View(await _userManager.GetUsersInRoleAsync(role));
+        }
         return View(_userManager.Users);
     }
 
