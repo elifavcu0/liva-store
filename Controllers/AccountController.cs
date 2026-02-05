@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using dotnet_store.Data;
 using dotnet_store.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -35,7 +36,7 @@ public class AccountController : Controller
             if (string.IsNullOrEmpty(customerId))
             {
                 customerId = Guid.NewGuid().ToString();
-                
+
                 var cookieOptions = new CookieOptions
                 {
                     Expires = DateTime.Now.AddMonths(1),
@@ -44,7 +45,8 @@ public class AccountController : Controller
                 Response.Cookies.Append("customerId", customerId, cookieOptions);
             }
             cart = new Cart { CustomerId = customerId };
-            await _context.Carts.AddAsync(cart); // change tracking
+            await _context.Carts.AddAsync(cart);
+            await _context.SaveChangesAsync();
         }
         return cart;
     }
@@ -57,7 +59,7 @@ public class AccountController : Controller
         if (cookieCart == null) return;
 
         var userCart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).Where(i => i.CustomerId == user.UserName).FirstOrDefaultAsync();
-        if (userCart == null) await GetCart();
+        if (userCart == null) userCart = await GetCart();
 
         foreach (var item in cookieCart.CartItems)
         {
@@ -78,6 +80,7 @@ public class AccountController : Controller
         }
         _context.Carts.Remove(cookieCart);
         await _context.SaveChangesAsync();
+        Response.Cookies.Delete("customerId");
     }
     public IActionResult Create()
     {

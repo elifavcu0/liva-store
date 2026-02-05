@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using dotnet_store.Data;
 using dotnet_store.Models;
 
 namespace dotnet_store.models;

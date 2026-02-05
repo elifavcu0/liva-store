@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using dotnet_store.Models;
 
-namespace dotnet_store.Models;
+namespace dotnet_store.Data;
 
 public class Address
 {

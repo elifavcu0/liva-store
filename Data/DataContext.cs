@@ -1,6 +1,7 @@
+using dotnet_store.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-namespace dotnet_store.Models;
+namespace dotnet_store.Data;
 
 public class DataContext : IdentityDbContext<AppUser, AppRole, int> //Primary Key (Birincil Anahtar) tipini int olarak belirledik.
 {

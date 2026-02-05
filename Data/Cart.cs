@@ -1,4 +1,6 @@
-namespace dotnet_store.Models;
+using dotnet_store.Models;
+
+namespace dotnet_store.Data;
 
 public class Cart
 {
@@ -6,6 +8,22 @@ public class Cart
     public string CustomerId { get; set; } = null!;
     public List<CartItem> CartItems { get; set; } = new();
 
+    public void AddItem(Product product, int quantity)
+    {
+        var item = CartItems.FirstOrDefault(i => i.ProductId == product.Id);
+        if (item == null)
+        {
+            CartItems.Add(new CartItem
+            {
+                Product = product,
+                Quantity = quantity
+            });
+        }
+        else
+        {
+            item.Quantity++;
+        }
+    }
     public double OrderAmount()
     {
         return CartItems.Sum(i => i.Product.Price * i.Quantity);

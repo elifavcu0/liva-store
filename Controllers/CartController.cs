@@ -1,4 +1,5 @@
 using dotnet_store.Models;
+using dotnet_store.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -40,8 +41,9 @@ public class CartController : Controller
                 };
                 Response.Cookies.Append("customerId", customerId, cookieOptions);
             }
-            cart = new Cart { CustomerId = customerId};
+            cart = new Cart { CustomerId = customerId };
             await _context.Carts.AddAsync(cart); // change tracking
+            await _context.SaveChangesAsync();
         }
         return cart;
     }
@@ -51,23 +53,13 @@ public class CartController : Controller
     {
         var cart = await GetCart();
         var item = cart.CartItems.FirstOrDefault(i => i.ProductId == productId);
+        var product = await _context.Products.FirstOrDefaultAsync(i => i.Id == productId);
 
-        if (item != null)
+        if (product != null)
         {
-            // ürün önceden eklenmiş
-            item!.Quantity++;
+            cart.AddItem(product, quantity);
+            await _context.SaveChangesAsync();
         }
-        else
-        {
-            //ürün ilk defa ekleniyor
-            cart.CartItems.Add(new CartItem
-            {
-                ProductId = productId,
-                Quantity = quantity
-            });
-        }
-
-        await _context.SaveChangesAsync();
 
         return RedirectToAction("Index", "Cart");
     }

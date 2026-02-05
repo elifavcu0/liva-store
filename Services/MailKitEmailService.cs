@@ -1,7 +1,7 @@
 using MimeKit;
-using Org.BouncyCastle.Security;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using dotnet_store.Data;
 
 namespace dotnet_store.Models;
 

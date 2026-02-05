@@ -1,4 +1,6 @@
-namespace dotnet_store.Models;
+using dotnet_store.Models;
+
+namespace dotnet_store.Data;
 
 // DB tablo yapısını oluşturduğu için bu bir "entity"dir.
 public class Category
