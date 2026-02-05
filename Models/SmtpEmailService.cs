@@ -3,6 +3,7 @@ using System.Net.Mail;
 
 namespace dotnet_store.Models;
 
+// Microsoft artık System.Net.Mail kütüphanesini eski olarak nitelendiriyor. O yüzden MailKit kullanacağım.
 public class SmtpEmailService : IEmailService
 {
     private IConfiguration _configuration;
@@ -23,7 +24,7 @@ public class SmtpEmailService : IEmailService
                 From = new MailAddress(_configuration["Email:Username"]!),
                 Subject = subject,
                 Body = message,
-                IsBodyHtml = true // mesajımızda html içeriği varsa doğru şekilde gösterilir
+                IsBodyHtml = true
             };
             mailMessage.To.Add(email);
             await client.SendMailAsync(mailMessage);

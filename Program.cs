@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddTransient<IEmailService, SmtpEmailService>();
+builder.Services.AddTransient<IEmailService, MailKitEmailService>(); // SmtpEmailService sınıfındaki yöntemler eskide kaldı.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DataContext>(options =>
