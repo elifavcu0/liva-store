@@ -10,92 +10,96 @@
                     <div class="img-big-wrap img-thumbnail">
                         <a href="~/img/@Model.Image" data-type="image" data-fslightbox>
                             <img src="~/img/@Model.Image" alt="" height="395">
-                        </a>
-                    </div>
-                    <div class="thumbs-wrap">
-                        <a href="~/img/@Model.Image" data-type="image" data-fslightbox>
-                            <img src="~/img/@Model.Image" height="60" alt="">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-7">
-                <article>
-                    <h4 class="title text-dark">@Model.Name</h4>
-                    <div class="rating-wrap">
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                    </div>
-                    <p class="text-success">On Sale</p>
-                    <div class="mb-3"><b class="price h5">@(Model.Price - 1000)₺</b></div>
-                    <div class="product-description mb-3">@Model.Description</div>
-                    @if (Model.Name.Contains("Watch"))
-                    {
-                        <dl class="row border-bottom">
-                            <dt class="col-3">Color</dt>
-                            <dd class="col-9">Star Light</dd>
-                            <dt class="col-3">Connection Features</dt>
-                            <dd class="col-9">GPS</dd>
-                        </dl>
-                        <div class="row mb-3">
-                            <div class="col-md-4 col-6">
-                                <label class="form-label">Case Size</label>
-                                <select class="form-select">
-                                    <option value="">41 mm</option>
-                                    <option value="">45 mm</option>
-                                </select>
+                            </a>
+                        </div>
+                        <div class="thumbs-wrap">
+                            <a href="~/img/@Model.Image" data-type="image" data-fslightbox>
+                                <img src="~/img/@Model.Image" height="60" alt="">
+                                </a>
                             </div>
                         </div>
-                    }
-                    <div class="buttons">
-                        <a href="#" class="btn btn-warning">
-                            <i class="fa fa-shopping-basket me-1"></i> Add to Cart
-                        </a>
-                        <a href="#" class="btn btn-light">
-                            <i class="fa-regular fa-heart basket me-1"></i> Add to Wish List
-                        </a>
                     </div>
-                </article>
-            </div>
-        </div>
-    </div>
-</section>
-
-@{
-    var products = (List<Product>)ViewData["SimilarProducts"]!;
-    if (products.Count > 0)
-    {
-        <section class="mt-3">
-            <div class="container">
-                <h4 class="mb-3">Similar Products</h4>
-                <div class="row gy-3">
-                    @foreach (var item in products)
-                    {
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card shadow">
-                                <div class="img-wrap">
-                                    <span class="fa fa-regular fa-heart"></span>
-                                    <img src="~/img/@item.Image" alt="@item.Name" class="card-img-top">
-                                </div>
-                                <div class="border-top info-wrap">
-                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id"
-                                        class="title text-truncate">@item.Name</a>
-                                    <div class="price-wrap mb-3">
-                                        <span class="price-discount">@(item.Price - 1000) ₺</span>
-                                        <del class="price">@item.Price</del>
+                    <div class="col-lg-7">
+                        <article>
+                            <h4 class="title text-dark">@Model.Name</h4>
+                            <div class="rating-wrap">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                            </div>
+                            <p class="text-success">On Sale</p>
+                            <div class="mb-3"><b class="price h5">@(Model.Price - 1000)₺</b></div>
+                            <div class="product-description mb-3">@Model.Description</div>
+                            @if (Model.Name.Contains("Watch"))
+                            {
+                                <dl class="row border-bottom">
+                                    <dt class="col-3">Color</dt>
+                                    <dd class="col-9">Star Light</dd>
+                                    <dt class="col-3">Connection Features</dt>
+                                    <dd class="col-9">GPS</dd>
+                                </dl>
+                                <div class="row mb-3">
+                                    <div class="col-md-4 col-6">
+                                        <label class="form-label">Case Size</label>
+                                        <select class="form-select">
+                                            <option value="">41 mm</option>
+                                            <option value="">45 mm</option>
+                                        </select>
                                     </div>
-                                    <a href="#" class="btn btn-light w-100">
-                                        <i class="fa fa-shopping-basket me-1"></i> Add to Cart
-                                    </a>
                                 </div>
+                            }
+                            <div class="buttons">
+                                <form asp-controller="Cart" asp-action="AddToCart" class="me-1 d-inline" method="post">
+                                    <input type="hidden" name="productId" value="@Model.Id">
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="fa fa-shopping-basket"></i> Add to Cart
+                                    </button></form>
+                                <a href="#" class="btn btn-light">
+                                    <i class="fa-regular fa-heart basket me-1"></i> Add to Wish List
+                                </a>
                             </div>
-                        </div>
-                    }
+                        </article>
+                    </div>
                 </div>
             </div>
         </section>
-    }
-}
+
+        @{
+            var products = (List<Product>)ViewData["SimilarProducts"]!;
+            if (products.Count > 0)
+            {
+                <section class="mt-3">
+                    <div class="container">
+                        <h4 class="mb-3">Similar Products</h4>
+                        <div class="row gy-3">
+                            @foreach (var item in products)
+                            {
+                                <div class="col-lg-3 col-sm-6 col-12">
+                                    <div class="card shadow">
+                                        <div class="img-wrap">
+                                            <span class="fa fa-regular fa-heart"></span>
+                                            <img src="~/img/@item.Image" alt="@item.Name" class="card-img-top">
+                                            </div>
+                                            <div class="border-top info-wrap">
+                                                <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id"
+                                                   class="title text-truncate">@item.Name</a>
+                                                <div class="price-wrap mb-3">
+                                                    <span class="price-discount">@(item.Price - 1000) ₺</span>
+                                                    <del class="price">@item.Price</del>
+                                                </div>
+                                                <form asp-controller="Cart" asp-action="AddToCart" class="me-1 d-inline" method="post">
+                                                    <input type="hidden" name="productId" value="@Model.Id">  
+                                                <button type="submit" class="btn btn-warning">
+                                                    <i class="fa fa-shopping-basket"></i> Add to Cart
+                                                </button></form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </section>
+                }
+            }

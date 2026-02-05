@@ -5,6 +5,28 @@ public class Cart
     public int CartId { get; set; }
     public string CustomerId { get; set; } = null!;
     public List<CartItem> CartItems { get; set; } = new();
+
+    public double OrderAmount()
+    {
+        return CartItems.Sum(i => i.Product.Price * i.Quantity);
+    }
+    public double Tax()
+    {
+        return OrderAmount() * 0.2; //vergi %20
+    }
+    public double Total()
+    {
+        return OrderAmount() + Tax();
+    }
+    public int TotalProductQuantity()
+    {
+        var quantity = 0;
+        foreach (var product in CartItems)
+        {
+            quantity += product.Quantity;
+        }
+        return quantity;
+    }
 }
 
 public class CartItem

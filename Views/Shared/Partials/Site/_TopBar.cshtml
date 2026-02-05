@@ -24,21 +24,21 @@
                         </a>
                         <a asp-controller="Account" asp-action="Signout" class="btn btn-light btn-sm">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i><span
-                                class="ms-1 d-none d-sm-inline-block">Sign Out</span>
+                            class="ms-1 d-none d-sm-inline-block">Sign Out</span>
                         </a>
                     }
                     else
                     {
                         <a asp-controller="Account" asp-action="SignIn" class="btn btn-light btn-sm">
                             <i class="fa-solid fa-arrow-right-to-bracket"></i> <span
-                                class="ms-1 d-none d-sm-inline-block">Sign in</span>
+                            class="ms-1 d-none d-sm-inline-block">Sign in</span>
                         </a>
                         <a asp-controller="Account" asp-action="Create" class="btn btn-light btn-sm">
                             <i class="fa-solid fa-user-plus"></i> <span
-                                class="ms-1 d-none d-sm-inline-block">Register</span>
+                            class="ms-1 d-none d-sm-inline-block">Register</span>
                         </a>
                     }
-                    <a href="shopping-cart.html" class="btn btn-light btn-sm">
+                    <a asp-controller="Cart" asp-action="Index" class="btn btn-light btn-sm">
                         <i class="fa fa-shopping-cart"></i> <span class="ms-1 d-none d-sm-inline-block">Cart</span>
                     </a>
                 </div>

@@ -1,0 +1,104 @@
+@using Microsoft.AspNetCore.Http.Features
+@model Cart
+@section Bar {
+    <section class="bg-primary p-3">
+        <div class="container">
+            <nav>
+                <ol class="breadcrumb mb-0 ">
+                    <li class="breadcrumb-item ">
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">My Shopping Cart
+                            </a>
+                    </li>
+
+                </ol>
+            </nav>
+        </div>
+    </section>
+}
+
+<section class="mt-3">
+        <div class="container"> 
+            @if(Model.CartItems.Count()!= 0){
+            <div class="row">
+                <div class="col-lg-7">
+                        <ul class="list-group">
+                            @foreach(var item in Model.CartItems){
+                            <li class="py-3 mb-2 border-top list-group-item">
+                                <div class="row align-items-center">
+                                    <div class="col-7">
+                                        <div class="d-flex align-items-center">
+                                            <img src="~/img/@item.Product.Image" style="width: 100px;" alt="">
+                                            <div class="ms-3">
+                                                <a class="text-decoration-none" asp-controller="Product" asp-action="Details" asp-route-id="@item.ProductId">
+                                                    <h6 class="mb-0">@item.Product.Name</h6>
+                                                </a>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                       <input type="number" value="@item.Quantity" class="form-control" min="1">
+                                    </div>
+                                    <div class="col-2 text-center">
+                                        <span class="price-discount fw-bold">@((item.Product.Price-1000).ToString("C2"))</span>
+                                        <del class="price fs-sm">@((item.Product.Price).ToString("C2"))</del>
+                                    </div>
+                                    <div class="col-1"><form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
+                                        <input type="hidden" name="productId" value="@item.ProductId">
+                                        <button type="submit" class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Delete" ><i class="fa-solid fa-trash-can"></i></button></form></div>
+                                </div>
+                            </li>}
+                        </ul>
+                </div>
+                <div class="col-lg-5">
+                    <div class="card">
+                        <div class="p-3 card-body">
+                            <h2 class="h5 mb-4">Order Summary</h2>
+                            <div class="card mb-2">
+                                <div class="list-group list-group-flush">
+                                    <div class="d-flex justify-content-center align-items-center list-group-item">
+                                        <div class="me-auto">
+                                            <div>Order Amount </div>
+                                        </div>
+                                        <span>@((Model.OrderAmount()-(Model.TotalProductQuantity()*1000)).ToString("C2"))</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center list-group-item">
+                                        <div class="me-auto">
+                                            <div>Cargo Fee</div></div>
+                                            <span class="text-success">Free</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center list-group-item">
+                                        <div class="me-auto">
+                                            <div>Discounts</div></div>
+                                            <span class="text-success">-@((Model.TotalProductQuantity()*1000).ToString("C2"))</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center list-group-item">
+                                        <div class="me-auto">
+                                            <div>Tax (%20)</div>
+                                        </div>
+                                        <span>@Model.Tax().ToString("C2")</span>
+                                    </div>
+                                    <div class="d-flex justify-content-center align-items-center list-group-item fw-bold">
+                                        <div class="me-auto ">
+                                            <div>Total</div>
+                                        </div>
+                                        <span>@Model.Total().ToString("C2")</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <a href="#" class="btn btn-primary btn-lg">
+                                    Complete Order
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>}else{<div class=" alert alert-warning">There's no item.</div>}
+        </div>
+    </section>
+
+    
