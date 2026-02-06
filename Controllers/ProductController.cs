@@ -39,7 +39,8 @@ public class ProductController : Controller
             IsActive = i.IsActive,
             Image = i.Image,
             IsHome = i.IsHome,
-            Category = i.Category.Name
+            Category = i.Category.Name,
+            DiscountRate = i.DiscountRate
         }).ToList();
         ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name", category);
         return View(products);
@@ -52,7 +53,7 @@ public class ProductController : Controller
     [AllowAnonymous] // Yetkilendirmeye gerek yok, herkes görebilir.
     public IActionResult List(string url, string q)
     {
-        var query = _context.Products.Where(i => i.IsActive); // Queryable tipi => Lazım olduğunda çalıştırılabilecek tip
+        var query = _context.Products.AsQueryable(); // Queryable tipi => Lazım olduğunda çalıştırılabilecek tip
 
 
         if (!string.IsNullOrEmpty(url))
@@ -64,6 +65,7 @@ public class ProductController : Controller
             query = query.Where(i => i.Name.ToLower().Contains(q.ToLower()));
             ViewData["q"] = q;
         }
+        query = query.OrderByDescending(i => i.IsActive);
         return View(query.ToList());
     }
 
@@ -109,9 +111,9 @@ public class ProductController : Controller
                 IsActive = model.IsActive,
                 IsHome = model.IsHome,
                 CategoryId = (int)model.CategoryId!,
-                Image = fileName // upload
+                Image = fileName,
+                DiscountRate = model.DiscountRate
             };
-            if (model.Name == null) return RedirectToAction("Edit");
 
             _context.Products.Add(entity);
             _context.SaveChanges();
@@ -133,7 +135,8 @@ public class ProductController : Controller
             IsActive = i.IsActive,
             IsHome = i.IsHome,
             CategoryId = i.CategoryId,
-            ImageName = i.Image
+            ImageName = i.Image,
+            DiscountRate = i.DiscountRate
 
         }).FirstOrDefault(i => i.Id == id);
 
@@ -146,22 +149,13 @@ public class ProductController : Controller
 
     public async Task<IActionResult> Edit(int id, ProductEditModel model)
     {
-        // if (model.ImageFile == null || model.ImageFile.Length == 0)
-        // {
-        //     ModelState.AddModelError("ImageName", "Image must be chosen.");
-        // }
+        if (id != model.Id) return NotFound();
+
         if (ModelState.IsValid)
         {
-            if (id != model.Id) return NotFound();
-
-            if (model.Name == null)
-            {
-                return RedirectToAction("Edit");
-            }
-
             var entity = _context.Products.Find(id);
 
-            if (entity == null) return View(model);
+            if (entity == null) return NotFound();
 
             if (model.ImageFile != null) // Eğer yeni bir dosya seçildiyse
             {
@@ -180,13 +174,13 @@ public class ProductController : Controller
             entity.CategoryId = (int)model.CategoryId!;
             entity.IsActive = model.IsActive;
             entity.IsHome = model.IsHome;
+            entity.DiscountRate = model.DiscountRate;
 
             _context.SaveChanges();
-
             TempData["Success"] = $"{entity.Name} has been updated.";
-
             return RedirectToAction("Index");
         }
+        TempData["Error"] = "Update failed.";
         LoadCategories();
         return View(model);
     }

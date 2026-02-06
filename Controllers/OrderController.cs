@@ -165,7 +165,7 @@ public class OrderController : Controller
             basketItem.Name = item.Product.Name;
             basketItem.Category1 = item.Product.Category.Name ?? "General";
             basketItem.ItemType = BasketItemType.PHYSICAL.ToString();
-            basketItem.Price = (item.Product.Price + item.Product.Price * 0.2 - 1000).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            basketItem.Price = (item.Product.Price + item.Product.Price * 0.2m - 1000).ToString(System.Globalization.CultureInfo.InvariantCulture);
 
             basketItems.Add(basketItem);
         }

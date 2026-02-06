@@ -13,7 +13,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var products = _context.Products.Where(p => p.IsActive && p.IsHome).ToList();
+        var products = _context.Products.Where(p => p.IsActive && p.IsHome).OrderByDescending(i => i.DiscountRate).ToList();
         ViewData["Categories"] = _context.Categories.ToList();
         return View(products);
     }

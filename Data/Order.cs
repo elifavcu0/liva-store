@@ -11,16 +11,16 @@ public class Order
     public string PostalCode { get; set; } = null!;
     public string PhoneNumber { get; set; } = null!;
     public string? OrderNote { get; set; }
-    public double TotalAmount { get; set; }
+    public decimal TotalAmount { get; set; }
     public List<OrderItem> OrderItem { get; set; } = null!;
 
-    public double Total()
+    public decimal Total()
     {
         return OrderItem.Sum(i => i.Price * i.Quantity);
     }
-    public double Tax()
+    public decimal Tax()
     {
-        return Total() * 0.2;
+        return Total() * 0.2m;
     }
 }
 
@@ -31,6 +31,6 @@ public class OrderItem
     public Order Order { get; set; } = null!;
     public int ProductId { get; set; }
     public Product Product { get; set; } = null!;
-    public double Price { get; set; } // Ürünün sipariş verildiği zamanki fiyatı, sipariş sonrası güncellemelerden etkilenmemesi için
+    public decimal Price { get; set; } // Ürünün sipariş verildiği zamanki fiyatı, sipariş sonrası güncellemelerden etkilenmemesi için
     public int Quantity { get; set; }
 }

@@ -187,7 +187,7 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int> //Primary Ke
                     {
                         Id = 10,
                         Name = "Sweet Séduction Kadın Parfümü 100 ml Lila" ,
-                        Price= 1399.99,
+                        Price= 1399.99m,
                         IsActive =true,
                         Image ="10.jpg",
                         IsHome = true,

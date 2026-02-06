@@ -24,15 +24,15 @@ public class Cart
             item.Quantity++;
         }
     }
-    public double OrderAmount()
+    public decimal OrderAmount()
     {
         return CartItems.Sum(i => i.Product.Price * i.Quantity);
     }
-    public double Tax()
+    public decimal Tax()
     {
-        return OrderAmount() * 0.2; //vergi %20
+        return OrderAmount() * 0.2m; //vergi %20
     }
-    public double Total()
+    public decimal Total()
     {
         return OrderAmount() + Tax();
     }

@@ -17,70 +17,89 @@
                 </div>
                 <div class="card-body">
                     <input type="hidden" asp-for="Id">
-                    <input type="hidden" asp-for="ImageName">
-                    <div class="row mb-3">
-                        <label asp-for="Name" class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10">
-                            <input asp-for="Name" class="form-control">
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label asp-for="Description" class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10">
-                            <textarea asp-for="Description" rows="3" class="form-control"></textarea>
-                            <span asp-validation-for="Description" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label asp-for="Price" class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10">
-                            <input asp-for="Price" class="form-control">
-                            <span asp-validation-for="Price" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label asp-for="IsActive" class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10">
-                            <input asp-for="IsActive" class="form-check-input">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label asp-for="IsHome" class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10">
-                            <input asp-for="IsHome" class="form-check-input">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label asp-for="CategoryId" class="col-sm-2 col-form-label"></label>
-                        <div class="col-sm-10">
-                            <select class="form-select" asp-for="CategoryId" asp-items="ViewBag.Categories">
-                                <option value="" selected>Select</option>
-                            </select>
-                            <span asp-validation-for="CategoryId" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-10 offset-sm-2">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </div>
+                        <input type="hidden" asp-for="ImageName">
+                            <div class="row mb-3">
+                                <label asp-for="Name" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <input asp-for="Name" class="form-control">
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label asp-for="Description" class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-10">
+                                        <textarea asp-for="Description" rows="3" class="form-control"></textarea>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center mt-4 mb-3">
+                                    <div class="col-md-5">
+                                        <div class="row align-items-center">
+                                            <label asp-for="Price" class="col-sm-3 col-form-label text-end">Price</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group input-group-sm"> <span class="input-group-text">₺</span>
+                                                    <input asp-for="Price" class="form-control" placeholder="0.00">
+                                                    </div>
+                                                    <span asp-validation-for="Price" class="text-danger small"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 ms-4">
+                                            <div class="row align-items-center"">
+                                                <label asp-for=" DiscountRate"
+                                                       class="col-sm-5 col-form-label text-end text-nowrap">Discount Rate <small
+                                                    class="text-muted">(Optional)</small></label>
+                                                    <div class="col-sm-7">
+                                                        <div class="input-group input-group-sm"> <span class="input-group-text">%</span>
+                                                            <input asp-for="DiscountRate" class="form-control form-control-sm" type="number"
+                                                                   min="0" max="100" />
+                                                            <span asp-validation-for="DiscountRate" class="text-danger small"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> </div>
+                                            <div class="row mb-3">
+                                                <label asp-for="IsActive" class="col-sm-2 col-form-label"></label>
+                                                <div class="col-sm-10">
+                                                    <input asp-for="IsActive" class="form-check-input">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label asp-for="IsHome" class="col-sm-2 col-form-label"></label>
+                                                    <div class="col-sm-10">
+                                                        <input asp-for="IsHome" class="form-check-input">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <label asp-for="CategoryId" class="col-sm-2 col-form-label"></label>
+                                                        <div class="col-sm-10">
+                                                            <select class="form-select" asp-for="CategoryId" asp-items="ViewBag.Categories">
+                                                                <option value="" selected>Select</option>
+                                                            </select>
+                                                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-10 offset-sm-2">
+                                                            <button type="submit" class="btn btn-primary">Save</button>
+                                                        </div>
+                                                    </div>
 
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card shadow">
-                <div class="card-body">
-                    <img src="~/img/@Model.ImageName" class="img-thumbnail" alt="">
-                    <input asp-for="ImageFile" class="form-control mt-3">
-                    <span asp-validation-for="ImageFile" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="card shadow">
+                                                <div class="card-body">
+                                                    <img src="~/img/@Model.ImageName" class="img-thumbnail" alt="">
+                                                        <input asp-for="ImageFile" class="form-control mt-3">
+                                                            <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
+    @await Html.PartialAsync("Partials/RazorView/_ValidationScriptsFix")
 }

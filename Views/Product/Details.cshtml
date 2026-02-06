@@ -30,8 +30,15 @@
                                 <span class="fa fa-star checked"></span>
                                 <span class="fa fa-star"></span>
                             </div>
-                            <p class="text-success">On Sale</p>
-                            <div class="mb-3"><b class="price h5">@(Model.Price - 1000)₺</b></div>
+                            @if(!Model.IsActive) {<p class="text-danger">Sold Out</p>}
+                            else if(Model.IsOnSale){<p class="text-success">On Sale</p>}
+                            <div class="mb-3 price-wrap">
+                            <span class="price-discount fw-bold">@((Model.DiscountedPrice()).ToString("C2"))</span>
+                                @if (Model.DiscountRate != 0)
+                                {
+                                    <del class="price"><small>@Model.Price.ToString("C2")</small></del>
+                                }
+                            </div>
                             <div class="product-description mb-3">@Model.Description</div>
                             @if (Model.Name.Contains("Watch"))
                             {
@@ -74,7 +81,7 @@
                 <section class="mt-3">
                     <div class="container">
                         <h4 class="mb-3">Similar Products</h4>
-                        <div class="row gy-3">
+                        <div class="row gy-3 mb-4">
                             @foreach (var item in products)
                             {
                                 <div class="col-lg-3 col-sm-6 col-12">
@@ -86,9 +93,9 @@
                                             <div class="border-top info-wrap">
                                                 <a asp-controller="Product" asp-action="Details" asp-route-id="@item.Id"
                                                    class="title text-truncate">@item.Name</a>
-                                                <div class="price-wrap mb-3">
-                                                    <span class="price-discount">@(item.Price - 1000) ₺</span>
-                                                    <del class="price">@item.Price</del>
+                                                <div class="mb-3 price-wrap">
+                                                <span class="price-discount fw-bold">@((item.Price-1000).ToString("C2"))</span>
+                                                <del class="price"><small>@item.Price.ToString("C2")</small></del>
                                                 </div>
                                                 <form asp-controller="Cart" asp-action="AddToCart" class="me-1 d-inline" method="post">
                                                     <input type="hidden" name="productId" value="@Model.Id">  

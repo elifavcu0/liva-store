@@ -1,20 +1,31 @@
 @using dotnet_store.Data
- @model Product
- 
- <div class="card shadow">
-    <div class="img-wrap">
-         <span class="badge @(Model.IsActive ?"bg-success" : "bg-danger" )">@(Model.IsActive ?"% Sale" : "Sold Out" )</span>
-        <img src="~/img/@Model.Image" alt="@Model.Name" class="card-img-top">
-    </div>
+@model Product
 
-    <div class="border-top info-wrap">
-        <a href="details.html" class="float-end btn btn-light">
-            <i class="fa-regular fa-heart"></i>
-        </a>
-        <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id" class="title text-truncate">@Model.Name</a>
-        <div class="price-wrap">
-            <span class="price-discount">@(Model.Price-1000) ₺</span>
-            <del class="price">@Model.Price ₺</del>
+<div class="card shadow mb-3">
+    <div class="img-wrap">
+        @if (!Model.IsActive)
+        {
+            <span class="badge bg-danger">Sold Out</span>
+        }
+        else if (Model.IsOnSale)
+        {
+            <span class="badge bg-success">-%@Model.DiscountRate</span>
+        }
+
+        <img src="~/img/@Model.Image" alt="@Model.Name" class="card-img-top">
+        </div>
+        <div class="border-top info-wrap">
+            <a href="details.html" class="float-end btn btn-light">
+                <i class="fa-regular fa-heart"></i>
+            </a>
+            <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id"
+               class="title text-truncate">@Model.Name</a>
+            <div class="mb-3 price-wrap">
+                <span class="price-discount fw-bold">@((Model.DiscountedPrice()).ToString("C2"))</span>
+                @if (Model.DiscountRate != 0)
+                {
+                    <del class="price"><small>@Model.Price.ToString("C2")</small></del>
+                }
+            </div>
         </div>
     </div>
-</div>
