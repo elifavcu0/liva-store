@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using dotnet_store.Data;
 using dotnet_store.Models;
 using dotnet_store.Services;
@@ -58,10 +59,15 @@ public class OrderController : Controller
 
         if (ModelState.IsValid)
         {
+            string cleanPhone = model.PhoneNumber?.Replace(" ", "").Trim() ?? "";
+            model.PhoneNumber = "+905" + cleanPhone;
+
             var order = new Order
             {
+                OrderNumber = new Random().Next(100000, 999999).ToString(),
                 Name = model.Name,
                 Surname = model.Surname,
+                Email = model.Email,
                 PhoneNumber = model.PhoneNumber,
                 City = model.City,
                 PostalCode = model.PostalCode,
@@ -72,6 +78,7 @@ public class OrderController : Controller
                 Username = username,
                 CargoFee = cart.CargoFee,
                 TotalDiscount = cart.TotalDiscount,
+                TaxAmount = cart.TaxTotal,
                 OrderItems = cart.CartItems.Select(cartItem => new Data.OrderItem
                 {
                     ProductId = cartItem.ProductId,
@@ -81,7 +88,7 @@ public class OrderController : Controller
                 }).ToList()
             };
 
-            var payment = await ProcessPayment(model, cart);
+            var payment = await ProcessPayment(model, cart,order);
 
             if (payment.Status == "success")
             {
@@ -105,7 +112,7 @@ public class OrderController : Controller
         var orders = await _context.Orders.Include(i => i.OrderItems).ThenInclude(i => i.Product).Where(i => i.Username == username).ToListAsync();
         return View(orders);
     }
-    private async Task<Payment> ProcessPayment(OrderCreateModel model, Cart cart)
+    private async Task<Payment> ProcessPayment(OrderCreateModel model, Cart cart, Order order)
     {
         Options options = new Options();
         options.ApiKey = _config["PaymentAPI:ApiKey"];
@@ -119,7 +126,7 @@ public class OrderController : Controller
         request.PaidPrice = cart.GrandTotal.ToString(System.Globalization.CultureInfo.InvariantCulture);
         request.Currency = Currency.TRY.ToString();
         request.Installment = 1;
-        request.BasketId = "B67832";
+        request.BasketId = order.OrderNumber;
         request.PaymentChannel = PaymentChannel.WEB.ToString();
         request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
 
@@ -137,11 +144,11 @@ public class OrderController : Controller
         buyer.Name = model.Name;
         buyer.Surname = model.Surname;
         buyer.GsmNumber = model.PhoneNumber;
-        buyer.Email = "email@email.com";
+        buyer.Email = model.Email;
         buyer.IdentityNumber = "74300864791";
         buyer.LastLoginDate = "2015-10-05 12:43:35";
         buyer.RegistrationDate = "2013-04-21 15:12:09";
-        buyer.RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1";
+        buyer.RegistrationAddress = model.OpenAddress;
         buyer.Ip = "85.34.78.112";
         buyer.City = model.City;
         buyer.Country = "Turkey";
@@ -177,14 +184,16 @@ public class OrderController : Controller
         }
         if (cart.CargoFee > 0)
         {
-            BasketItem shippingItem = new BasketItem();
-            shippingItem.Id = "Cargo";
-            shippingItem.Name = "Cargo Fee";
-            shippingItem.Category1 = "Cargo";
+            BasketItem shippingItem = new BasketItem
+            {
+                Id = "Cargo",
+                Name = "Cargo Fee",
+                Category1 = "Cargo",
 
-            shippingItem.ItemType = BasketItemType.VIRTUAL.ToString();
+                ItemType = BasketItemType.VIRTUAL.ToString(),
 
-            shippingItem.Price = cart.CargoFee.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                Price = cart.CargoFee.ToString(System.Globalization.CultureInfo.InvariantCulture)
+            };
 
             basketItems.Add(shippingItem);
         }
