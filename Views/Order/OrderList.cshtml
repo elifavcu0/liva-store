@@ -12,7 +12,6 @@
                         <a asp-controller="Account" asp-action="EditUser" class="text-decoration-none">Address
                             Information</a>
                         </li>
-
                     </ol>
                 </nav>
             </div>
@@ -60,13 +59,14 @@
                                                                 <table class="table table-bordered mb-0">
                                                                     <tr>
                                                                         <td colspan="2">Name - Surname</td>
-                                                                        <td colspan="2">@order.NameSurname</td>
+                                                                        <td colspan="2">@order.Name @order.Surname</td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td colspan="2">Delivery Address</td>
-                                                                        <td colspan="2">@order.OpenAddress / @order.City / @order.PostalCode / <span>05</span>@order.PhoneNumber</td>
+                                                                        <td colspan="2">@order.OpenAddress / @order.City / @order.PostalCode /
+                                                                            <span>05</span>@order.PhoneNumber / @order.Email</td>
                                                                         </tr>
-                                                                        @foreach (var item in order.OrderItem)
+                                                                        @foreach (var item in order.OrderItems)
                                                                         {
                                                                             <tr>
                                                                                 <td style="width: 80px;">
@@ -82,12 +82,12 @@
                                                                             <tr>
                                                                                 <td colspan="3"></td>
                                                                                 <td class="fw-bold">Order Total</td>
-                                                                                <td>@order.Total().ToString("C2")</td>
+                                                                                <td>@order.TotalAmount.ToString("C2")</td>
                                                                             </tr>
                                                                             <tr>
                                                                                 <td colspan="3"></td>
                                                                                 <td class="fw-bold">Total</td>
-                                                                                <td>@((order.Total()+order.Tax()).ToString("C2"))</td>
+                                                                                <td>@((order.TotalAmount+order.TaxAmount).ToString("C2"))</td>
                                                                             </tr>
                                                                         </table>
                                                                     </div>

@@ -16,6 +16,7 @@ public class Cart
             CartItems.Add(new CartItem
             {
                 Product = product,
+                ProductId = product.Id,
                 Quantity = quantity
             });
         }
@@ -24,27 +25,22 @@ public class Cart
             item.Quantity++;
         }
     }
-    public decimal OrderAmount()
+
+    public decimal SubTotal => CartItems.Sum(i => i.UnitPrice * i.Quantity);
+    public decimal CargoFee
     {
-        return CartItems.Sum(i => i.Product.Price * i.Quantity);
-    }
-    public decimal Tax()
-    {
-        return OrderAmount() * 0.2m; //vergi %20
-    }
-    public decimal Total()
-    {
-        return OrderAmount() + Tax();
-    }
-    public int Discount(int discountAmount)
-    {
-        var quantity = 0;
-        foreach (var product in CartItems)
+        get
         {
-            quantity += product.Quantity;
+            if (CartItems.Count == 0) return 0;
+
+            var totalQuantity = CartItems.Sum(i => i.Quantity);
+            return totalQuantity >= 5 ? 0 : 50;
         }
-        return quantity * discountAmount;
     }
+    public decimal TaxTotal => SubTotal * 0.20m;
+    public decimal GrandTotal => SubTotal + TaxTotal + CargoFee;
+
+    public decimal TotalDiscount => CartItems.Sum(i => i.DiscountAmount * i.Quantity);
 }
 
 public class CartItem
@@ -55,4 +51,27 @@ public class CartItem
     public int Quantity { get; set; }
     public Product Product { get; set; } = null!;
     public Cart Cart { get; set; } = null!;
+    public decimal UnitPrice
+    {
+        get
+        {
+            if (Product.DiscountRate > 0)
+            {
+                return Product.Price - (Product.Price * (Product.DiscountRate / 100m));
+            }
+            return Product.Price;
+        }
+    }
+
+    public decimal DiscountAmount
+    {
+        get
+        {
+            if (Product.DiscountRate > 0)
+            {
+                return Product.Price * (Product.DiscountRate / 100m);
+            }
+            return 0;
+        }
+    }
 }

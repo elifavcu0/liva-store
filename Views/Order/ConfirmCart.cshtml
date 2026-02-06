@@ -1,157 +1,180 @@
 @using Microsoft.EntityFrameworkCore.Metadata.Internal
 @model OrderCreateModel
+
 @section Bar {
     <section class="bg-primary p-3">
         <div class="container">
             <nav>
-                <ol class="breadcrumb mb-0 ">
-                    <li class="breadcrumb-item ">
-                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">Cart
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        <a asp-controller="Order" asp-action="ConfirmCart" class="text-decoration-none">Complete Order
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">Payment
-                        </a>
-                    </li>
-                </ol>
-            </nav>
-        </div>
-    </section>
-}
-<section class="mt-3">
-    <div class="container">
-         <form method="post" asp-controller="Order" asp-action="Completed">
-            <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <h2 class="h6 mb-0">Delivery Details</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="row mb-3">
-                            <div class="col">
-                                <label asp-for="NameSurname" class="form-label"></label>
-                                <input asp-for="NameSurname" class="form-control">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index"
+                                                       class="text-decoration-none">Home</a></li>
+                        <li class="breadcrumb-item"><a asp-controller="Cart" asp-action="Index"
+                                                           class="text-decoration-none">Cart</a></li>
+                            <li class="breadcrumb-item active">Complete Order</li>
+                        </ol>
+                    </nav>
+                </div>
+            </section>
+        }
+        <section class="mt-3">
+            <div class="container">
+                <form method="post" asp-controller="Order" asp-action="ConfirmCart">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h2 class="h6 mb-0">Delivery Details</h2>
                                 </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <label asp-for="City" class="form-label"></label>
-                                    <input asp-for="City" class="form-control">
-                                    </div>
-                                    <div class="col ">
-                                        <label asp-for="PostalCode" class="form-label"></label>
-                                        <input asp-for="PostalCode" class="form-control">
-                                        </div>
+                                <div class="card-body">
+                                    <div class="row mb-3">
                                         <div class="col">
-                                            <label asp-for="PhoneNumber" class="form-label"></label>
-                                            <div class="input-group">
-                                                <span class="input-group-text" id="phone-prefix">+90 5</span>
-                                                <input asp-for="PhoneNumber" class="form-control" type="tel" placeholder="xx xxx xxxx" />
+                                            <label asp-for="Name" class="form-label"></label>
+                                            <input asp-for="Name" class="form-control">
+                                                <span asp-validation-for="Name" class="text-danger"></span>
                                             </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
                                             <div class="col">
-                                                <label asp-for="OpenAddress" class="form-label"></label>
-                                                <textarea asp-for="OpenAddress" class="form-control" rows="3"></textarea>
+                                                <label asp-for="Surname" class="form-label"></label>
+                                                <input asp-for="Surname" class="form-control">
+                                                    <span asp-validation-for="Surname" class="text-danger"></span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col">
-                                                <label asp-for="OrderNote" class="form-label"></label>
-                                                <textarea asp-for="OrderNote" class="form-control" rows="3"></textarea>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-                                <div class="card mb-3">
-                        <div class="card-header">
-                            <h2 class="h6 mb-0">Payment Details</h2>
-                        </div>
-                        <div class="card-body">
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <label asp-for="CartOwner" class="form-label"></label>
-                                    <input asp-for="CartOwner" class="form-control">
-                                </div>
-                                <div class="col">
-                                    <label asp-for="CartNumber" class="form-label"></label>
-                                    <input asp-for="CartNumber" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col ">
-                                    <label asp-for="CartExpirationYear" class="form-label"></label>
-                                    <input asp-for="CartExpirationYear" class="form-control">
-                                </div>
-                                <div class="col">
-                                    <label asp-for="CartExpirationMonth" class="form-label"></label>
-                                    <input asp-for="CartExpirationMonth" class="form-control">
-                                </div>
-                                <div class="col">
-                                    <label asp-for="CartCVV" class="form-label"></label>
-                                    <input asp-for="CartCVV" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                            </div>
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h2 class="h6 mb-0">Order Summary</h2>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="list-group">
-                                                @foreach(var item in ViewBag.Cart.CartItems){
-                                                    <div class="d-flex justify-content-between alignt-items-center list-group-item">
-                                                        <p class="mb-0">@item.Product.Name <small><span>(x</span>@item.Quantity)</small></p>
-                                                        <span class="fw-bold">@(((item.Product.Price-1000)*(item.Quantity)).ToString("C2"))</span>
+                                            <div class="row mb-3">
+                                                <div class="col">
+                                                    <label asp-for="PhoneNumber" class="form-label"></label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="phone-prefix">+90 5</span>
+                                                        <input asp-for="PhoneNumber" class="form-control" type="tel"
+                                                               placeholder="xx xxx xxxx" maxlength="9" />
                                                     </div>
-                                                }
-                                                <div class="d-flex justify-content-center align-items-center list-group-item">
-                                        <div class="me-auto">
-                                            <div>Order Amount</div>
-                                        </div>
-                                        <span>@((ViewBag.Cart.OrderAmount()-(ViewBag.Cart.Discount(1000))).ToString("C2"))</span>
-                                    </div>
-                                     <div class="d-flex justify-content-center align-items-center list-group-item">
-                                        <div class="me-auto">
-                                            <div>Tax (%20)</div>
-                                        </div>
-                                        <span>@ViewBag.Cart.Tax().ToString("C2")</span>
-                                    </div>
-                                    <div class="d-flex justify-content-center align-items-center list-group-item">
-                                        <div class="me-auto">
-                                            <div>Discounts</div></div>
-                                            <span class="text-success">-@((ViewBag.Cart.Discount(1000)).ToString("C2"))</span>
-                                    </div>
-                                   <div class="d-flex justify-content-center align-items-center list-group-item">
-                                        <div class="me-auto">
-                                            <div>Cargo Fee</div></div>
-                                            <span class="text-success">Free</span>
-                                    </div>
-                                    <div class="d-flex justify-content-center align-items-center list-group-item fw-bold">
-                                        <div class="me-auto ">
-                                            <div>Total</div>
-                                        </div>
-                                        <span class="fs-5">@((ViewBag.Cart.Total() - ViewBag.Cart.Discount(1000)).ToString("C2"))</span>
-                                    </div>
-                                            </div> <div class="d-grid mt-3">
-                                            <button type="submit" asp-route-id="@ViewBag.Cart.CartId" class="btn btn-danger">Complete Order</button>
-                                    </div>
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div></form>
-                        </div>
-                </section>
+                                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                                </div>
+                                                <div class="col">
+                                                    <label asp-for="Email" class="form-label"></label>
+                                                    <input asp-for="Email" class="form-control">
+                                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col">
+                                                        <label asp-for="City" class="form-label"></label>
+                                                        <input asp-for="City" class="form-control">
+                                                            <span asp-validation-for="City" class="text-danger"></span>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label asp-for="PostalCode" class="form-label"></label>
+                                                            <input asp-for="PostalCode" class="form-control">
+                                                                <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label asp-for="OpenAddress" class="form-label"></label>
+                                                            <textarea asp-for="OpenAddress" class="form-control" rows="3"
+                                                                      style="resize: none;"></textarea>
+                                                            <span asp-validation-for="OpenAddress" class="text-danger"></span>
+                                                        </div>
+
+                                                        <div class="mb-3">
+                                                            <label asp-for="OrderNote" class="form-label"></label>
+                                                            <textarea asp-for="OrderNote" class="form-control" rows="3"
+                                                                      style="resize: none;"></textarea>
+                                                        </div>
+                                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="card mb-3">
+                                                    <div class="card-header">
+                                                        <h2 class="h6 mb-0">Payment Details</h2>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="row mb-3">
+                                                            <div class="col">
+                                                                <label asp-for="CartOwner" class="form-label"></label>
+                                                                <input asp-for="CartOwner" class="form-control">
+                                                                    <span asp-validation-for="CartOwner" class="text-danger"></span>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label asp-for="CartNumber" class="form-label"></label>
+                                                                    <input asp-for="CartNumber" class="form-control">
+                                                                        <span asp-validation-for="CartNumber" class="text-danger"></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mb-3">
+                                                                    <div class="col">
+                                                                        <label asp-for="CartExpirationYear" class="form-label"></label>
+                                                                        <input asp-for="CartExpirationYear" class="form-control" placeholder="YY">
+                                                                            <span asp-validation-for="CartExpirationYear" class="text-danger"></span>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <label asp-for="CartExpirationMonth" class="form-label"></label>
+                                                                            <input asp-for="CartExpirationMonth" class="form-control" placeholder="MM">
+                                                                                <span asp-validation-for="CartExpirationMonth" class="text-danger"></span>
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                <label asp-for="CartCVV" class="form-label"></label>
+                                                                                <input asp-for="CartCVV" class="form-control">
+                                                                                    <span asp-validation-for="CartCVV" class="text-danger"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="card">
+                                                                        <div class="card-header bg-light">
+                                                                            <h2 class="h6 mb-0">Order Summary</h2>
+                                                                        </div>
+                                                                        <div class="card-body p-0">
+                                                                            <div class="list-group list-group-flush">
+                                                                                @foreach (var item in ViewBag.Cart.CartItems)
+                                                                                {
+                                                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                                        <div>
+                                                                                            <p class="mb-0 fw-bold">@item.Product.Name</p>
+                                                                                            <small class="text-muted">x<span>@item.Quantity</span></small>
+                                                                                        </div>
+                                                                                        <span class="fw-bold text-primary">@item.UnitPrice.ToString("C2")</span>
+                                                                                    </div>
+                                                                                }
+                                                                                <div class="list-group-item d-flex justify-content-between">
+                                                                                    <span>Order Amount</span>
+                                                                                    <span>@ViewBag.Cart.SubTotal.ToString("C2")</span>
+                                                                                </div>
+
+                                                                                <div class="list-group-item d-flex justify-content-between">
+                                                                                    <span>Tax (%20)</span>
+                                                                                    <span>@ViewBag.Cart.TaxTotal.ToString("C2")</span>
+                                                                                </div>
+
+                                                                                @if (ViewBag.Cart.TotalDiscount > 0)
+                                                                                {
+                                                                                    <div class="list-group-item d-flex justify-content-between text-success">
+                                                                                        <span>Discounts</span>
+                                                                                        <span>-@ViewBag.Cart.TotalDiscount.ToString("C2")</span>
+                                                                                    </div>
+                                                                                }
+
+                                                                                <div class="list-group-item d-flex justify-content-between">
+                                                                                    <span>Cargo Fee</span>
+                                                                                    <span class="@(ViewBag.Cart.CargoFee == 0 ? "text-success" : "")">
+                                                                                        @(ViewBag.Cart.CargoFee == 0 ? "Free" : ViewBag.Cart.CargoFee.ToString("C2"))
+                                                                                    </span>
+                                                                                </div>
+
+                                                                                <div class="list-group-item d-flex justify-content-between bg-light fw-bold fs-5">
+                                                                                    <span>Total</span>
+                                                                                    <span>@ViewBag.Cart.GrandTotal.ToString("C2")</span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="p-3">
+                                                                                <button type="submit" class="btn btn-success w-100 py-2 fw-bold shadow-sm">
+                                                                                    Complete Order <i class="bi bi-check-circle ms-1"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </section>

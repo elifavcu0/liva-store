@@ -29,7 +29,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.OrderItem)
+                            @foreach (var item in Model.OrderItems)
                             {
                                 <tr>
                                     <td>@item.Id</td>
@@ -43,12 +43,12 @@
                             <tr class="fw-bold">
                                 <td colspan="4"></td>
                                 <td>Order Amount</td>
-                                <td>@Model.Total().ToString("C2")</td>
+                                <td>@Model.TotalAmount.ToString("C2")</td>
                             </tr>
                             <tr class="fw-bold">
                                 <td colspan="4"></td>
                                 <td>Tax (%20)</td>
-                                <td>@Model.Tax().ToString("C2")</td>
+                                <td>@Model.TaxAmount.ToString("C2")</td>
                             </tr>
                             <tr class="fw-bold">
                                 <td colspan="4"></td>
@@ -58,7 +58,7 @@
                             <tr class="fw-bold">
                                 <td colspan="4"></td>
                                 <td>Total</td>
-                                <td>@((Model.Total() + Model.Tax()).ToString("C2"))</td>
+                                <td>@((Model.TotalAmount+ Model.TaxAmount).ToString("C2"))</td>
                             </tr>
                         </tbody>
                     </table>
@@ -69,17 +69,17 @@
                         </tr>
                         <tr>
                             <td style="width: 150px;">Name - Surname</td>
-                            <td>@Model.NameSurname</td>
+                            <td>@Model.Name @Model.Surname</td>
                         </tr>
                         <tr>
                             <td style="width: 150px;">Delivery Address</td>
                             <td>@Model.OpenAddress / @Model.City / @Model.PostalCode /
-                                @Model.PhoneNumber</td>
+                                @Model.PhoneNumber / @Model.Email</td>
                             </tr>
                             <tr>
                                 <td style="width: 150px;">Billing Address</td>
                                 <td>@Model.OpenAddress / @Model.City / @Model.PostalCode /
-                                    @Model.PhoneNumber</td>
+                                    @Model.PhoneNumber / @Model.Email</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 150px;">Payment Information</td>

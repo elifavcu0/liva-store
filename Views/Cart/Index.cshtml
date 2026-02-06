@@ -44,8 +44,7 @@
                                        <input type="number" value="@item.Quantity" class="form-control" min="1">
                                     </div>
                                     <div class="col-2 text-center">
-                                        <span class="price-discount fw-bold">@((item.Product.Price-1000).ToString("C2"))</span>
-                                        <del class="price fs-sm">@((item.Product.Price).ToString("C2"))</del>
+                                        <span class=" fw-bold">@((item.UnitPrice).ToString("C2"))</span> 
                                     </div>
                                     <div class="col-1"><form asp-controller="Cart" asp-action="RemoveFromCart" method="post">
                                         <input type="hidden" name="productId" value="@item.ProductId">
@@ -64,29 +63,29 @@
                                         <div class="me-auto">
                                             <div>Order Amount</div>
                                         </div>
-                                        <span>@((Model.OrderAmount()-(Model.Discount(1000))).ToString("C2"))</span>
+                                        <span>@(Model.SubTotal.ToString("C2"))</span>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
                                             <div>Cargo Fee</div></div>
-                                            <span class="text-success">Free</span>
+                                            <span class="text-@(Model.CargoFee == 0 ? "success" : "")">@Model.CargoFee.ToString("C2")</span>
                                     </div>
-                                    <div class="d-flex justify-content-center align-items-center list-group-item">
+                                    <div class="@(Model.TotalDiscount == 0 ? "d-none" :"d-flex") justify-content-center align-items-center list-group-item ">
                                         <div class="me-auto">
                                             <div>Discounts</div></div>
-                                            <span class="text-success">-@((Model.Discount(1000)).ToString("C2"))</span>
+                                            <span class="text-success">-@((Model.TotalDiscount.ToString("C2")))</span>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
                                             <div>Tax (%20)</div>
                                         </div>
-                                        <span>@Model.Tax().ToString("C2")</span>
+                                        <span>@Model.TaxTotal.ToString("C2")</span>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center list-group-item fw-bold">
                                         <div class="me-auto ">
                                             <div>Total</div>
                                         </div>
-                                        <span>@Model.Total().ToString("C2")</span>
+                                        <span>@Model.GrandTotal.ToString("C2")</span>
                                     </div>
                                 </div>
                             </div>

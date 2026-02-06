@@ -29,7 +29,7 @@
                                     <td>@order.Id</td>
                                     <td>@order.Username</td>
                                     <td>@(order.TotalAmount.ToString("C2"))</td>
-                                    <td>@order.OrderTime</td>
+                                    <td>@order.OrderDate</td>
                                     <td><span class="badge bg-success">Delivered</span></td>
                                     <td>
                                         <a asp-controller="Order" asp-action="Details" asp-route-id="@order.Id" class="btn btn-primary btn-sm"><i

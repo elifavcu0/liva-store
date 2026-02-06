@@ -5,8 +5,17 @@ namespace dotnet_store.Models;
 public class OrderCreateModel
 {
     [Required]
-    [Display(Name = "Name - Surname")]
-    public string NameSurname { get; set; } = null!;
+    [Display(Name = "Name")]
+    public string Name { get; set; } = null!;
+
+    [Required]
+    [Display(Name = "Surname")]
+    public string Surname { get; set; } = null!;
+
+    [Required]
+    [Display(Name = "Email")]
+    [EmailAddress]
+    public string Email { get; set; } = null!;
 
     [Required]
     [Display(Name = "City")]

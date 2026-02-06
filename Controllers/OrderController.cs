@@ -33,7 +33,7 @@ public class OrderController : Controller
     [Authorize(Roles = "Admin")]
     public IActionResult Details(int id)
     {
-        var order = _context.Orders.Include(i => i.OrderItem).ThenInclude(i => i.Product).FirstOrDefault(i => i.Id == id);
+        var order = _context.Orders.Include(i => i.OrderItems).ThenInclude(i => i.Product).FirstOrDefault(i => i.Id == id);
 
         if (order == null) return NotFound();
         return View(order);
@@ -60,21 +60,24 @@ public class OrderController : Controller
         {
             var order = new Order
             {
-                NameSurname = model.NameSurname,
-                PhoneNumber = "+905" + model.PhoneNumber,
+                Name = model.Name,
+                Surname = model.Surname,
+                PhoneNumber = model.PhoneNumber,
                 City = model.City,
                 PostalCode = model.PostalCode,
                 OpenAddress = model.OpenAddress,
                 OrderNote = model.OrderNote,
-                OrderTime = DateTime.Now,
-                TotalAmount = cart.Total(),
+                OrderDate = DateTime.Now,
+                TotalAmount = cart.GrandTotal,
                 Username = username,
-                OrderItem = cart.CartItems.Select(cartItem => new Data.OrderItem
+                CargoFee = cart.CargoFee,
+                TotalDiscount = cart.TotalDiscount,
+                OrderItems = cart.CartItems.Select(cartItem => new Data.OrderItem
                 {
                     ProductId = cartItem.ProductId,
-                    Product = cartItem.Product,
                     Quantity = cartItem.Quantity,
-                    Price = cartItem.Product.Price,
+                    Price = cartItem.UnitPrice,
+                    OriginalPrice = cartItem.Product.Price
                 }).ToList()
             };
 
@@ -92,19 +95,16 @@ public class OrderController : Controller
         ViewBag.Cart = cart;
         return View(model);
     }
-
     public IActionResult Completed(string orderId)
     {
         return View("Completed", orderId);
     }
-
     public async Task<IActionResult> OrderList()
     {
         var username = User.Identity?.Name;
-        var orders = await _context.Orders.Include(i => i.OrderItem).ThenInclude(i => i.Product).Where(i => i.Username == username).ToListAsync();
+        var orders = await _context.Orders.Include(i => i.OrderItems).ThenInclude(i => i.Product).Where(i => i.Username == username).ToListAsync();
         return View(orders);
     }
-
     private async Task<Payment> ProcessPayment(OrderCreateModel model, Cart cart)
     {
         Options options = new Options();
@@ -115,8 +115,8 @@ public class OrderController : Controller
         CreatePaymentRequest request = new CreatePaymentRequest();
         request.Locale = Locale.TR.ToString();
         request.ConversationId = Guid.NewGuid().ToString();
-        request.Price = (cart.Total() - cart.Discount(1000)).ToString(System.Globalization.CultureInfo.InvariantCulture);
-        request.PaidPrice = (cart.Total() - cart.Discount(1000)).ToString(System.Globalization.CultureInfo.InvariantCulture);
+        request.Price = cart.GrandTotal.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        request.PaidPrice = cart.GrandTotal.ToString(System.Globalization.CultureInfo.InvariantCulture);
         request.Currency = Currency.TRY.ToString();
         request.Installment = 1;
         request.BasketId = "B67832";
@@ -134,8 +134,8 @@ public class OrderController : Controller
 
         Buyer buyer = new Buyer();
         buyer.Id = cart.CustomerId;
-        buyer.Name = model.NameSurname;
-        buyer.Surname = "Doe";
+        buyer.Name = model.Name;
+        buyer.Surname = model.Surname;
         buyer.GsmNumber = model.PhoneNumber;
         buyer.Email = "email@email.com";
         buyer.IdentityNumber = "74300864791";
@@ -149,7 +149,7 @@ public class OrderController : Controller
         request.Buyer = buyer;
 
         Iyzipay.Model.Address address = new Iyzipay.Model.Address();
-        address.ContactName = model.NameSurname;
+        address.ContactName = model.Name + " " + model.Surname;
         address.City = model.City;
         address.Country = "Turkey";
         address.Description = model.OpenAddress;
@@ -160,14 +160,33 @@ public class OrderController : Controller
         List<BasketItem> basketItems = new List<BasketItem>();
         foreach (var item in cart.CartItems)
         {
-            BasketItem basketItem = new BasketItem();
-            basketItem.Id = item.CartId.ToString();
-            basketItem.Name = item.Product.Name;
-            basketItem.Category1 = item.Product.Category.Name ?? "General";
-            basketItem.ItemType = BasketItemType.PHYSICAL.ToString();
-            basketItem.Price = (item.Product.Price + item.Product.Price * 0.2m - 1000).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            for (int i = 0; i < item.Quantity; i++)
+            {
+                BasketItem basketItem = new BasketItem();
+                basketItem.Id = item.ProductId.ToString();
+                basketItem.Name = item.Product.Name;
+                basketItem.Category1 = item.Product.Category.Name ?? "General";
+                basketItem.ItemType = BasketItemType.PHYSICAL.ToString();
 
-            basketItems.Add(basketItem);
+                decimal itemPriceWithTax = item.UnitPrice * 1.20m;
+
+                basketItem.Price = itemPriceWithTax.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+                basketItems.Add(basketItem);
+            }
+        }
+        if (cart.CargoFee > 0)
+        {
+            BasketItem shippingItem = new BasketItem();
+            shippingItem.Id = "Cargo";
+            shippingItem.Name = "Cargo Fee";
+            shippingItem.Category1 = "Cargo";
+
+            shippingItem.ItemType = BasketItemType.VIRTUAL.ToString();
+
+            shippingItem.Price = cart.CargoFee.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+            basketItems.Add(shippingItem);
         }
 
         request.BasketItems = basketItems;

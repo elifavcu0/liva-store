@@ -61,7 +61,7 @@
                             <div class="buttons">
                                 <form asp-controller="Cart" asp-action="AddToCart" class="me-1 d-inline" method="post">
                                     <input type="hidden" name="productId" value="@Model.Id">
-                                    <button type="submit" class="btn btn-warning">
+                                    <button type="submit" class="btn btn-warning" @(Model.IsActive ? "": "disabled")>
                                         <i class="fa fa-shopping-basket"></i> Add to Cart
                                     </button></form>
                                 <a href="#" class="btn btn-light">
@@ -73,7 +73,6 @@
                 </div>
             </div>
         </section>
-
         @{
             var products = (List<Product>)ViewData["SimilarProducts"]!;
             if (products.Count > 0)
