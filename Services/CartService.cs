@@ -33,7 +33,7 @@ public class CartService : ICartService
 
     public async Task<Cart> GetCart(string custId)
     {
-        var cart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).Where(i => i.CustomerId == custId).FirstOrDefaultAsync();
+        var cart = await _context.Carts.Include(i => i.CartItems).ThenInclude(i => i.Product).ThenInclude(i => i.Category).FirstOrDefaultAsync(i => i.CustomerId == custId);
 
         if (cart == null)
         {

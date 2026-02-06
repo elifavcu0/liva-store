@@ -25,18 +25,17 @@
         </div>
     </section>
 }
-
 <section class="mt-3">
     <div class="container">
+         <form method="post" asp-controller="Order" asp-action="Completed">
+            <div asp-validation-summary="All" class="text-danger"></div>
         <div class="row">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-header">
-                        <h2 class="h5 mb-0">Delivery Details</h2>
+                        <h2 class="h6 mb-0">Delivery Details</h2>
                     </div>
                     <div class="card-body">
-                        <form method="post" asp-controller="Order" asp-action="Completed">
-                            <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label asp-for="NameSurname" class="form-label"></label>
@@ -71,11 +70,40 @@
                                                 <label asp-for="OrderNote" class="form-label"></label>
                                                 <textarea asp-for="OrderNote" class="form-control" rows="3"></textarea>
                                             </div>
-                                        </div> <div class="d-grid mt-3">
-                                            <button type="submit" asp-route-id="@ViewBag.Cart.CartId" class="btn btn-danger">Complete Order</button>
-                                    </div></form>
+                                        </div> 
                                     </div>
                                 </div>
+                                <div class="card mb-3">
+                        <div class="card-header">
+                            <h2 class="h6 mb-0">Payment Details</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label asp-for="CartOwner" class="form-label"></label>
+                                    <input asp-for="CartOwner" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label asp-for="CartNumber" class="form-label"></label>
+                                    <input asp-for="CartNumber" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col ">
+                                    <label asp-for="CartExpirationYear" class="form-label"></label>
+                                    <input asp-for="CartExpirationYear" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label asp-for="CartExpirationMonth" class="form-label"></label>
+                                    <input asp-for="CartExpirationMonth" class="form-control">
+                                </div>
+                                <div class="col">
+                                    <label asp-for="CartCVV" class="form-label"></label>
+                                    <input asp-for="CartCVV" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                             </div>
                                 <div class="col-md-4">
                                     <div class="card">
@@ -94,7 +122,7 @@
                                         <div class="me-auto">
                                             <div>Order Amount</div>
                                         </div>
-                                        <span>@((ViewBag.Cart.OrderAmount()-(ViewBag.Cart.TotalProductQuantity()*1000)).ToString("C2"))</span>
+                                        <span>@((ViewBag.Cart.OrderAmount()-(ViewBag.Cart.Discount(1000))).ToString("C2"))</span>
                                     </div>
                                      <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
@@ -105,7 +133,7 @@
                                     <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
                                             <div>Discounts</div></div>
-                                            <span class="text-success">-@((ViewBag.Cart.TotalProductQuantity()*1000).ToString("C2"))</span>
+                                            <span class="text-success">-@((ViewBag.Cart.Discount(1000)).ToString("C2"))</span>
                                     </div>
                                    <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
@@ -116,14 +144,14 @@
                                         <div class="me-auto ">
                                             <div>Total</div>
                                         </div>
-                                        <span class="fs-5">@ViewBag.Cart.Total().ToString("C2")</span>
+                                        <span class="fs-5">@((ViewBag.Cart.Total() - ViewBag.Cart.Discount(1000)).ToString("C2"))</span>
                                     </div>
-                                            </div>
+                                            </div> <div class="d-grid mt-3">
+                                            <button type="submit" asp-route-id="@ViewBag.Cart.CartId" class="btn btn-danger">Complete Order</button>
+                                    </div>
                                         </div>
-                                    </div>
-                                    
-                                       
+                                    </div> 
                                 </div>
-                            </div>
+                            </div></form>
                         </div>
                 </section>

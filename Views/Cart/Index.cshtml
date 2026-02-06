@@ -64,7 +64,7 @@
                                         <div class="me-auto">
                                             <div>Order Amount</div>
                                         </div>
-                                        <span>@((Model.OrderAmount()-(Model.TotalProductQuantity()*1000)).ToString("C2"))</span>
+                                        <span>@((Model.OrderAmount()-(Model.Discount(1000))).ToString("C2"))</span>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
@@ -74,7 +74,7 @@
                                     <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
                                             <div>Discounts</div></div>
-                                            <span class="text-success">-@((Model.TotalProductQuantity()*1000).ToString("C2"))</span>
+                                            <span class="text-success">-@((Model.Discount(1000)).ToString("C2"))</span>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">

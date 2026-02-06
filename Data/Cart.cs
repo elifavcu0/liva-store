@@ -36,14 +36,14 @@ public class Cart
     {
         return OrderAmount() + Tax();
     }
-    public int TotalProductQuantity()
+    public int Discount(int discountAmount)
     {
         var quantity = 0;
         foreach (var product in CartItems)
         {
             quantity += product.Quantity;
         }
-        return quantity;
+        return quantity * discountAmount;
     }
 }
 
