@@ -13,6 +13,15 @@ public class Order
     public string? OrderNote { get; set; }
     public double TotalAmount { get; set; }
     public List<OrderItem> OrderItem { get; set; } = null!;
+
+    public double Total()
+    {
+        return OrderItem.Sum(i => i.Price * i.Quantity);
+    }
+    public double Tax()
+    {
+        return Total() * 0.2;
+    }
 }
 
 public class OrderItem

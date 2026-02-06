@@ -1,0 +1,93 @@
+@using dotnet_store.Data
+@model Order
+@{
+    Layout = "_AdminLayout";
+}
+<div class="row">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header py-1 d-flex justify-content-between align-items-center mt-1">
+                <h5 class="card-title">Order Id: #5</h5>
+                <div>
+                    <a asp-controller="Order" asp-action="Index" class="btn btn-sm btn-primary">
+                        <i class="fa-solid fa-list"></i>
+                    </a>
+                    <span class="badge bg-success p-2">Delivered</span>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped mb-2">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th style="width: 40px;">Id</th>
+                                <th style="width: 80px;">Image</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderItem)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td><img src="~/img/@item.Product.Image" class="img-fluid" alt=""></td>
+                                    <td>@item.Product.Name</td>
+                                    <td>@(item.Price.ToString("C2"))</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@((item.Price * item.Quantity).ToString("C2"))</td>
+                                </tr>
+                            }
+                            <tr class="fw-bold">
+                                <td colspan="4"></td>
+                                <td>Order Amount</td>
+                                <td>@Model.Total().ToString("C2")</td>
+                            </tr>
+                            <tr class="fw-bold">
+                                <td colspan="4"></td>
+                                <td>Tax (%20)</td>
+                                <td>@Model.Tax().ToString("C2")</td>
+                            </tr>
+                            <tr class="fw-bold">
+                                <td colspan="4"></td>
+                                <td>Cargo</td>
+                                <td>Free</td>
+                            </tr>
+                            <tr class="fw-bold">
+                                <td colspan="4"></td>
+                                <td>Total</td>
+                                <td>@((Model.Total() + Model.Tax()).ToString("C2"))</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-bordered mb-0">
+                        <tr>
+                            <td style="width: 150px;">Delivery Date</td>
+                            <td>06.02.2026</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 150px;">Name - Surname</td>
+                            <td>@Model.NameSurname</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 150px;">Delivery Address</td>
+                            <td>@Model.OpenAddress / @Model.City / @Model.PostalCode /
+                                @Model.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <td style="width: 150px;">Billing Address</td>
+                                <td>@Model.OpenAddress / @Model.City / @Model.PostalCode /
+                                    @Model.PhoneNumber</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 150px;">Payment Information</td>
+                                    <td>1234-34**-****-**** (Yapı Kredi - 3 installments)</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

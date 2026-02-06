@@ -3,6 +3,8 @@ using dotnet_store.Models;
 using dotnet_store.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace dotnet_store.Controllers;
 
@@ -15,6 +17,21 @@ public class OrderController : Controller
     {
         _cartService = cartService;
         _context = context;
+    }
+
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> Index()
+    {
+        return View(await _context.Orders.ToListAsync());
+    }
+
+    [Authorize(Roles = "Admin")]
+    public IActionResult Details(int id)
+    {
+        var order = _context.Orders.Include(i => i.OrderItem).ThenInclude(i => i.Product).FirstOrDefault(i => i.Id == id);
+
+        if (order == null) return NotFound();
+        return View(order);
     }
 
     public async Task<IActionResult> ConfirmCart()
@@ -69,6 +86,13 @@ public class OrderController : Controller
 
     public IActionResult Completed(string orderId)
     {
-        return View("Completed",orderId);
+        return View("Completed", orderId);
+    }
+
+    public async Task<IActionResult> OrderList()
+    {
+        var username = User.Identity?.Name;
+        var orders = await _context.Orders.Include(i => i.OrderItem).ThenInclude(i => i.Product).Where(i => i.Username == username).ToListAsync();
+        return View(orders);
     }
 }
