@@ -10,7 +10,7 @@
                         <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
                     </li>
                     <li class="breadcrumb-item active">
-                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">My Shopping Cart
+                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">Cart
                             </a>
                     </li>
 
@@ -62,7 +62,7 @@
                                 <div class="list-group list-group-flush">
                                     <div class="d-flex justify-content-center align-items-center list-group-item">
                                         <div class="me-auto">
-                                            <div>Order Amount </div>
+                                            <div>Order Amount</div>
                                         </div>
                                         <span>@((Model.OrderAmount()-(Model.TotalProductQuantity()*1000)).ToString("C2"))</span>
                                     </div>
@@ -90,11 +90,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-grid">
-                                <a href="#" class="btn btn-primary btn-lg">
-                                    Complete Order
-                                </a>
-                            </div>
+                             <div class="d-flex justify-content-center mb-3">
+                                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary me-3">
+                                        Continue Shopping</a>
+                                        <a asp-controller="Order" asp-action="ConfirmCart" asp-route-id="@Model.CartId" class="btn btn-danger">
+                                        Confirm Cart</a>
+                                    </div>
                         </div>
                     </div>
                 </div>

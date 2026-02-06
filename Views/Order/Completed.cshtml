@@ -1,0 +1,41 @@
+@model string
+@section Bar {
+    <section class="bg-primary p-3">
+        <div class="container">
+            <nav>
+                <ol class="breadcrumb mb-0 ">
+                    <li class="breadcrumb-item ">
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">Cart
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a asp-controller="Order" asp-action="ConfirmCart" class="text-decoration-none">Complete Order
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">Payment
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <a asp-controller="Cart" asp-action="Index" class="text-decoration-none">Order Completed
+                        </a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+}
+
+<div class="card card-body my-4 text-center">
+    <h1 class="h3">Thank You!</h1>
+    <p>
+        Your order has been completed.
+    </p>
+    <p> Order No : #@Model </p>
+    <p>
+        <a href="#" class="btn btn-primary">View Orders</a>
+    </p>
+</div>
