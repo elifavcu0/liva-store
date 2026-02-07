@@ -1,56 +1,62 @@
-<section class="top-bar">
+<section class="top-bar py-2">
     <div class="container">
-        <div class="row gy-2 align-items-center">
-            <div class="col-lg-2 col-sm-4 col-4">
-                <a href="/" class="navbar-brand"><i class="fa-solid fa-truck-fast"></i> E-Commerce</a>
-            </div>
+        <div class="row align-items-center">
 
-            <div class="col-lg-5 col-sm-8 col-8 order-lg-last">
-                <div class="text-end">
-
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <a asp-controller="Admin" asp-action="Index" class="btn btn-danger btn-sm">
-                                <i class="fa-solid fa-lock"></i> <span class="ms-1 d-none d-sm-inline-block">Admin</span>
+            <div class="col-lg-2 col-md-3 col-4">
+                <a href="/" class="navbar-brand d-flex align-items-center gap-1">
+                    <img src="~/img/logo-L.png" alt="Liva" height="35">
+                        <img src="~/img/logo-heart.png" alt="love" height="28">
+                            <img src="~/img/logo-S.png" alt="Store" height="35">
                             </a>
-                        }
-                        <a asp-controller="Account" asp-action="EditUser" class="btn btn-light btn-sm">
-                            <i class="fa fa-user"></i> <span class="ms-1 d-none d-sm-inline-block">My Account</span>
-                        </a>
-                        <a href="#" class="btn btn-light btn-sm">
-                            <i class="fa fa-heart"></i> <span class="ms-1 d-none d-sm-inline-block">Wishlist</span>
-                        </a>
-                        <a asp-controller="Account" asp-action="Signout" class="btn btn-light btn-sm">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i><span
-                            class="ms-1 d-none d-sm-inline-block">Sign Out</span>
-                        </a>
-                    }
-                    else
-                    {
-                        <a asp-controller="Account" asp-action="SignIn" class="btn btn-light btn-sm">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i> <span
-                            class="ms-1 d-none d-sm-inline-block">Sign in</span>
-                        </a>
-                        <a asp-controller="Account" asp-action="Create" class="btn btn-light btn-sm">
-                            <i class="fa-solid fa-user-plus"></i> <span
-                            class="ms-1 d-none d-sm-inline-block">Register</span>
-                        </a>
-                    }
-                    <a asp-controller="Cart" asp-action="Index" class="btn btn-light btn-sm">
-                        <i class="fa fa-shopping-cart"></i> <span class="ms-1 d-none d-sm-inline-block">Cart</span>
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-5">
-                <form asp-controller="Product" asp-action="List" method="get">
-                    <div class="input-group">
-                        <input name="q" type="text" placeholder="Search" class="form-control" value="@ViewData["q"]">
-                        <button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+                        </div>
+
+                        <div class="col-lg-6 col-md-5 col-12 my-2 my-lg-0">
+                            <form asp-controller="Product" asp-action="List" method="get">
+                                <div class="input-group">
+                                    <input name="q" type="text" placeholder="Search" class="form-control" value="@ViewData["q"]">
+                                    <button class="btn btn-primary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-12">
+                            <div class="text-end d-flex justify-content-end gap-2">
+                                @if (User.Identity?.IsAuthenticated == true)
+                                {
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <a asp-controller="Admin" asp-action="Index" class="btn btn-danger btn-sm">
+                                            <i class="fa-solid fa-lock"></i> <span class="d-none d-xl-inline-block">Admin</span>
+                                        </a>
+                                    }
+                                    <a asp-controller="Account" asp-action="EditUser" class="btn btn-light btn-sm">
+                                        <i class="fa fa-user"></i> <span class="d-none d-xl-inline-block">Account</span>
+                                    </a>
+                                    <a href="#" class="btn btn-light btn-sm">
+                                        <i class="fa fa-heart"></i>
+                                    </a>
+                                    <a asp-controller="Account" asp-action="Signout" class="btn btn-light btn-sm">
+                                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Account" asp-action="SignIn" class="btn btn-light btn-sm">
+                                        <i class="fa-solid fa-arrow-right-to-bracket"></i> <span class="d-none d-xl-inline-block">Sign
+                                        In</span>
+                                    </a>
+                                    <a asp-controller="Account" asp-action="Create" class="btn btn-light btn-sm">
+                                        <i class="fa-solid fa-user-plus"></i> <span class="d-none d-xl-inline-block">Register</span>
+                                    </a>
+                                }
+                                <a asp-controller="Cart" asp-action="Index" class="btn btn-light btn-sm position-relative">
+                                    <i class="fa fa-shopping-cart"></i> <span class="d-none d-xl-inline-block">Cart</span>
+                                </a>
+                            </div>
+                        </div>
+
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
+                </div>
+            </section>

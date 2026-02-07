@@ -9,33 +9,34 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
         <link rel="stylesheet" href="~/css/site.css">
             <link rel="stylesheet" href="~/css/toaster.css">
-                <title>E-Commerce</title>
-            </head>
+                <link rel="icon" href="~/img/title-logo.png">
+                    <title>Liva Store</title>
+                </head>
 
-            <body class="bg-light d-flex flex-column min-vh-100">
-                <div class="container">
-                    <header>
-                        @* @await Html.PartialAsync("Partials/Admin/_Message") *@
-                        @await Html.PartialAsync("Partials/Site/_TopBar")
-                        @RenderSection("Bar", required: false)
-                    </header>
-                </div>
+                <body class="bg-light d-flex flex-column min-vh-100">
+                    <div class="container">
+                        <header>
+                            @* @await Html.PartialAsync("Partials/Admin/_Message") *@
+                            @await Html.PartialAsync("Partials/Site/_TopBar")
+                            @RenderSection("Bar", required: false)
+                        </header>
+                    </div>
 
-                <main>@RenderBody()</main>
+                    <main>@RenderBody()</main>
 
-                @await Html.PartialAsync("Partials/Site/_Footer")
+                    @await Html.PartialAsync("Partials/Site/_Footer")
 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-                <script src="~/lib/jquery/dist/jquery.min.js"></script>
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-                @RenderSection("Scripts", required: false)
-                <script>
-                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                    return new bootstrap.Tooltip(tooltipTriggerEl)
-                    })
-                </script>
-                <partial name="_Toaster" />
-            </body>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+                    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+                    @RenderSection("Scripts", required: false)
+                    <script>
+                        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                        })
+                    </script>
+                    <partial name="_Toaster" />
+                </body>
 
-        </html>
+            </html>

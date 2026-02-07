@@ -1,33 +1,51 @@
 :root {
-  --primary: #6610f2;
+  --primary: #881337;
+  --primary-hover: #600c25;
 }
 
 .top-bar {
   padding-top: 1rem;
   padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
 }
 
 .btn-light {
   background-color: #fff;
   border-color: #dee2e6;
   color: #212529;
+  transition: all 0.3s ease;
 }
 
-.bg-primary,
-.btn-primary {
-  background-color: var(--primary) !important;
-}
-
-.navbar-brand {
-  color: var(--primary);
+.btn-light:hover {
+  background-color: #f8f9fa;
+  border-color: #c6c7c8;
 }
 
 .btn-light i {
   color: var(--primary);
 }
 
+.bg-primary,
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+
+.navbar-brand {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Slider Alanı */
 .slider_nav {
   max-height: 250px;
+  overflow-x: hidden !important;
 }
 
 @media (min-width: 1200px) {
@@ -42,15 +60,76 @@
   }
 }
 
+/* Sol Kaydırmalı Menü (Slider Nav) Linkleri */
+.slider_nav a,
+.slider_nav .nav-link {
+  color: #51585e; /* Varsayılan: Koyu Gri (Göz yormaz) */
+  font-weight: 500; /* Yazı biraz dolgun olsun */
+  text-decoration: none; /* Alt çizgiyi kaldır */
+  display: block; /* Tüm satırı tıklanabilir yap */
+  padding: 6px 0; /* Satır aralarını biraz aç */
+  transition: all 0.2s ease; /* Yumuşak geçiş */
+}
+
+/* Üzerine gelince (Hover) */
+.slider_nav a:hover,
+.slider_nav .nav-link:hover {
+  color: var(--primary); /* SENİN BORDON (#881337) */
+  background-color: transparent;
+  transform: translateX(5px); /* Hafifçe sağa kaysın (Modern efekt) */
+}
+
+/* Aktif Link (Seçili kategori varsa) */
+.slider_nav a.active,
+.slider_nav .nav-link.active {
+  color: var(--primary);
+  font-weight: bold;
+}
+/* Sol Menü Kaydırma Çubuğu Tasarımı (Webkit Tarayıcılar İçin) */
+.slider_nav::-webkit-scrollbar {
+  width: 6px; /* Daha ince ve zarif */
+}
+
+.slider_nav::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Çubuğun yolu açık gri */
+  border-radius: 10px;
+}
+
+.slider_nav::-webkit-scrollbar-thumb {
+  background: #ccc; /* Çubuğun kendisi gri */
+  border-radius: 10px;
+}
+
+/* Kullanıcı kaydırmaya başlayınca veya üzerine gelince renklensin */
+.slider_nav:hover::-webkit-scrollbar-thumb {
+  background: var(--primary); /* SENİN BORDON */
+}
+
 .img-wrap {
   position: relative;
   padding: 1rem;
+  height: 240px;
+  text-align: center;
+  overflow: hidden;
 }
 
 .img-wrap span {
   position: absolute;
   top: 10px;
   right: 10px;
+  z-index: 2;
+}
+
+.img-wrap img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .img-wrap img {
+  transform: scale(1.05);
 }
 
 .info-wrap {
@@ -61,23 +140,23 @@
   display: block;
   text-decoration: none;
   color: #51585e;
+  font-weight: 500;
+  transition: color 0.2s;
 }
 
-.img-wrap {
-  height: 240px;
-  text-align: center;
-}
-
-.img-wrap img {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: cover;
+.info-wrap .title:hover {
+  color: var(--primary);
 }
 
 .breadcrumb a {
   color: #fff;
   opacity: 0.9;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 .breadcrumb .breadcrumb-item {
@@ -92,16 +171,21 @@
   font-weight: bold;
 }
 
-/* gallery */
+/* Galeri (Detay Sayfası) */
 .gallery-wrap .img-big-wrap {
   width: 100%;
   height: 400px;
   margin-bottom: 1rem;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
 }
 
 .gallery-wrap .img-big-wrap img {
   max-width: 100%;
+  max-height: 100%;
 }
 
 .gallery-wrap .thumbs-wrap {
@@ -116,6 +200,11 @@
   margin: 3px;
   display: inline-block;
   overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.gallery-wrap .thumbs-wrap a:hover {
+  border-color: var(--primary);
 }
 
 .gallery-wrap .thumbs-wrap img {
@@ -126,5 +215,5 @@
 }
 
 .checked {
-  color: orange;
+  color: #ffc107;
 }

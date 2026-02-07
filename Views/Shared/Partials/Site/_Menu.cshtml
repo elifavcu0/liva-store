@@ -1,8 +1,9 @@
 @using liva_store.Data
- @model List<Category>
- 
- <nav class="nav nav-pills flex-column flex-nowrap overflow-auto slider_nav">
-    @foreach(var c in Model){
-         <a href="/products/@c.Url" class="nav-link">@c.Name</a>
-    }              
+@model List<Category>
+
+<nav class="nav nav-pills flex-column flex-nowrap overflow-auto slider_nav">
+     @foreach (var c in Model)
+     {
+          <a href="/products/@c.Url" class="nav-link text-danger">@c.Name</a>
+     }
 </nav>
