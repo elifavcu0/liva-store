@@ -1,9 +1,9 @@
-using dotnet_store.Data;
-using dotnet_store.Models;
+using liva_store.Data;
+using liva_store.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-namespace dotnet_store.Controllers;
+namespace liva_store.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class ProductController : Controller

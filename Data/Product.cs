@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace dotnet_store.Data;
+namespace liva_store.Data;
 
 public class Product
 {

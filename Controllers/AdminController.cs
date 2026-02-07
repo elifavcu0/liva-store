@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace dotnet_store.Controllers;
+namespace liva_store.Controllers;
 
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller

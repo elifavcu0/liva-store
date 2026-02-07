@@ -1,4 +1,4 @@
-namespace dotnet_store.Data;
+namespace liva_store.Data;
 
 public class Order
 {

@@ -1,6 +1,6 @@
-using dotnet_store.Models;
+using liva_store.Models;
 
-namespace dotnet_store.Data;
+namespace liva_store.Data;
 
 public class Cart
 {

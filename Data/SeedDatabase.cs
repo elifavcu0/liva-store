@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace dotnet_store.Data;
+namespace liva_store.Data;
 
 public static class SeedDatabase
 {

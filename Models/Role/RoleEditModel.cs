@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace dotnet_store.models;
+namespace liva_store.models;
 
 public class RoleEditModel
 {

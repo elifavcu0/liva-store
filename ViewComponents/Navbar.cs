@@ -1,8 +1,8 @@
-using dotnet_store.Data;
-using dotnet_store.Models;
+using liva_store.Data;
+using liva_store.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace dotnet_store.ViewComponents;
+namespace liva_store.ViewComponents;
 
 public class Navbar : ViewComponent
 {

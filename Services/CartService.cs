@@ -1,7 +1,7 @@
-using dotnet_store.Data;
+using liva_store.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace dotnet_store.Services;
+namespace liva_store.Services;
 
 public class CartService : ICartService
 {

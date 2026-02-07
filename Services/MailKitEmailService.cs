@@ -1,10 +1,10 @@
 using MimeKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using dotnet_store.Data;
-using dotnet_store.Services;
+using liva_store.Data;
+using liva_store.Services;
 
-namespace dotnet_store.Models;
+namespace liva_store.Models;
 
 public class MailKitEmailService : IEmailService
 {

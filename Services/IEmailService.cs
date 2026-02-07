@@ -1,4 +1,4 @@
-namespace dotnet_store.Services;
+namespace liva_store.Services;
 
 public interface IEmailService
 {

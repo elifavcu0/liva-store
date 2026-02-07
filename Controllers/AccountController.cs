@@ -1,7 +1,7 @@
 using System.Security.Claims;
-using dotnet_store.Data;
-using dotnet_store.Models;
-using dotnet_store.Services;
+using liva_store.Data;
+using liva_store.Models;
+using liva_store.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace dotnet_store.Controllers;
+namespace liva_store.Controllers;
 
 public class AccountController : Controller
 {

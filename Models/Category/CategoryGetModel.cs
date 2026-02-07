@@ -1,4 +1,4 @@
-namespace dotnet_store.Models;
+namespace liva_store.Models;
 
 // DB'den veri taşıdığı için bu bir "Model"dir.
 public class CategoryGetModel

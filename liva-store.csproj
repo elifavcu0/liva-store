@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>dotnet_store</RootNamespace>
+    <RootNamespace>liva_store</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

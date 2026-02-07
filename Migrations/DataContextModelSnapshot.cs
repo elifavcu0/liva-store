@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using dotnet_store.Data;
+using liva_store.Data;
 
 #nullable disable
 
-namespace dotnet_store.Migrations
+namespace liva_store.Migrations
 {
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
@@ -125,7 +125,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Address", b =>
+            modelBuilder.Entity("liva_store.Data.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,7 +160,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("Addresses");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.AppRole", b =>
+            modelBuilder.Entity("liva_store.Data.AppRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -190,7 +190,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.AppUser", b =>
+            modelBuilder.Entity("liva_store.Data.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -262,7 +262,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Cart", b =>
+            modelBuilder.Entity("liva_store.Data.Cart", b =>
                 {
                     b.Property<int>("CartId")
                         .ValueGeneratedOnAdd()
@@ -279,7 +279,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.CartItem", b =>
+            modelBuilder.Entity("liva_store.Data.CartItem", b =>
                 {
                     b.Property<int>("CartItemId")
                         .ValueGeneratedOnAdd()
@@ -305,7 +305,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("CartItem");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Category", b =>
+            modelBuilder.Entity("liva_store.Data.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -388,7 +388,7 @@ namespace dotnet_store.Migrations
                         });
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Order", b =>
+            modelBuilder.Entity("liva_store.Data.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -455,7 +455,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.OrderItem", b =>
+            modelBuilder.Entity("liva_store.Data.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -487,7 +487,7 @@ namespace dotnet_store.Migrations
                     b.ToTable("OrderItem");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Product", b =>
+            modelBuilder.Entity("liva_store.Data.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -649,7 +649,7 @@ namespace dotnet_store.Migrations
                         });
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Slider", b =>
+            modelBuilder.Entity("liva_store.Data.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -709,7 +709,7 @@ namespace dotnet_store.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("dotnet_store.Data.AppRole", null)
+                    b.HasOne("liva_store.Data.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -718,7 +718,7 @@ namespace dotnet_store.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("dotnet_store.Data.AppUser", null)
+                    b.HasOne("liva_store.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -727,7 +727,7 @@ namespace dotnet_store.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("dotnet_store.Data.AppUser", null)
+                    b.HasOne("liva_store.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -736,13 +736,13 @@ namespace dotnet_store.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("dotnet_store.Data.AppRole", null)
+                    b.HasOne("liva_store.Data.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("dotnet_store.Data.AppUser", null)
+                    b.HasOne("liva_store.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -751,16 +751,16 @@ namespace dotnet_store.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("dotnet_store.Data.AppUser", null)
+                    b.HasOne("liva_store.Data.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Address", b =>
+            modelBuilder.Entity("liva_store.Data.Address", b =>
                 {
-                    b.HasOne("dotnet_store.Data.AppUser", "AppUser")
+                    b.HasOne("liva_store.Data.AppUser", "AppUser")
                         .WithMany("Addresses")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -769,15 +769,15 @@ namespace dotnet_store.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.CartItem", b =>
+            modelBuilder.Entity("liva_store.Data.CartItem", b =>
                 {
-                    b.HasOne("dotnet_store.Data.Cart", "Cart")
+                    b.HasOne("liva_store.Data.Cart", "Cart")
                         .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("dotnet_store.Data.Product", "Product")
+                    b.HasOne("liva_store.Data.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -788,15 +788,15 @@ namespace dotnet_store.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.OrderItem", b =>
+            modelBuilder.Entity("liva_store.Data.OrderItem", b =>
                 {
-                    b.HasOne("dotnet_store.Data.Order", "Order")
+                    b.HasOne("liva_store.Data.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("dotnet_store.Data.Product", "Product")
+                    b.HasOne("liva_store.Data.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -807,9 +807,9 @@ namespace dotnet_store.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Product", b =>
+            modelBuilder.Entity("liva_store.Data.Product", b =>
                 {
-                    b.HasOne("dotnet_store.Data.Category", "Category")
+                    b.HasOne("liva_store.Data.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -818,22 +818,22 @@ namespace dotnet_store.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.AppUser", b =>
+            modelBuilder.Entity("liva_store.Data.AppUser", b =>
                 {
                     b.Navigation("Addresses");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Cart", b =>
+            modelBuilder.Entity("liva_store.Data.Cart", b =>
                 {
                     b.Navigation("CartItems");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Category", b =>
+            modelBuilder.Entity("liva_store.Data.Category", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("dotnet_store.Data.Order", b =>
+            modelBuilder.Entity("liva_store.Data.Order", b =>
                 {
                     b.Navigation("OrderItems");
                 });

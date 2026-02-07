@@ -1,4 +1,4 @@
-namespace dotnet_store.Models;
+namespace liva_store.Models;
 
 public class SliderEditModel : SliderModel
 {

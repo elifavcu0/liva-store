@@ -1,7 +1,7 @@
-using dotnet_store.Data;
+using liva_store.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace dotnet_store.ViewComponents;
+namespace liva_store.ViewComponents;
 
 public class Slider : ViewComponent
 {

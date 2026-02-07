@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using dotnet_store.Data;
-using dotnet_store.Models;
+using liva_store.Data;
+using liva_store.Models;
 
-namespace dotnet_store.models;
+namespace liva_store.models;
 
 public class UserEditModel
 {

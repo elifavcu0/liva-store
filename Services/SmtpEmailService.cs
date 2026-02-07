@@ -1,8 +1,8 @@
 using System.Net;
 using System.Net.Mail;
-using dotnet_store.Data;
+using liva_store.Data;
 
-namespace dotnet_store.Services;
+namespace liva_store.Services;
 
 // Microsoft artık System.Net.Mail kütüphanesini eski olarak nitelendiriyor. O yüzden MailKit kullanacağım.
 public class SmtpEmailService : IEmailService

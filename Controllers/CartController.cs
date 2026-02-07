@@ -1,11 +1,11 @@
-using dotnet_store.Models;
-using dotnet_store.Data;
+using liva_store.Models;
+using liva_store.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using dotnet_store.Services;
+using liva_store.Services;
 
-namespace dotnet_store.Controllers;
+namespace liva_store.Controllers;
 
 public class CartController : Controller
 {

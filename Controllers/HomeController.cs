@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using dotnet_store.Data;
+using liva_store.Data;
 
-namespace dotnet_store.Controllers;
+namespace liva_store.Controllers;
 
 public class HomeController : Controller
 {
