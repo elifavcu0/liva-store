@@ -150,7 +150,7 @@ To run Liva Store locally:
 
 1.  **Clone the repo:**
     ```bash
-    git clone [https://github.com/your-username/liva-store.git](https://github.com/your-username/liva-store.git)
+    git clone https://github.com/elifavcu0/liva-store.git
     ```
 
 2.  **Configure Database:**
