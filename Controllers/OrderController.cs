@@ -18,11 +18,13 @@ public class OrderController : Controller
     private ICartService _cartService;
     private readonly IConfiguration _config;
     private readonly DataContext _context;
-    public OrderController(ICartService cartService, DataContext context, IConfiguration config)
+    private IEmailService _emailService;
+    public OrderController(ICartService cartService, DataContext context, IConfiguration config, IEmailService emailService)
     {
         _cartService = cartService;
         _context = context;
         _config = config;
+        _emailService = emailService;
     }
 
     [Authorize(Roles = "Admin")]
@@ -88,23 +90,40 @@ public class OrderController : Controller
                 }).ToList()
             };
 
-            var payment = await ProcessPayment(model, cart,order);
+            var payment = await ProcessPayment(model, cart, order);
 
             if (payment.Status == "success")
             {
                 await _context.Orders.AddAsync(order);
                 _context.Carts.Remove(cart);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Completed", new { orderId = order.Id });
+
+                var orderUrl = Url.Action("OrderList", "Order", null, Request.Scheme);
+                string emailBody = $@"
+                    <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd;'>
+                        <h2 style='color: #28a745;'>Your order has been received! 🎉</h2>
+                        <p>Hello dear <strong>{order.Name} {order.Surname}</strong>,</p>
+                        <p>Your order has been successfully created. Thank you for choosing us.❤️</p>
+                        <hr>
+                        <p><strong>Order No:</strong> #{order.OrderNumber}</p>
+                        <p><strong>Date:</strong> {order.OrderDate}</p>
+                        <p><strong>Total:</strong> {order.TotalAmount:C2}</p>
+                        <p><strong>Order Note:</strong> {order.OrderNote:C2}</p>
+                        <br>
+                        <p>You can track your orders from the <a href='{orderUrl}' style='color: #007bff; text-decoration: none; font-weight: bold;'>My Orders</a> page.</p>
+                        <p>With Love,<br>Liva Store Team</p>
+                    </div>";
+                await _emailService.SendEmailAsync(model.Email, $"Order Confirmation - #{order.OrderNumber}", emailBody);
+                return RedirectToAction("Completed", new { orderNumber = order.OrderNumber });
             }
             ModelState.AddModelError("", payment.ErrorMessage);
         }
         ViewBag.Cart = cart;
         return View(model);
     }
-    public IActionResult Completed(string orderId)
+    public IActionResult Completed(string OrderNumber)
     {
-        return View("Completed", orderId);
+        return View("Completed", OrderNumber);
     }
     public async Task<IActionResult> OrderList()
     {
