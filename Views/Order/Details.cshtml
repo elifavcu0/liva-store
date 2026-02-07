@@ -7,7 +7,7 @@
     <div class="col">
         <div class="card shadow">
             <div class="card-header py-1 d-flex justify-content-between align-items-center mt-1">
-                <h5 class="card-title">Order Id: #5</h5>
+                <h5 class="card-title">Order No: #@Model.OrderNumber</h5>
                 <div>
                     <a asp-controller="Order" asp-action="Index" class="btn btn-sm btn-primary">
                         <i class="fa-solid fa-list"></i>
@@ -80,6 +80,10 @@
                                 <td style="width: 150px;">Billing Address</td>
                                 <td>@Model.OpenAddress / @Model.City / @Model.PostalCode /
                                     @Model.PhoneNumber / @Model.Email</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 150px;">Order Note</td>
+                                    <td>@Model.OrderNote</td>
                                 </tr>
                                 <tr>
                                     <td style="width: 150px;">Payment Information</td>

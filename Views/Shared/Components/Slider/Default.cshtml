@@ -5,25 +5,27 @@
     <div class="carousel-indicators">
         @{
             int x = 0;
-            @foreach (var slider in Model)
+            foreach (var slider in Model)
             {
                 <button type="button" data-bs-target="#slider" data-bs-slide-to="@x" class="@(x == 0 ? "active" : "")"></button>
-                x = x + 1;
+                x++;
             }
         }
     </div>
     <div class="carousel-inner">
         @{
             int y = 0;
-            @foreach (var slider in Model)
+            foreach (var slider in Model)
             {
                 <div class="carousel-item @(y == 0 ? "active" : "")">
-                    <img src="/img/@slider.Image" alt="@slider.Title" class="d-block w-100">
+                    <img src="/img/@slider.Image"              alt="@slider.Title"    class="d-block w-100"
+                         style="height: 500px; object-fit: cover;">
                 </div>
-                y = y + 1;
+                y++;
             }
         }
     </div>
+
     <button type="button" class="carousel-control-prev" data-bs-target="#slider" data-bs-slide="prev">
         <span class="carousel-control-prev-icon"></span>
     </button>
