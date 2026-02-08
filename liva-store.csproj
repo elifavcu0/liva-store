@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>liva_store</RootNamespace>
+    <UserSecretsId>1f727e1c-6c11-4f41-ac82-78aadae91094</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
