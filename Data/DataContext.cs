@@ -14,6 +14,8 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int> //Primary Ke
     public DbSet<Address> Addresses { get; set; }
     public DbSet<Cart> Carts { get; set; }
     public DbSet<Order> Orders { get; set; }
+    public DbSet<Wishlist> Wishlists { get; set; }
+    public DbSet<WishlistItem> WishlistItems { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder) // Bir migration oluşturulunca burası çalışır
     {
         base.OnModelCreating(modelBuilder);
@@ -196,7 +198,21 @@ public class DataContext : IdentityDbContext<AppUser, AppRole, int> //Primary Ke
                     },
             }
         );
+
+        modelBuilder.Entity<WishlistItem>()
+                                      .HasOne(wl => wl.Wishlist) // Bir wishlist item, sadece bir wishlist'e ait olabilir.
+                                      .WithMany(w => w.WishlistItems) // Bağlanılan wishlist'in birden fazla wishlist item'e sahip olabilir.
+                                      .HasForeignKey(wl => wl.WishlistId) // WishlistItem tablosunda foreign key olarak WishListId bulunur.
+                                      .OnDelete(DeleteBehavior.Cascade); // Wishlist silinirse wishlist item da silinsin.
+
+        modelBuilder.Entity<WishlistItem>()
+                                        .HasOne(p => p.Product)
+                                        .WithMany()
+                                        .HasForeignKey(wli => wli.Id)
+                                        .OnDelete(DeleteBehavior.Cascade);
     }
+
+
 };
 
 /*
