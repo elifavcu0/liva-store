@@ -1,5 +1,3 @@
-using liva_store.Models;
-
 namespace liva_store.Data;
 
 // DB tablo yapısını oluşturduğu için bu bir "entity"dir.
