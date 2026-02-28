@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace liva_store.Services;
 
-public class WhislistService : IWhislistService
+public class WishlistService : IWishlistService
 {
     private readonly DataContext _context;
 
-    public WhislistService(DataContext context)
+    public WishlistService(DataContext context)
     {
         _context = context;
     }
@@ -48,16 +48,45 @@ public class WhislistService : IWhislistService
 
         if (itemToRemove != null)
         {
-                _context.WishlistItems.Remove(itemToRemove);
-                await _context.SaveChangesAsync();
+            _context.WishlistItems.Remove(itemToRemove);
+            await _context.SaveChangesAsync();
 
-                return true;
+            return true;
         }
         return false;
     }
 
-    public Task<bool> ToggleWhislistItemAsync(string userId, int productId)
+    public async Task<bool> ToggleWishlistItemAsync(int productId, int userId)
     {
-        throw new NotImplementedException();
+        var wishlist = await _context.Wishlists.Include(wli => wli.WishlistItems).FirstOrDefaultAsync(w => w.UserId == userId);
+
+        if (wishlist == null)
+        {
+            wishlist = new Wishlist { UserId = userId };
+            _context.Wishlists.Add(wishlist);
+            await _context.SaveChangesAsync();
+        }
+        var existingItem = wishlist.WishlistItems.FirstOrDefault(wli => wli.ProductId == productId);
+
+        if (existingItem != null)
+        {
+            _context.WishlistItems.Remove(existingItem);
+            await _context.SaveChangesAsync();
+
+            return false;
+        }
+        else
+        {
+            var newItem = new WishlistItem
+            {
+                ProductId = productId,
+                WishlistId = wishlist.Id
+            };
+
+            _context.WishlistItems.Add(newItem);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
