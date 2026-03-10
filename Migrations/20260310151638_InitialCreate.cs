@@ -99,10 +99,10 @@ namespace liva_store.Migrations
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrderNote = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TaxAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    TotalDiscount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CargoFee = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    TaxAmount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    TotalDiscount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    CargoFee = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -256,13 +256,32 @@ namespace liva_store.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Wishlists",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wishlists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Wishlists_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsHome = table.Column<bool>(type: "bit", nullable: false),
@@ -316,8 +335,8 @@ namespace liva_store.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                    OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -333,6 +352,33 @@ namespace liva_store.Migrations
                         name: "FK_OrderItem_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WishlistItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    WishlistId = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    AddedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WishlistItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WishlistItems_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_WishlistItems_Wishlists_WishlistId",
+                        column: x => x.WishlistId,
+                        principalTable: "Wishlists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -359,9 +405,9 @@ namespace liva_store.Migrations
                 columns: new[] { "Id", "Description", "Image", "Index", "IsActive", "Title" },
                 values: new object[,]
                 {
-                    { 1, "Slider 1 Description", "slider-1.jpeg", 0, true, "Slider 1 Title" },
-                    { 2, "Slider 2 Description", "slider-2.jpeg", 1, true, "Slider 2 Title" },
-                    { 3, "Slider 3 Description", "slider-3.jpeg", 2, true, "Slider 3 Title" }
+                    { 1, "Slider 1 Description", "slider1.jpg", 0, true, "Slider 1 Title" },
+                    { 2, "Slider 2 Description", "slider2.jpg", 1, true, "Slider 2 Title" },
+                    { 3, "Slider 3 Description", "slider3.jpg", 2, true, "Slider 3 Title" }
                 });
 
             migrationBuilder.InsertData(
@@ -369,16 +415,21 @@ namespace liva_store.Migrations
                 columns: new[] { "Id", "CategoryId", "Description", "DiscountRate", "Image", "IsActive", "IsHome", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, 2, "A larger screen area for easier viewing and use. And an optimized user interface. Two specially designed new dials. All in a redesigned case. The most crack-resistant front crystal. IP6X dust resistance rating. WR50 water resistance rating for use in the sea or pool.", 0, "1.jpeg", true, true, "Apple Watch Series 7 ", 18399m },
-                    { 2, 2, "Created to be indispensable. Now equipped with even more powerful features to make you feel good. Temperature sensing feature that gives you information about your overall well-being. Traffic Accident Detection that helps you get help in an emergency. Sleep Stages that help you better understand your sleep cycles. And a flawlessly beautiful design that reflects the future.", 0, "2.jpeg", false, true, "Apple Watch Series 8", 17599m },
-                    { 3, 2, "The more you know about your health, the easier it is to take precautions. With many apps like ECG and Vital Signs, the Apple Watch Series 11 gives you a big picture of your health, keeping you informed at all times. And now, Series 11 is opening a new chapter in heart health with an innovative feature: hypertension notifications.", 0, "3.jpeg", true, true, "Apple Watch Series 11", 19999m },
+                    { 1, 2, "A larger screen area for easier viewing and use. And an optimized user interface. Two specially designed new dials. All in a redesigned case. The most crack-resistant front crystal. IP6X dust resistance rating. WR50 water resistance rating for use in the sea or pool.", 0, "apple-watch-series-7.jpeg", true, true, "Apple Watch Series 7", 18399m },
+                    { 2, 2, "Created to be indispensable. Now equipped with even more powerful features to make you feel good. Temperature sensing feature that gives you information about your overall well-being. Traffic Accident Detection that helps you get help in an emergency. Sleep Stages that help you better understand your sleep cycles. And a flawlessly beautiful design that reflects the future.", 0, "apple-watch-series-8.jpeg", false, true, "Apple Watch Series 8", 17599m },
+                    { 3, 2, "The more you know about your health, the easier it is to take precautions. With many apps like ECG and Vital Signs, the Apple Watch Series 11 gives you a big picture of your health, keeping you informed at all times. And now, Series 11 is opening a new chapter in heart health with an innovative feature: hypertension notifications.", 0, "apple-watch-series-11.jpeg", true, true, "Apple Watch Series 11", 19999m },
                     { 4, 1, "Discover new AI-powered photo editing options. Now you can effortlessly perfect your photos, making every image stand out. And there's more. Even if you don't capture the exact shot you want, Creative Edit lets you fill in backgrounds and make unwanted objects *poof* disappear.", 0, "4.jpeg", false, false, "Samsung Galaxy S24 128 GB 8 GB Ram (Samsung Türkiye Warranty) Black", 38999m },
-                    { 5, 1, "Introducing the Galaxy A56 5G. With a thickness of 7.4 mm and a weight of 198 g, the Galaxy A56 5G offers an easy grip. Its advanced cameras are grouped to fit the new linear design. The Galaxy A56 5G is available in four colors: Anthracite, Gray, Green, and Light Pink.", 0, "5.jpeg", true, true, "Samsung Galaxy A56 5G 8 GB RAM 256 GB Gray", 22900m },
-                    { 6, 1, "The iPhone 17 Pro's Apple A19 Pro processor runs at 4.26 GHz, delivering highly efficient performance. 12 GB of RAM ensures seamless multitasking, while 256 GB of storage provides ample capacity for various needs. AI-powered features optimize system performance for smarter and more efficient use. The iOS 26 operating system lets you take advantage of the latest features.", 0, "6.jpeg", true, false, "APPLE iPhone 17 Pro 256 GB Deep Blue ", 107999m },
-                    { 7, 10, "Dual-layer foam creates our most cushioned stability shoe to date. Our midfoot support system wraps the heel and arch for optimal stability and a smooth heel-to-toe transition.", 0, "7.jpeg", false, false, "Nike Structure Plus", 9999m },
-                    { 8, 7, "High-quality fabric and special details give the jacket a stylish look. The double-sided smooth fleece fabric offers a soft and shape-retaining feel; the drawstring at the waist allows you to adjust the silhouette as desired.", 0, "8.jpeg", true, true, "Nike Pregame Fleece", 6599m },
-                    { 9, 2, "Combining style and functionality, the English Home TMK 5030 Grill and Toaster Inox offers practical solutions for your kitchen. Its large surface area allows for both toasting and grilling, making it a perfect aid for daily use and entertaining guests. Its stainless steel body makes it highly durable, while its modern inox design adds an aesthetic touch to your kitchen decor.", 0, "9.jpg", true, true, "English Home TMK 5030 Izgara ve Tost Makinesi Inox", 3699m },
-                    { 10, 5, "Designed for young and free spirits, English Home Sweet Séduction offers an energetic and captivating fragrance experience. Its top notes of fresh and vibrant pink pepper, orange, and honey boost your energy, while the heart notes of jasmine and orange blossom add a floral and romantic elegance. Finally, the base notes of vanilla, patchouli, and caramel leave a sweet, lasting, and sophisticated trail.", 0, "10.jpg", true, true, "Sweet Séduction Kadın Parfümü 100 ml Lila", 1399.99m }
+                    { 5, 1, "Introducing the Galaxy A56 5G. With a thickness of 7.4 mm and a weight of 198 g, the Galaxy A56 5G offers an easy grip. Its advanced cameras are grouped to fit the new linear design. The Galaxy A56 5G is available in four colors: Anthracite, Gray, Green, and Light Pink.", 0, "samsung-galaxy-A56.jpeg", true, true, "Samsung Galaxy A56 5G 8 GB RAM 256 GB Gray", 22900m },
+                    { 6, 1, "The iPhone 17 Pro's Apple A19 Pro processor runs at 4.26 GHz, delivering highly efficient performance. 12 GB of RAM ensures seamless multitasking, while 256 GB of storage provides ample capacity for various needs. AI-powered features optimize system performance for smarter and more efficient use. The iOS 26 operating system lets you take advantage of the latest features.", 0, "apple-iphone-17-pro.jpeg", true, false, "APPLE iPhone 17 Pro 256 GB Deep Blue ", 107999m },
+                    { 7, 10, "Dual-layer foam creates our most cushioned stability shoe to date. Our midfoot support system wraps the heel and arch for optimal stability and a smooth heel-to-toe transition.", 0, "nike-structure-plus.jpeg", false, false, "Nike Structure Plus", 9999m },
+                    { 8, 7, "High-quality fabric and special details give the jacket a stylish look. The double-sided smooth fleece fabric offers a soft and shape-retaining feel; the drawstring at the waist allows you to adjust the silhouette as desired.", 0, "nike-pregame-fleece.jpeg", false, false, "Nike Pregame Fleece", 6599m },
+                    { 9, 2, "Combining style and functionality, the English Home TMK 5030 Grill and Toaster Inox offers practical solutions for your kitchen. Its large surface area allows for both toasting and grilling, making it a perfect aid for daily use and entertaining guests. Its stainless steel body makes it highly durable, while its modern inox design adds an aesthetic touch to your kitchen decor.", 0, "englishHome-5030-Grill-Toaster.jpg", true, true, "English Home TMK 5030 Grill and Toaster Stainless Steel", 3699m },
+                    { 10, 5, "Designed for young and free spirits, English Home Sweet Séduction offers an energetic and captivating fragrance experience. Its top notes of fresh and vibrant pink pepper, orange, and honey boost your energy, while the heart notes of jasmine and orange blossom add a floral and romantic elegance. Finally, the base notes of vanilla, patchouli, and caramel leave a sweet, lasting, and sophisticated trail.", 0, "sweet-séduction-women's-perfume.jpg", true, true, "Sweet Séduction Women's Perfume 100 ml Lilac", 1399.99m },
+                    { 11, 1, "- Power: Powerful 6500mAh battery with 45W turbo fast charging support for long-lasting use \n- Durability: IP65 certified dust and water protection for reliable ruggedness in everyday life \n- Camera: High-resolution 200MP camera system for impressive detail and clarity \n- Display: Large 6.77-inch FHD+ AMOLED display with eye-friendly technology and good readability in sunlight", 0, "redmi-note-15-pro.jpg", true, false, "Redmi Note 15 Pro 8G+256G Blue", 18750m },
+                    { 12, 4, "Short faux leather bomber jacket with ribbed collar, zip closure, long sleeves and pockets.", 0, "faux-leather-bomber-jacket.jpg", true, true, "PULL&BEAR Faux Leather Bomber Jacket", 2490m },
+                    { 13, 8, "STARFIT®. Flexible technical latex foam insole designed for greater comfort. \n~For men", 0, "multi-piece-sports-shoes.jpg", true, true, "Bershka Multi-piece Sports Shoes", 3250m },
+                    { 14, 10, "STARFIT®. Flexible technical latex foam insole designed for greater comfort. \n~For men", 0, "thick-soled-skateboarding-shoes.jpg", true, true, "Bershka Thick-soled Skateboarding Shoes", 2690m },
+                    { 15, 10, "Grained leather handbag.Removable and adjustable shoulder strap.", 0, "studded-bowling-bag.jpg", true, true, "Bershka Studded Bowling Bag", 1190m }
                 });
 
             migrationBuilder.CreateIndex(
@@ -449,6 +500,21 @@ namespace liva_store.Migrations
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WishlistItems_ProductId",
+                table: "WishlistItems",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WishlistItems_WishlistId",
+                table: "WishlistItems",
+                column: "WishlistId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wishlists_UserId",
+                table: "Wishlists",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -482,10 +548,10 @@ namespace liva_store.Migrations
                 name: "Sliders");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "WishlistItems");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Carts");
@@ -497,7 +563,13 @@ namespace liva_store.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
+                name: "Wishlists");
+
+            migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

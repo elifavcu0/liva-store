@@ -12,7 +12,7 @@ using liva_store.Data;
 namespace liva_store.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20260206220620_InitialCreate")]
+    [Migration("20260310151638_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -400,6 +400,7 @@ namespace liva_store.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<decimal>("CargoFee")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("City")
@@ -441,12 +442,15 @@ namespace liva_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TaxAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalAmount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalDiscount")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Username")
@@ -470,9 +474,11 @@ namespace liva_store.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("OriginalPrice")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ProductId")
@@ -521,6 +527,7 @@ namespace liva_store.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -536,10 +543,10 @@ namespace liva_store.Migrations
                             CategoryId = 2,
                             Description = "A larger screen area for easier viewing and use. And an optimized user interface. Two specially designed new dials. All in a redesigned case. The most crack-resistant front crystal. IP6X dust resistance rating. WR50 water resistance rating for use in the sea or pool.",
                             DiscountRate = 0,
-                            Image = "1.jpeg",
+                            Image = "apple-watch-series-7.jpeg",
                             IsActive = true,
                             IsHome = true,
-                            Name = "Apple Watch Series 7 ",
+                            Name = "Apple Watch Series 7",
                             Price = 18399m
                         },
                         new
@@ -548,7 +555,7 @@ namespace liva_store.Migrations
                             CategoryId = 2,
                             Description = "Created to be indispensable. Now equipped with even more powerful features to make you feel good. Temperature sensing feature that gives you information about your overall well-being. Traffic Accident Detection that helps you get help in an emergency. Sleep Stages that help you better understand your sleep cycles. And a flawlessly beautiful design that reflects the future.",
                             DiscountRate = 0,
-                            Image = "2.jpeg",
+                            Image = "apple-watch-series-8.jpeg",
                             IsActive = false,
                             IsHome = true,
                             Name = "Apple Watch Series 8",
@@ -560,7 +567,7 @@ namespace liva_store.Migrations
                             CategoryId = 2,
                             Description = "The more you know about your health, the easier it is to take precautions. With many apps like ECG and Vital Signs, the Apple Watch Series 11 gives you a big picture of your health, keeping you informed at all times. And now, Series 11 is opening a new chapter in heart health with an innovative feature: hypertension notifications.",
                             DiscountRate = 0,
-                            Image = "3.jpeg",
+                            Image = "apple-watch-series-11.jpeg",
                             IsActive = true,
                             IsHome = true,
                             Name = "Apple Watch Series 11",
@@ -584,7 +591,7 @@ namespace liva_store.Migrations
                             CategoryId = 1,
                             Description = "Introducing the Galaxy A56 5G. With a thickness of 7.4 mm and a weight of 198 g, the Galaxy A56 5G offers an easy grip. Its advanced cameras are grouped to fit the new linear design. The Galaxy A56 5G is available in four colors: Anthracite, Gray, Green, and Light Pink.",
                             DiscountRate = 0,
-                            Image = "5.jpeg",
+                            Image = "samsung-galaxy-A56.jpeg",
                             IsActive = true,
                             IsHome = true,
                             Name = "Samsung Galaxy A56 5G 8 GB RAM 256 GB Gray",
@@ -596,7 +603,7 @@ namespace liva_store.Migrations
                             CategoryId = 1,
                             Description = "The iPhone 17 Pro's Apple A19 Pro processor runs at 4.26 GHz, delivering highly efficient performance. 12 GB of RAM ensures seamless multitasking, while 256 GB of storage provides ample capacity for various needs. AI-powered features optimize system performance for smarter and more efficient use. The iOS 26 operating system lets you take advantage of the latest features.",
                             DiscountRate = 0,
-                            Image = "6.jpeg",
+                            Image = "apple-iphone-17-pro.jpeg",
                             IsActive = true,
                             IsHome = false,
                             Name = "APPLE iPhone 17 Pro 256 GB Deep Blue ",
@@ -608,7 +615,7 @@ namespace liva_store.Migrations
                             CategoryId = 10,
                             Description = "Dual-layer foam creates our most cushioned stability shoe to date. Our midfoot support system wraps the heel and arch for optimal stability and a smooth heel-to-toe transition.",
                             DiscountRate = 0,
-                            Image = "7.jpeg",
+                            Image = "nike-structure-plus.jpeg",
                             IsActive = false,
                             IsHome = false,
                             Name = "Nike Structure Plus",
@@ -620,9 +627,9 @@ namespace liva_store.Migrations
                             CategoryId = 7,
                             Description = "High-quality fabric and special details give the jacket a stylish look. The double-sided smooth fleece fabric offers a soft and shape-retaining feel; the drawstring at the waist allows you to adjust the silhouette as desired.",
                             DiscountRate = 0,
-                            Image = "8.jpeg",
-                            IsActive = true,
-                            IsHome = true,
+                            Image = "nike-pregame-fleece.jpeg",
+                            IsActive = false,
+                            IsHome = false,
                             Name = "Nike Pregame Fleece",
                             Price = 6599m
                         },
@@ -632,10 +639,10 @@ namespace liva_store.Migrations
                             CategoryId = 2,
                             Description = "Combining style and functionality, the English Home TMK 5030 Grill and Toaster Inox offers practical solutions for your kitchen. Its large surface area allows for both toasting and grilling, making it a perfect aid for daily use and entertaining guests. Its stainless steel body makes it highly durable, while its modern inox design adds an aesthetic touch to your kitchen decor.",
                             DiscountRate = 0,
-                            Image = "9.jpg",
+                            Image = "englishHome-5030-Grill-Toaster.jpg",
                             IsActive = true,
                             IsHome = true,
-                            Name = "English Home TMK 5030 Izgara ve Tost Makinesi Inox",
+                            Name = "English Home TMK 5030 Grill and Toaster Stainless Steel",
                             Price = 3699m
                         },
                         new
@@ -644,11 +651,71 @@ namespace liva_store.Migrations
                             CategoryId = 5,
                             Description = "Designed for young and free spirits, English Home Sweet Séduction offers an energetic and captivating fragrance experience. Its top notes of fresh and vibrant pink pepper, orange, and honey boost your energy, while the heart notes of jasmine and orange blossom add a floral and romantic elegance. Finally, the base notes of vanilla, patchouli, and caramel leave a sweet, lasting, and sophisticated trail.",
                             DiscountRate = 0,
-                            Image = "10.jpg",
+                            Image = "sweet-séduction-women's-perfume.jpg",
                             IsActive = true,
                             IsHome = true,
-                            Name = "Sweet Séduction Kadın Parfümü 100 ml Lila",
+                            Name = "Sweet Séduction Women's Perfume 100 ml Lilac",
                             Price = 1399.99m
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 1,
+                            Description = "- Power: Powerful 6500mAh battery with 45W turbo fast charging support for long-lasting use \n- Durability: IP65 certified dust and water protection for reliable ruggedness in everyday life \n- Camera: High-resolution 200MP camera system for impressive detail and clarity \n- Display: Large 6.77-inch FHD+ AMOLED display with eye-friendly technology and good readability in sunlight",
+                            DiscountRate = 0,
+                            Image = "redmi-note-15-pro.jpg",
+                            IsActive = true,
+                            IsHome = false,
+                            Name = "Redmi Note 15 Pro 8G+256G Blue",
+                            Price = 18750m
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 4,
+                            Description = "Short faux leather bomber jacket with ribbed collar, zip closure, long sleeves and pockets.",
+                            DiscountRate = 0,
+                            Image = "faux-leather-bomber-jacket.jpg",
+                            IsActive = true,
+                            IsHome = true,
+                            Name = "PULL&BEAR Faux Leather Bomber Jacket",
+                            Price = 2490m
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryId = 8,
+                            Description = "STARFIT®. Flexible technical latex foam insole designed for greater comfort. \n~For men",
+                            DiscountRate = 0,
+                            Image = "multi-piece-sports-shoes.jpg",
+                            IsActive = true,
+                            IsHome = true,
+                            Name = "Bershka Multi-piece Sports Shoes",
+                            Price = 3250m
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryId = 10,
+                            Description = "STARFIT®. Flexible technical latex foam insole designed for greater comfort. \n~For men",
+                            DiscountRate = 0,
+                            Image = "thick-soled-skateboarding-shoes.jpg",
+                            IsActive = true,
+                            IsHome = true,
+                            Name = "Bershka Thick-soled Skateboarding Shoes",
+                            Price = 2690m
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryId = 10,
+                            Description = "Grained leather handbag.Removable and adjustable shoulder strap.",
+                            DiscountRate = 0,
+                            Image = "studded-bowling-bag.jpg",
+                            IsActive = true,
+                            IsHome = true,
+                            Name = "Bershka Studded Bowling Bag",
+                            Price = 1190m
                         });
                 });
 
@@ -685,7 +752,7 @@ namespace liva_store.Migrations
                         {
                             Id = 1,
                             Description = "Slider 1 Description",
-                            Image = "slider-1.jpeg",
+                            Image = "slider1.jpg",
                             Index = 0,
                             IsActive = true,
                             Title = "Slider 1 Title"
@@ -694,7 +761,7 @@ namespace liva_store.Migrations
                         {
                             Id = 2,
                             Description = "Slider 2 Description",
-                            Image = "slider-2.jpeg",
+                            Image = "slider2.jpg",
                             Index = 1,
                             IsActive = true,
                             Title = "Slider 2 Title"
@@ -703,11 +770,55 @@ namespace liva_store.Migrations
                         {
                             Id = 3,
                             Description = "Slider 3 Description",
-                            Image = "slider-3.jpeg",
+                            Image = "slider3.jpg",
                             Index = 2,
                             IsActive = true,
                             Title = "Slider 3 Title"
                         });
+                });
+
+            modelBuilder.Entity("liva_store.Data.Wishlist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Wishlists");
+                });
+
+            modelBuilder.Entity("liva_store.Data.WishlistItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WishlistId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WishlistId");
+
+                    b.ToTable("WishlistItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -821,6 +932,36 @@ namespace liva_store.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("liva_store.Data.Wishlist", b =>
+                {
+                    b.HasOne("liva_store.Data.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("liva_store.Data.WishlistItem", b =>
+                {
+                    b.HasOne("liva_store.Data.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("liva_store.Data.Wishlist", "Wishlist")
+                        .WithMany("WishlistItems")
+                        .HasForeignKey("WishlistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Wishlist");
+                });
+
             modelBuilder.Entity("liva_store.Data.AppUser", b =>
                 {
                     b.Navigation("Addresses");
@@ -839,6 +980,11 @@ namespace liva_store.Migrations
             modelBuilder.Entity("liva_store.Data.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("liva_store.Data.Wishlist", b =>
+                {
+                    b.Navigation("WishlistItems");
                 });
 #pragma warning restore 612, 618
         }
