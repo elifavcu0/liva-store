@@ -56,7 +56,7 @@ public class WishlistService : IWishlistService
         return false;
     }
 
-    public async Task<bool> ToggleWishlistItemAsync(int productId, int userId)
+    public async Task<bool> ToggleWishlistItemAsync(int userId, int productId)
     {
         var wishlist = await _context.Wishlists.Include(wli => wli.WishlistItems).FirstOrDefaultAsync(w => w.UserId == userId);
 
