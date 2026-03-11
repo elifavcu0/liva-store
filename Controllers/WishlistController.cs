@@ -21,6 +21,6 @@ public class WishlistController : Controller
         var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
         bool isAdded = await _wishlistService.ToggleWishlistItemAsync(userId, productId);
 
-        return Json(new { success = true, isAdded = isAdded });
+        return Json(new { success = true, isAdded = isAdded }); // istenilen işlemin sonucu arka planda sunucuya gönderiliyor
     }
 }
