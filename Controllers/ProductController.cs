@@ -1,8 +1,10 @@
+using System.Security.Claims;
 using liva_store.Data;
 using liva_store.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 namespace liva_store.Controllers;
 
 [Authorize(Roles = "Admin")]
@@ -21,7 +23,7 @@ public class ProductController : Controller
         ViewBag.Categories = new SelectList(categories, "Id", "Name");
     }
 
-    public IActionResult Index(int? category)
+    public async Task<IActionResult> Index(int? category)
     {
         var query = _context.Products.AsQueryable();
 
