@@ -23,6 +23,22 @@ public class ProductController : Controller
         ViewBag.Categories = new SelectList(categories, "Id", "Name");
     }
 
+    private async Task LoadFavStatus()
+    {
+        List<int> userWishlistProductsIds = new List<int>();
+        if (User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var wishlist = await _context.Wishlists.Include(w => w.WishlistItems).FirstOrDefaultAsync(w => w.UserId == userId);
+            if (wishlist != null)
+            {
+                userWishlistProductsIds = wishlist.WishlistItems.Select(wli => wli.ProductId).ToList();
+            }
+        }
+        ViewBag.UserWishlist = userWishlistProductsIds;
+    }
+
     public async Task<IActionResult> Index(int? category)
     {
         var query = _context.Products.AsQueryable();
@@ -53,10 +69,11 @@ public class ProductController : Controller
     // query string : q => value
 
     [AllowAnonymous] // Yetkilendirmeye gerek yok, herkes görebilir.
-    public IActionResult List(string url, string q)
+    public async Task<IActionResult> List(string url, string q)
     {
-        var query = _context.Products.AsQueryable(); // Queryable tipi => Lazım olduğunda çalıştırılabilecek tip
+        await LoadFavStatus();
 
+        var query = _context.Products.AsQueryable(); // Queryable tipi => Lazım olduğunda çalıştırılabilecek tip
 
         if (!string.IsNullOrEmpty(url))
         {
@@ -72,8 +89,9 @@ public class ProductController : Controller
     }
 
     [AllowAnonymous]
-    public IActionResult Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
+        await LoadFavStatus();
         // var product = _context.Products.FirstOrDefault(p => p.Id == id); 
         var product = _context.Products.Find(id);
         if (product == null) return RedirectToAction("Index", "Home"); // Ürün yoksa Home controller altında bulunan Index sayfasına yönlendirir.

@@ -3,6 +3,13 @@
 @section Bar {
     @await Component.InvokeAsync("Navbar")
 }
+@{
+    var userWishlist = ViewBag.UserWishlist as List<int> ?? new List<int>();
+    bool isFavorite = userWishlist.Contains(Model.Id);
+
+    string heartClass = isFavorite ? "fa-solid" : "fa-regular";
+    string heartColor = isFavorite ? "red" : "";
+}
 <section class="mt-3">
     <div class="container">
         <div class="row">
@@ -68,7 +75,7 @@
                                         <i class="fa fa-shopping-basket"></i> Add to Cart
                                     </button></form>
                                 <button class="btn btn-light" onclick="toggleWishlist(@Model.Id,this)">
-                                    <i class="fa-regular fa-heart basket me-1"></i> Add to Wish List
+                                    <i class="@heartClass fa-heart basket me-1" style="@heartColor"></i>
                                 </button>
                             </div>
                         </article>
@@ -89,8 +96,14 @@
                                 <div class="col-lg-3 col-sm-6 col-12">
                                     <div class="card shadow">
                                         <div class="img-wrap">
+                                            @{
+                                                bool isSimilarProductFavorite = userWishlist.Contains(item.Id);
+
+                                                string heartClassSimilar = isSimilarProductFavorite ? "fa-solid" : "fa-regular";
+                                                string heartColorSimilar = isSimilarProductFavorite ? "red" : "";
+                                                                                        }
                                             <button class="float-end btn btn-light" onclick="toggleWishlist(@item.Id,this)">
-                                                <i class="fa-regular fa-heart"></i>
+                                                <i class="@heartClassSimilar fa-heart" style="@heartColorSimilar"></i>
                                             </button>
                                             <img src="~/img/@item.Image" alt="@item.Name" class="card-img-top">
                                             </div>
