@@ -25,6 +25,7 @@ public class WishlistController : Controller
         var wishlistItems = await _context.WishlistItems.Include(wli => wli.Product).Where(w => w.Wishlist.UserId == userId).ToListAsync();
         return View(wishlistItems);
     }
+    
     [HttpPost]
     public async Task<IActionResult> Toggle(int productId)
     {
