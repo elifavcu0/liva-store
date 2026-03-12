@@ -25,7 +25,7 @@ public class WishlistController : Controller
         var wishlistItems = await _context.WishlistItems.Include(wli => wli.Product).Where(w => w.Wishlist.UserId == userId).ToListAsync();
         return View(wishlistItems);
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Toggle(int productId)
     {
@@ -33,5 +33,14 @@ public class WishlistController : Controller
         bool isAdded = await _wishlistService.ToggleWishlistItemAsync(userId, productId);
 
         return Json(new { success = true, isAdded = isAdded }); // istenilen işlemin sonucu arka planda sunucuya gönderiliyor
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Remove(int productId)
+    {
+        var userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        await _wishlistService.RemoveItemAsync(productId, userId);
+
+        return Json(new { success = true });
     }
 }
