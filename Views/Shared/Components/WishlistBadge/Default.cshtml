@@ -1,0 +1,7 @@
+@using System.Diagnostics.Tracing
+@model int
+<a asp-controller="Wishlist" asp-action="Index" class="btn btn-light position-relative">
+    <i class="fa-solid fa-heart text-liva"></i>
+    <span id="wishlist-badge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          style="@(Model == 0 ? "display:none" : "")">@Model</span>
+</a>
