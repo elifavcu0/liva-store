@@ -3,7 +3,8 @@ async function toggleWishlist(productId, buttonElement) {
     const response = await fetch(`/Wishlist/Toggle?productId=${productId}`, {
       method: "POST",
       headers: {
-        // ASP.NET Core'a bunun bir arka plan isteği olduğunu belirtmek için özel bir başlık ekleyelim
+        // ASP.NET Core'a bunun bir arka plan isteği(AJAX) olduğunu belirtmek için özel bir başlık ekleyelim
+        // Sunucu, bu başlığı görerek kullanıcıya tam bir HTML sayfası yerine sadece JSON veya kısmi HTML dönmesi gerektiğini anlayabilir.
         "X-Requested-With": "XMLHttpRequest",
       },
     });
@@ -44,5 +45,53 @@ async function toggleWishlist(productId, buttonElement) {
     }
   } catch (error) {
     console.error("Error occured: ", error);
+  }
+}
+
+async function removeFromWishlistPage(productId) {
+  try {
+    const response = await fetch(`/Wishlist/Remove?productId=${productId}`, {
+      method: "POST",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      if (data.success) {
+        const productCard = document.getElementById(
+          "wishlist-card-" + productId,
+        );
+
+        if (productCard) {
+          productCard.style.transition = "opacity 0.3s ease";
+          productCard.style.opacity = "0";
+
+          setTimeout(() => {
+            productCard.remove();
+            const remainingCards = document.querySelectorAll(
+              '[id^="wishlist-card-"]',
+            );
+            if (remainingCards.length == 0) {
+              const container = document.getElementById("wishlist-container");
+              if (container) {
+                container.innerHTML = `
+                    <div class="col-12 text-center py-5 mt-4 fade-in">
+                        <i class="fa-regular fa-heart fa-4x mb-3" style="color: #dee2e6;"></i>
+                        <h4 class="text-muted">Your wish list is currently empty.</h4>
+                        <p class="text-muted mb-4">You can add your favorite products to your favorites list to easily find them later.</p>
+                        <a href="/" class="btn text-white" style="background-color: #881337;">Start Shopping</a>
+                    </div>
+                `;
+              }
+            }
+          }, 300);
+        }
+      }
+    }
+  } catch (error) {
+    console.log("Error occured : ", error);
   }
 }
