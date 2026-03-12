@@ -5,8 +5,7 @@
     var userWishlist = ViewBag.UserWishlist as List<int> ?? new List<int>();
     bool isFavorite = userWishlist.Contains(Model.Id);
 
-    string heartClass = isFavorite ? "fa-solid" : "fa-regular";
-    string heartColor = isFavorite ? "red" : "";
+    string heartClass = isFavorite ? "fa-solid text-liva" : "fa-regular";
 }
 
 <div class="card shadow mb-3">
@@ -24,7 +23,7 @@
         </div>
         <div class="border-top info-wrap">
             <button class="float-end btn btn-light" onclick="toggleWishlist(@Model.Id,this)">
-                <i class="@heartClass fa-heart" style="@heartColor"></i>
+                <i class="@heartClass fa-heart"></i>
             </button>
             <a asp-controller="Product" asp-action="Details" asp-route-id="@Model.Id"
                class="title text-truncate">@Model.Name</a>

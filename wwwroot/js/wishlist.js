@@ -2,14 +2,16 @@ async function toggleWishlist(productId, buttonElement) {
   try {
     const response = await fetch(`/Wishlist/Toggle?productId=${productId}`, {
       method: "POST",
-      headers:{
+      headers: {
         // ASP.NET Core'a bunun bir arka plan isteği olduğunu belirtmek için özel bir başlık ekleyelim
-        "X-Requested-With": "XMLHttpRequest"
-      }
+        "X-Requested-With": "XMLHttpRequest",
+      },
     });
 
-    if(response.status === 401) {
-      const currentUrl = encodeURIComponent(window.location.pathname+window.location.search);
+    if (response.status === 401) {
+      const currentUrl = encodeURIComponent(
+        window.location.pathname + window.location.search,
+      );
       window.location.href = `/Account/SignIn?ReturnUrl=${currentUrl}`;
       return;
     }
@@ -34,12 +36,10 @@ async function toggleWishlist(productId, buttonElement) {
 
       if (data.isAdded) {
         icon.classList.remove("fa-regular");
-        icon.classList.add("fa-solid");
-        icon.style.color = "red";
+        icon.classList.add("fa-solid", "text-liva");
       } else {
-        icon.classList.remove("fa-solid");
+        icon.classList.remove("fa-solid", "text-liva");
         icon.classList.add("fa-regular");
-        icon.style.color = ""; 
       }
     }
   } catch (error) {
