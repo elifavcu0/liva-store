@@ -38,9 +38,11 @@ async function toggleWishlist(productId, buttonElement) {
       if (data.isAdded) {
         icon.classList.remove("fa-regular");
         icon.classList.add("fa-solid", "text-liva");
+        updateWishlistBadge(true);
       } else {
         icon.classList.remove("fa-solid", "text-liva");
         icon.classList.add("fa-regular");
+        updateWishlistBadge(false);
       }
     }
   } catch (error) {
@@ -71,6 +73,7 @@ async function removeFromWishlistPage(productId) {
 
           setTimeout(() => {
             productCard.remove();
+            updateWishlistBadge(false);
             const remainingCards = document.querySelectorAll(
               '[id^="wishlist-card-"]',
             );
@@ -94,4 +97,22 @@ async function removeFromWishlistPage(productId) {
   } catch (error) {
     console.log("Error occured : ", error);
   }
+}
+
+async function updateWishlistBadge(isAddition) {
+  const badge = document.getElementById("wishlist-badge");
+  if (!badge) return;
+
+  let currentCount = parseInt(badge.innerText) || 0;
+
+  if (isAddition) {
+    currentCount++;
+  } else {
+    currentCount--;
+    if (currentCount < 0) currentCount = 0;
+  }
+  badge.innerText = currentCount;
+
+  if (currentCount > 0) badge.style.display = "inline-block";
+  else badge.style.display = "none";
 }
