@@ -175,7 +175,7 @@ To run Liva Store locally:
 This project is currently **Active & In Development**. Future planned updates include:
 - [ ] Comment and Rating system for products.
 - [ ] Advanced filtering (Price range, Brand).
-- [ ] Wishlist functionality.
+- [x] Wishlist functionality.
 - [ ] Admin chart visualizations.
 
 ---
