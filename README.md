@@ -13,7 +13,7 @@
   
 ## 👋 About The Project
 
-**Liva Store** is a robust, full-stack e-commerce application built with **ASP.NET Core 10.0 MVC** and designed with **N-Layer Architecture** principles.
+**Liva Store** is a robust, full-stack e-commerce application built with **ASP.NET Core 10.0 MVC** and designed with **Separation of Concerns** principles.
 
 **From Coursework to Custom Solution:**
 While this project was initially incubated during a software training curriculum, **I have expanded its scope beyond the course material.** I replaced legacy libraries with modern alternatives, migrated the infrastructure to enterprise standards, and engineered custom business logic to simulate a real-world production environment.
@@ -61,7 +61,7 @@ I have engineered several custom modules to enhance functionality and user exper
 
 ## 👋 Proje Hakkında
   
-**Liva Store**, **ASP.NET Core 10.0 MVC** ile oluşturulmuş ve **N Katmanlı Mimari** prensipleriyle tasarlanmış, sağlam, tam kapsamlı bir e-ticaret uygulamasıdır.
+**Liva Store**, **ASP.NET Core 10.0 MVC** ile oluşturulmuş ve **SoC** prensipleriyle tasarlanmış, sağlam, tam kapsamlı bir e-ticaret uygulamasıdır.
 
 **Ders İçeriğinden Özel Çözüme:**
 Bu proje başlangıçta bir yazılım eğitim müfredatı kapsamında geliştirilmiş olsa da, kapsamını ders materyalinin ötesine genişlettim. Eski kütüphaneleri modern alternatiflerle değiştirdim, altyapıyı kurumsal standartlara taşıdım ve gerçek üretim ortamını simüle etmek için özel iş mantığı geliştirdim.
@@ -78,37 +78,28 @@ Standart şablonun ötesinde işlevselliği ve kullanıcı deneyimini geliştirm
 
 ### 1. 🧠 Akıllı Ürün Listeleme ve Sıralama
 * **İndirim Öncelikli Algoritma:** Ana sayfa, en yüksek indirim oranına sahip ürünleri otomatik olarak önceliklendirir.
-
 * **Tükenen Ürünler:** "Tükendi" olan ürünler, görsel etkileşimi korurken envanteri görünür tutmak için programatik olarak listenin altına itilir.
-
 * **Dinamik Etiketler:**
-
 * **İndirim Etiketi:** Tasarruf edilen yüzdeyi otomatik olarak alır ve görüntüler (örneğin, *"%20 İNDİRİM"*).
 * **Tükendi Etiketi:** Aktif olmayan ürünler açıkça işaretlenir ve **sepete eklenemez**.
-
 * **Akıllı Fiyatlandırma Arayüzü:** Yeni indirimli fiyatın yanında orijinal fiyatı (üstü çizili) gösterir.
 
 ### 2. 🛒 Gelişmiş Sepet ve Kargo Mantığı
 * **Koşullu Ücretsiz Kargo:** Sepette 5 veya daha fazla ürün varsa kargonun **ücretsiz** olduğu bir iş kuralı uygulandı. Aksi takdirde, otomatik olarak sabit bir ücret (50 TL) uygulanır.
-
 * **Gerçek Zamanlı Hesaplamalar:** Sepet, ara toplamı, toplam indirim tutarını, vergiyi ve nihai toplam tutarı dinamik olarak özetler.
 
 ### 3. 💳 Ödeme ve Güvenlik
 * **Iyzico Entegrasyonu:** Güvenli kredi kartı işlemleri için **Iyzico Ödeme Ağ Geçidi** ile tam entegrasyon.
 * **Kimlik Yönetimi:** Kullanıcılar profillerini (E-posta, Telefon) güvenli bir şekilde güncelleyebilir ve şifrelerini değiştirebilir.
-
 * **Güvenli Kurtarma:** Zaman duyarlı sıfırlama bağlantıları gönderen güvenli bir "Şifremi Unuttum" akışı oluşturmak için eski kütüphaneler **MailKit** ile değiştirildi.
 
 ### 4. 📧 Bildirim Sistemi (MailKit)
 * **Otomatik Sipariş Onayı:** Başarılı bir işlemden sonra, **MailKit** aracılığıyla HTML tabanlı bir e-posta tetiklenir.
-
 * **Derin Bağlantı:** E-posta, satın alma ayrıntılarına anında erişim için kullanıcının "Siparişlerim" sayfasına (giriş gerektirir) doğrudan bir bağlantı içerir.
 
 ### 5. 🗄️ Yönetici Paneli ve Altyapı
 * **Tam Kontrol:** Yöneticiler Ürünleri, Kategorileri, Rolleri, Kullanıcıları ve Ana Sayfa Slider'larını yönetebilir.
-
 * **Sipariş Yönetimi:** Yöneticiler gelen tüm siparişleri ve ayrıntılarını görüntüleyebilir.
-
 * **Veritabanı Geçişi:** Ölçeklenebilirliği sağlamak için kalıcılık katmanı **SQLite**'tan **MS SQL Server**'a başarıyla taşındı.
 </details>
 
@@ -132,7 +123,6 @@ Standart şablonun ötesinde işlevselliği ve kullanıcı deneyimini geliştirm
 
 * **Framework:** ASP.NET Core 10.0 MVC
 * **Language:** C#
-* **Architecture:** N-Layered Architecture
 * **Database:** MS SQL Server (Migrated from SQLite)
 * **ORM:** Entity Framework Core (Code-First)
 * **Identity:** ASP.NET Core Identity (Authentication & Authorization)
@@ -181,7 +171,7 @@ This project is currently **Active & In Development**. Future planned updates in
 ---
 
 ## 👩‍💻 **Elif**
-*Computer Engineering Student @ Sakarya University*
+*Computer Engineering Student @Sakarya University*
 
 <div align="left">
   <a href="https://linkedin.com/in/elifavcu" target="_blank">
