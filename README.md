@@ -2,10 +2,14 @@
 
 ![C#](https://img.shields.io/badge/Language-C%23-239120?style=flat&logo=csharp&logoColor=white)
 ![.NET](https://img.shields.io/badge/.NET-10.0-purple?style=flat&logo=dotnet)
+![EF Core](https://img.shields.io/badge/ORM-EF%20Core-512BD4?style=flat&logo=dotnet)
+![Architecture](https://img.shields.io/badge/Architecture-SoC%20Principles-blueviolet?style=flat&logo=architecture)
 ![SQL Server](https://img.shields.io/badge/Database-SQL%20Server-red?style=flat&logo=microsoftsqlserver)
 ![Bootstrap](https://img.shields.io/badge/UI-Bootstrap%205-blue?style=flat&logo=bootstrap)
-![Architecture](https://img.shields.io/badge/Architecture-N--Layer-green)
 ![Status](https://img.shields.io/badge/Status-In%20Development-orange)
+
+**🌐 The project is officially hosted and can be accessed at:**
+**🔗[Liva Store Live Demo](https://livastore.com.tr/)**
 
 <details>
 <summary><strong>Click For English Description [EN]</strong></summary>
